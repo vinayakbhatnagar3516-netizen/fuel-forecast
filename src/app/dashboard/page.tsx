@@ -21,25 +21,14 @@ function todayDisplay(): string {
 
 function formatTime(iso: string | null): string {
   if (!iso) return "";
-  try {
-    const d = new Date(iso);
-    return d.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
-  } catch {
-    return "";
-  }
+  try { return new Date(iso).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }); }
+  catch { return ""; }
 }
 
 /* ─── Loader Skeleton ─── */
 function DashboardSkeleton() {
   return (
     <div className="space-y-6 animate-pulse">
-      <div className="flex items-center justify-between">
-        <div>
-          <Skeleton className="h-7 w-24 bg-muted mb-2" />
-          <Skeleton className="h-4 w-48 bg-muted" />
-        </div>
-        <Skeleton className="h-8 w-48 bg-muted rounded-full" />
-      </div>
       <Skeleton className="h-28 w-full bg-muted rounded-sm" />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {[1, 2, 3].map((i) => (
@@ -96,32 +85,25 @@ function FuelTab({ value, label, active, onClick }: {
 
 /* ─── Metric Card ─── */
 function MetricCardView({ data, label, accent }: { data: MetricCard; label: string; accent?: "green" | "amber" | "red" | "neutral" }) {
-  const displayValue = data.value !== "—"
+  const isReal = data.value !== "—";
+  const displayValue = isReal
     ? `${data.unit === "₹" ? "₹" : ""}${data.value}${data.unit === "%" ? "%" : data.unit === "L" ? " L" : data.unit === "₹" ? "" : ""}`
     : "—";
 
-  const valueColor = !accent || accent === "neutral" || data.value === "—"
+  const valueColor = !accent || accent === "neutral" || !isReal
     ? "text-[#1A1F2E]"
-    : accent === "green"
-      ? "text-green-700"
-      : accent === "red"
-        ? "text-red-600"
-        : "text-amber-600";
+    : accent === "green" ? "text-green-700"
+      : accent === "amber" ? "text-amber-600"
+        : "text-red-600";
 
   return (
     <Card className="border-border rounded-sm shadow-none hover:shadow-sm transition-shadow duration-200">
       <CardHeader className="pb-1.5">
-        <CardTitle className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
-          {label}
-        </CardTitle>
+        <CardTitle className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">{label}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className={`text-2xl font-semibold tracking-tight ${valueColor}`}>
-          {displayValue}
-        </p>
-        <CardDescription className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">
-          {data.description}
-        </CardDescription>
+        <p className={`text-2xl font-semibold tracking-tight ${valueColor}`}>{displayValue}</p>
+        <CardDescription className="text-[11px] text-muted-foreground mt-1.5 leading-relaxed">{data.description}</CardDescription>
       </CardContent>
     </Card>
   );
@@ -150,7 +132,6 @@ function DecisionBanner({ decision }: { decision: DecisionData["decision"] }) {
     decision.action === "BUY" ? "border-l-green-600" :
     decision.action === "HOLD" ? "border-l-amber-500" :
     "border-l-slate";
-
   const bgColor =
     decision.action === "BUY" ? "bg-green-50" :
     decision.action === "HOLD" ? "bg-amber-50" :
@@ -160,15 +141,9 @@ function DecisionBanner({ decision }: { decision: DecisionData["decision"] }) {
     <div className={`${bgColor} border-l-4 ${borderColor} rounded-sm p-5`}>
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1.5">
-          <div className="flex items-center gap-3">
-            <ActionBadge action={decision.action} />
-          </div>
-          <p className="font-heading text-base font-semibold text-[#1A1F2E] leading-snug mt-2">
-            {decision.headline}
-          </p>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {decision.sub}
-          </p>
+          <ActionBadge action={decision.action} />
+          <p className="font-heading text-base font-semibold text-[#1A1F2E] leading-snug mt-2">{decision.headline}</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">{decision.sub}</p>
         </div>
       </div>
     </div>
@@ -177,16 +152,11 @@ function DecisionBanner({ decision }: { decision: DecisionData["decision"] }) {
 
 /* ─── P&L Card ─── */
 function PnLCard({ label, value, unit, accent }: { label: string; value: string; unit: string; accent?: "green" | "amber" | "red" | "neutral" }) {
-  const displayValue = value !== "—"
-    ? `${unit === "₹" ? "₹" : ""}${value}${unit === "%" ? "%" : ""}`
-    : "—";
-
-  const color = !accent || accent === "neutral" || value === "—"
-    ? "text-[#1A1F2E]"
-    : accent === "green"
-      ? "text-green-700"
-      : accent === "amber"
-        ? "text-amber-600"
+  const isReal = value !== "—";
+  const displayValue = isReal ? `${unit === "₹" ? "₹" : ""}${value}${unit === "%" ? "%" : ""}` : "—";
+  const color = !accent || accent === "neutral" || !isReal ? "text-[#1A1F2E]"
+    : accent === "green" ? "text-green-700"
+      : accent === "amber" ? "text-amber-600"
         : "text-red-600";
 
   return (
@@ -231,6 +201,17 @@ function AlertCard({ alert }: { alert: DecisionData["alerts"][number] }) {
   );
 }
 
+/* ─── Fuel Tabs Bar ─── */
+function FuelTabsBar({ active, onChange }: { active: string; onChange: (v: string) => void }) {
+  return (
+    <div className="flex items-center gap-1.5 bg-slate-50 rounded-full p-1 border border-border self-start">
+      {FUEL_TABS.map((tab) => (
+        <FuelTab key={tab.value} value={tab.value} label={tab.label} active={active === tab.value} onClick={onChange} />
+      ))}
+    </div>
+  );
+}
+
 /* ══════════════════════════════════════════════════════
    MAIN PAGE COMPONENT
    ══════════════════════════════════════════════════════ */
@@ -238,6 +219,11 @@ export default function DashboardHome() {
   const [data, setData] = useState<DecisionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeFuelType, setActiveFuelType] = useState<string>("combined");
+
+  // define BEFORE any conditional returns — Rules of Hooks
+  const handleFuelTypeChange = useCallback((value: string) => {
+    setActiveFuelType(value);
+  }, []);
 
   const fetchData = useCallback(async (fuelType: string) => {
     setLoading(true);
@@ -257,18 +243,28 @@ export default function DashboardHome() {
     fetchData(activeFuelType);
   }, [activeFuelType, fetchData]);
 
-  /* ── Loading (no cached data) ── */
+  /* ── Header shared across all states ── */
+  const header = (
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div>
+        <h1 className="font-heading text-2xl font-semibold text-[#1A1F2E] heading-kolam pb-1">Today</h1>
+        <div className="flex items-center gap-2">
+          <p className="text-sm text-muted-foreground">{todayDisplay()}</p>
+          {data?.lastUpdated && (
+            <span className="text-[10px] text-muted-foreground/60">· Updated {formatTime(data.lastUpdated)}</span>
+          )}
+        </div>
+      </div>
+      <FuelTabsBar active={activeFuelType} onChange={handleFuelTypeChange} />
+    </div>
+  );
+
+  /* ── Initial Loading (no cached data) ── */
   if (loading && !data) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="font-heading text-2xl font-semibold text-[#1A1F2E] heading-kolam pb-1">
-              Today
-            </h1>
-            <p className="text-sm text-muted-foreground">{todayDisplay()}</p>
-          </div>
-        </div>
+        {header}
+        <KolamOrnament />
         <DashboardSkeleton />
       </div>
     );
@@ -278,13 +274,8 @@ export default function DashboardHome() {
   if (!data || data.decision.action === "NO_DATA") {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="font-heading text-2xl font-semibold text-[#1A1F2E] heading-kolam pb-1">
-            Today
-          </h1>
-          <KolamOrnament />
-          <p className="mt-2 text-sm text-muted-foreground">{todayDisplay()}</p>
-        </div>
+        {header}
+        <KolamOrnament />
 
         <div className="bg-[#F5F7FA] border-l-4 border-l-slate rounded-sm p-5">
           <div className="flex items-start gap-3">
@@ -295,9 +286,7 @@ export default function DashboardHome() {
             </div>
             <div>
               <p className="font-heading text-base font-semibold text-[#1A1F2E]">No forecast data yet</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Run the forecast pipeline to see your order recommendation.
-              </p>
+              <p className="text-sm text-muted-foreground mt-1">Run the forecast pipeline to see your order recommendation.</p>
               <Button className="mt-3 bg-[#C47335] hover:bg-[#A85F2A] text-white rounded-sm text-xs h-8">
                 Generate forecast
               </Button>
@@ -347,46 +336,15 @@ export default function DashboardHome() {
   }
 
   /* ── Real Data View ── */
-  const { decision, metrics, pnl, alerts, lastUpdated } = data;
-
-  const handleFuelTypeChange = useCallback((value: string) => {
-    setActiveFuelType(value);
-  }, []);
+  const { decision, metrics, pnl, alerts } = data;
 
   return (
     <div className="space-y-6">
-      {/* Header with fuel type tabs */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div>
-          <h1 className="font-heading text-2xl font-semibold text-[#1A1F2E] heading-kolam pb-1">
-            Today
-          </h1>
-          <div className="flex items-center gap-2">
-            <p className="text-sm text-muted-foreground">{todayDisplay()}</p>
-            {lastUpdated && (
-              <span className="text-[10px] text-muted-foreground/60">
-                · Updated {formatTime(lastUpdated)}
-              </span>
-            )}
-          </div>
-        </div>
-        <div className="flex items-center gap-1.5 bg-slate-50 rounded-full p-1 border border-border self-start">
-          {FUEL_TABS.map((tab) => (
-            <FuelTab
-              key={tab.value}
-              value={tab.value}
-              label={tab.label}
-              active={activeFuelType === tab.value}
-              onClick={handleFuelTypeChange}
-            />
-          ))}
-        </div>
-      </div>
-
+      {header}
       <KolamOrnament />
 
       {/* Loading overlay for fuel type switch */}
-      <div className={`transition-opacity duration-200 ${loading ? "opacity-50" : "opacity-100"}`}>
+      <div className={`transition-opacity duration-200 ${loading ? "opacity-50 pointer-events-none" : "opacity-100"}`}>
         {/* Decision banner */}
         <DecisionBanner decision={decision} />
 
@@ -397,18 +355,18 @@ export default function DashboardHome() {
             data={metrics.stockoutRisk}
             label="Stockout risk"
             accent={
-              metrics.stockoutRisk.value === "—" ? "neutral" :
-              parseFloat(metrics.stockoutRisk.value) > 20 ? "red" :
-              parseFloat(metrics.stockoutRisk.value) > 10 ? "amber" : "green"
+              metrics.stockoutRisk.value === "—" ? "neutral"
+                : parseFloat(metrics.stockoutRisk.value) > 20 ? "red"
+                  : parseFloat(metrics.stockoutRisk.value) > 10 ? "amber" : "green"
             }
           />
           <MetricCardView
             data={metrics.forecastConfidence}
             label="Forecast confidence"
             accent={
-              metrics.forecastConfidence.value === "—" ? "neutral" :
-              parseFloat(metrics.forecastConfidence.value) > 70 ? "green" :
-              parseFloat(metrics.forecastConfidence.value) > 50 ? "amber" : "red"
+              metrics.forecastConfidence.value === "—" ? "neutral"
+                : parseFloat(metrics.forecastConfidence.value) > 70 ? "green"
+                  : parseFloat(metrics.forecastConfidence.value) > 50 ? "amber" : "red"
             }
           />
         </div>
@@ -426,28 +384,18 @@ export default function DashboardHome() {
               unit={pnl.expectedDailyProfit.unit}
               accent={pnl.expectedDailyProfit.value !== "—" && parseInt(pnl.expectedDailyProfit.value) > 0 ? "green" : "red"}
             />
-            <PnLCard
-              label="Expected monthly profit"
-              value={pnl.expectedMonthlyProfit.value}
-              unit={pnl.expectedMonthlyProfit.unit}
-              accent="green"
-            />
+            <PnLCard label="Expected monthly profit" value={pnl.expectedMonthlyProfit.value} unit={pnl.expectedMonthlyProfit.unit} accent="green" />
             <PnLCard
               label="Chance of loss"
               value={pnl.pLoss.value}
               unit={pnl.pLoss.unit}
               accent={
-                pnl.pLoss.value === "—" ? "neutral" :
-                parseFloat(pnl.pLoss.value) > 20 ? "red" :
-                parseFloat(pnl.pLoss.value) > 10 ? "amber" : "green"
+                pnl.pLoss.value === "—" ? "neutral"
+                  : parseFloat(pnl.pLoss.value) > 20 ? "red"
+                    : parseFloat(pnl.pLoss.value) > 10 ? "amber" : "green"
               }
             />
-            <PnLCard
-              label="Worst case (5% VaR)"
-              value={pnl.var5.value}
-              unit={pnl.var5.unit}
-              accent="red"
-            />
+            <PnLCard label="Worst case (5% VaR)" value={pnl.var5.value} unit={pnl.var5.unit} accent="red" />
           </div>
         </div>
 
