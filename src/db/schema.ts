@@ -109,6 +109,19 @@ export const dailyFinancialSummary = pgTable("daily_financial_summary", {
 });
 
 /**
+ * Weather data — synced from Docker PostgreSQL (OpenWeatherMap collection)
+ */
+export const weatherData = pgTable("weather_data", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  recordedDate: date("recorded_date").notNull().unique(),
+  temperatureHigh: decimal("temperature_high", { precision: 5, scale: 2 }),
+  temperatureLow: decimal("temperature_low", { precision: 5, scale: 2 }),
+  rainfallMm: decimal("rainfall_mm", { precision: 5, scale: 2 }),
+  weatherCondition: text("weather_condition"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+/**
  * Cost matrix — editable financial configuration for the pump
  * Stored as a single JSONB row mirroring config/cost_matrix.json
  */

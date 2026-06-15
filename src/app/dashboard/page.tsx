@@ -409,6 +409,82 @@ export default function DashboardHome() {
             <AlertCard key={alert.title} alert={alert} />
           ))}
         </div>
+
+        {/* Weather widget */}
+        <WeatherWidget />
+      </div>
+    </div>
+  );
+}
+
+/* ─── Weather Widget ─── */
+function WeatherWidget() {
+  const [weather, setWeather] = useState<{
+    temperatureHigh: string; temperatureLow: string;
+    rainfallMm: string; weatherCondition: string; recordedDate: string;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/weather")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setWeather(data[0]);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading || !weather) return null;
+
+  const condition = weather.weatherCondition?.toLowerCase() || "";
+  const isRainy = condition.includes("rain") || condition.includes("drizzle") || condition.includes("thunderstorm");
+  const isCloudy = condition.includes("cloud") || condition.includes("overcast");
+  const isClear = condition.includes("clear") || condition.includes("sunny");
+
+  return (
+    <div className="mt-6">
+      <div className="flex items-center gap-3 mb-3">
+        <h2 className="font-heading text-sm font-semibold text-[#2C3E50]">Weather</h2>
+        <div className="h-px flex-1 bg-border/50" />
+      </div>
+      <div className="bg-[#F5F7FA] border border-border rounded-sm p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {/* Weather icon */}
+            <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center">
+              {isRainy ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2">
+                  <path d="M12 2v2M4.93 4.93l1.41 1.41M2 12h2M20 12h2M6.34 19.07l-1.41 1.41M17.66 19.07l1.41 1.41"/>
+                  <path d="M8 13h.01M16 13h.01M12 13h.01M12 17h.01M8 21h8"/>
+                </svg>
+              ) : isCloudy ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C47335" strokeWidth="2">
+                  <circle cx="12" cy="12" r="5"/>
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                </svg>
+              )}
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-[#1A1F2E]">
+                {weather.temperatureHigh || "—"}°C / {weather.temperatureLow || "—"}°C
+              </p>
+              <p className="text-xs text-muted-foreground capitalize">
+                {weather.weatherCondition || "Unknown"} · {weather.recordedDate}
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-xs text-muted-foreground">Rainfall</p>
+            <p className="text-sm font-semibold text-[#1A1F2E]">
+              {weather.rainfallMm ? `${parseFloat(weather.rainfallMm).toFixed(1)} mm` : "0 mm"}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
