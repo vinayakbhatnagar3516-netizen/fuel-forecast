@@ -162,8 +162,8 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="font-heading text-2xl font-semibold text-[#1A1F2E] heading-kolam pb-3">Settings</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Loading your station configuration…</p>
+          <p className="eyebrow">Settings</p>
+          <p className="body-prose text-[14px] text-ink-muted mt-1">Loading your station configuration…</p>
         </div>
         <SectionSkeleton />
         <SectionSkeleton />
@@ -176,8 +176,8 @@ export default function SettingsPage() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="font-heading text-2xl font-semibold text-[#1A1F2E] heading-kolam pb-3">Settings</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Station configuration and preferences.</p>
+          <p className="eyebrow">Settings</p>
+          <p className="body-prose text-[14px] text-ink-muted mt-1">Station configuration and preferences.</p>
         </div>
         <Card className="border-border rounded-sm shadow-none">
           <CardContent className="py-12 text-center">

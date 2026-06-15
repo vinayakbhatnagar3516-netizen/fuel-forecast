@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { DecisionData } from "@/lib/api-types";
+import { MandalaOrnament, LotusDivider, PaisleyAccent } from "@/components/indic-flourishes";
 
 /* ─── Constants ─── */
 const FUEL_TABS = [
@@ -13,10 +14,10 @@ const FUEL_TABS = [
 ] as const;
 
 /* ─── Helpers ─── */
-function todayDisplay(): string {
+function todayDisplay() {
   return new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 }
-function formatTime(iso: string | null): string {
+function formatTime(iso: string | null) {
   if (!iso) return "";
   try { return new Date(iso).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }); }
   catch { return ""; }
@@ -25,11 +26,11 @@ function formatTime(iso: string | null): string {
 /* ─── Skeleton ─── */
 function DashboardSkeleton() {
   return (
-    <div className="space-y-12 animate-pulse">
+    <div className="space-y-16 animate-pulse">
       <div className="h-32 bg-muted rounded-md" />
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
         {[1, 2, 3].map((i) => (
-          <Card key={i} className="design-card shadow-none">
+          <Card key={i} className="design-card">
             <CardHeader className="pb-2"><Skeleton className="h-3 w-20 bg-muted" /></CardHeader>
             <CardContent><Skeleton className="h-12 w-28 bg-muted mb-2" /><Skeleton className="h-3 w-36 bg-muted" /></CardContent>
           </Card>
@@ -37,7 +38,7 @@ function DashboardSkeleton() {
       </div>
       <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
         {[1, 2, 3, 4].map((i) => (
-          <Card key={i} className="design-card shadow-none">
+          <Card key={i} className="design-card">
             <CardHeader className="pb-2"><Skeleton className="h-3 w-20 bg-muted" /></CardHeader>
             <CardContent><Skeleton className="h-10 w-20 bg-muted mb-2" /><Skeleton className="h-3 w-28 bg-muted" /></CardContent>
           </Card>
@@ -47,29 +48,11 @@ function DashboardSkeleton() {
   );
 }
 
-/* ─── Kolam Ornament ─── */
-function KolamOrnament() {
-  return (
-    <div className="kolam-ornament flex items-center gap-1">
-      {[0, 1, 2].map((i) => (
-        <svg key={i} width="32" height="8" viewBox="0 0 32 8" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="6" cy="4" r="1.2" fill="#C47335" opacity={0.3 + i * 0.1} />
-          <circle cx="16" cy="4" r="1.2" fill="#C47335" opacity={0.3 + i * 0.1} />
-          <circle cx="26" cy="4" r="1.2" fill="#C47335" opacity={0.3 + i * 0.1} />
-        </svg>
-      ))}
-    </div>
-  );
-}
-
 /* ─── Fuel Tabs ─── */
 function FuelTab({ value, label, active, onClick }: { value: string; label: string; active: boolean; onClick: (v: string) => void }) {
   return (
-    <button
-      onClick={() => onClick(value)}
-      className={`px-4 py-1.5 text-[13px] font-medium transition-all duration-200
-        ${active ? "fuel-tab-active" : "fuel-tab-inactive"}`}
-    >
+    <button onClick={() => onClick(value)}
+      className={`px-4 py-1.5 text-[13px] font-medium transition-all duration-200 ${active ? "fuel-tab-active" : "fuel-tab-inactive"}`}>
       {label}
     </button>
   );
@@ -88,7 +71,7 @@ function FuelTabsBar({ active, onChange }: { active: string; onChange: (v: strin
 function ActionBadge({ action }: { action: string }) {
   const styles: Record<string, { bg: string; text: string; dot: string; label: string }> = {
     BUY: { bg: "bg-[#E8F5E9]", text: "text-[#2E7D32]", dot: "bg-sage", label: "PLACE ORDER" },
-    HOLD:  { bg: "bg-[#FFF8E1]", text: "text-[#946C00]", dot: "bg-amber", label: "HOLD" },
+    HOLD: { bg: "bg-[#FFF8E1]", text: "text-[#946C00]", dot: "bg-amber", label: "HOLD" },
     SELL: { bg: "bg-[#FFEBEE]", text: "text-[#8B3A3A]", dot: "bg-burgundy", label: "REDUCE" },
     NO_DATA: { bg: "bg-slate-100", text: "text-slate-500", dot: "bg-slate-400", label: "NO DATA" },
   };
@@ -100,19 +83,20 @@ function ActionBadge({ action }: { action: string }) {
   );
 }
 
-/* ─── Stat Metric Card ─── */
+/* ─── StatCard with paisley corner accent ─── */
 function StatCard({ value, unit, label, description, accent }: {
   value: string; unit: string; label: string; description: string; accent?: "green" | "amber" | "red" | "neutral";
 }) {
   const isReal = value !== "—";
-  const display = isReal
-    ? `${unit === "₹" ? "₹" : ""}${value}${unit === "%" ? "%" : unit === "L" ? "L" : ""}`
-    : "—";
+  const display = isReal ? `${unit === "₹" ? "₹" : ""}${value}${unit === "%" ? "%" : unit === "L" ? "L" : ""}` : "—";
   const clr = !accent || accent === "neutral" || !isReal ? "text-ink"
     : accent === "green" ? "text-sage" : accent === "amber" ? "text-amber" : "text-burgundy";
-
   return (
-    <Card className="design-card shadow-none hover:border-hairline-dim transition-colors">
+    <Card className="design-card hover:border-hairline-dim transition-colors relative">
+      {/* paisley corner accent */}
+      <div className="absolute top-2 right-2 text-saffron">
+        <PaisleyAccent size={14} color="#C47335" opacity={0.16} />
+      </div>
       <CardHeader className="pb-1.5">
         <CardTitle className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">{label}</CardTitle>
       </CardHeader>
@@ -131,14 +115,12 @@ function PnLCard({ label, value, unit, accent }: { label: string; value: string;
   const clr = !accent || accent === "neutral" || !isReal ? "text-ink"
     : accent === "green" ? "text-sage" : accent === "amber" ? "text-amber" : "text-burgundy";
   return (
-    <Card className="design-card shadow-none">
+    <Card className="design-card">
       <CardHeader className="pb-1.5">
         <CardTitle className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">{label}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-2xl font-[400] tracking-tight font-[family-name:var(--font-inter)] tabular-nums" style={{ color: "var(--color-ink)" }}>
-          <span className={clr}>{display}</span>
-        </p>
+        <p className={`text-2xl font-[400] tracking-tight font-[family-name:var(--font-inter)] tabular-nums ${clr}`}>{display}</p>
       </CardContent>
     </Card>
   );
@@ -146,8 +128,8 @@ function PnLCard({ label, value, unit, accent }: { label: string; value: string;
 
 /* ─── Alert Card ─── */
 function AlertCard({ alert }: { alert: DecisionData["alerts"][number] }) {
-  const bc = alert.severity === "warning" ? "border-l-amber" : "border-l-slate";
-  const bg = alert.severity === "warning" ? "bg-[#FFF8E1]" : "bg-[#F5F7FA]";
+  const bc = alert.severity === "warning" ? "border-l-amber" : "border-l-indigo";
+  const bg = alert.severity === "warning" ? "bg-[#FFF8E1]" : "bg-[#F0F3F8]";
   return (
     <div className={`${bg} border-l-4 ${bc} rounded-sm p-4`}>
       <div className="flex items-start gap-3">
@@ -181,7 +163,7 @@ function WeatherWidget() {
   return (
     <div className="mt-16">
       <p className="eyebrow mb-3">Weather</p>
-      <div className="design-card flex items-center justify-between shadow-none">
+      <div className="design-card flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
             {isRainy ? (
@@ -206,9 +188,9 @@ function WeatherWidget() {
   );
 }
 
-/* ══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════
    MAIN PAGE
-   ══════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════ */
 export default function DashboardHome() {
   const [data, setData] = useState<DecisionData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -237,35 +219,33 @@ export default function DashboardHome() {
     </div>
   );
 
-  /* ── Initial Loading ── */
-  if (loading && !data) return <div className="space-y-12">{header}<KolamOrnament /><DashboardSkeleton /></div>;
+  /* ── Loading ── */
+  if (loading && !data) return <div className="space-y-16">{header}<DashboardSkeleton /></div>;
 
   /* ── No Data ── */
   if (!data || data.decision.action === "NO_DATA") {
     return (
-      <div className="space-y-12">
+      <div className="space-y-16">
         {header}
-        <KolamOrnament />
-
-        <div className="design-card shadow-none">
+        <MandalaOrnament size={80} accentColor="#C47335" opacity={0.22} />
+        <div className="card-mehndi">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0 mt-0.5">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
             </div>
             <div>
-              <p className="section-heading font-[family-name:var(--font-inter)] text-ink">No forecast data yet</p>
-              <p className="body-prose text-[14px] text-ink-muted mt-1.5">Run the proxy forecast engine to generate predictions, P&L metrics, and order recommendations.</p>
+              <p className="section-heading heading-lotus text-ink inline-block">No forecast data yet</p>
+              <p className="body-prose text-[14px] text-ink-muted mt-2">Run the proxy forecast engine to generate predictions, P&L metrics, and order recommendations.</p>
               <button className="btn-pill mt-4">Generate forecast</button>
             </div>
           </div>
         </div>
-
         <div className="space-y-16">
           <div>
             <p className="eyebrow mb-4">Key Metrics</p>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               {["Expected demand", "Stockout risk", "Forecast confidence"].map((l) => (
-                <Card key={l} className="design-card shadow-none">
+                <Card key={l} className="design-card">
                   <CardHeader><CardTitle className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">{l}</CardTitle></CardHeader>
                   <CardContent><p className="stat-metric text-ink-dim">—</p></CardContent>
                 </Card>
@@ -276,7 +256,7 @@ export default function DashboardHome() {
             <p className="eyebrow mb-4">Profit &amp; Loss</p>
             <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
               {["Expected daily profit", "Expected monthly profit", "Chance of loss", "Worst case (5% VaR)"].map((l) => (
-                <Card key={l} className="design-card shadow-none">
+                <Card key={l} className="design-card">
                   <CardHeader><CardTitle className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">{l}</CardTitle></CardHeader>
                   <CardContent><p className="text-2xl font-[400] font-[family-name:var(--font-inter)] text-ink-dim">—</p></CardContent>
                 </Card>
@@ -284,7 +264,6 @@ export default function DashboardHome() {
             </div>
           </div>
         </div>
-
         <p className="body-prose text-[13px] text-ink-muted italic">
           Go to <span className="saffron-mark">Diagnostics</span> and click <strong>Generate forecast</strong> to see live data.
         </p>
@@ -294,23 +273,23 @@ export default function DashboardHome() {
 
   /* ── Real Data View ── */
   const { decision, metrics, pnl, alerts } = data;
-  const bannerBorder = decision.action === "BUY" ? "border-l-sage" : decision.action === "HOLD" ? "border-l-amber" : "border-l-slate";
-  const bannerBg = decision.action === "BUY" ? "bg-[#E8F5E9]/40" : decision.action === "HOLD" ? "bg-[#FFF8E1]/40" : "bg-slate-50";
+  const bannerBorder = decision.action === "BUY" ? "border-l-sage" : decision.action === "HOLD" ? "border-l-amber" : "border-l-indigo";
+  const bannerBg = decision.action === "BUY" ? "bg-[#E8F5E9]/40" : decision.action === "HOLD" ? "bg-[#FFF8E1]/40" : "bg-[#F0F3F8]";
 
   return (
     <div className="space-y-16">
       {header}
-      <KolamOrnament />
+      <MandalaOrnament size={80} accentColor="#C47335" opacity={0.22} />
 
       <div className={`transition-opacity duration-200 ${loading ? "opacity-50 pointer-events-none" : "opacity-100"}`}>
+
         {/* ── Decision Banner ── */}
-        <div className={`decision-banner ${bannerBg} ${bannerBorder}`}>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-            <div className="space-y-2">
-              <ActionBadge action={decision.action} />
-              <p className="text-lg font-[400] text-ink font-[family-name:var(--font-inter)] leading-snug mt-1">{decision.headline}</p>
-              <p className="body-prose text-[14px] text-ink-muted">{decision.sub}</p>
-            </div>
+        <div className="card-mehndi relative overflow-hidden">
+          <div className={`absolute left-0 top-0 bottom-0 w-1 ${bannerBorder.replace('border-l-', 'bg-')}`} />
+          <div className="pl-4 space-y-2">
+            <ActionBadge action={decision.action} />
+            <p className="text-lg font-[400] text-ink font-[family-name:var(--font-inter)] leading-snug">{decision.headline}</p>
+            <p className="body-prose text-[14px] text-ink-muted">{decision.sub}</p>
           </div>
         </div>
 
@@ -328,10 +307,11 @@ export default function DashboardHome() {
           </div>
         </div>
 
-        {/* ── P&L Snapshot ── */}
+        {/* ── P&L ── */}
         <div className="mt-16">
           <p className="eyebrow mb-4">Profit &amp; Loss</p>
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
+          <LotusDivider color="#C47335" opacity={0.14} />
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 mt-4">
             <PnLCard label="Expected daily profit" value={pnl.expectedDailyProfit.value} unit={pnl.expectedDailyProfit.unit}
               accent={pnl.expectedDailyProfit.value !== "—" && parseInt(pnl.expectedDailyProfit.value) > 0 ? "green" : "red"} />
             <PnLCard label="Expected monthly profit" value={pnl.expectedMonthlyProfit.value} unit={pnl.expectedMonthlyProfit.unit} accent="green" />
@@ -341,13 +321,12 @@ export default function DashboardHome() {
           </div>
         </div>
 
-        {/* ── Seasonal Alerts ── */}
+        {/* ── Alerts ── */}
         <div className="mt-16 space-y-2">
           <p className="eyebrow mb-3">What&apos;s coming</p>
           {alerts.map((a) => <AlertCard key={a.title} alert={a} />)}
         </div>
 
-        {/* ── Weather ── */}
         <WeatherWidget />
       </div>
     </div>

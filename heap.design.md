@@ -450,3 +450,74 @@ The 4px-dominant scale is the tightest in the analytics-tools peer group. Mixpan
 - **Form validation states:** error and warning colors are declared in CSS variables (`--color-text-critical`, `--color-text-warning`) but not visible on the marketing surface; error inputs and form feedback UI are not represented.
 - **Product UI screenshots:** the feature sections include product UI screenshots with their own color system (dashboards, funnels, journey maps) that is not captured in this marketing-surface extraction.
 - **Acquisition-era tokens:** some CSS variables may reflect Contentsquare's design system; the boundary between original Heap tokens and Contentsquare-merged tokens is not determinable from the marketing surface alone.
+
+---
+
+## Fuel Forecast Adaptation (appended)
+
+### Color Mapping
+
+The Heap mint green (#31d891) is replaced by Kandaghat saffron terracotta (#C47335). The same constraint applies — saffron is never a button fill, only a border and text highlight. The `ink` remains #1A1F2E (a soft ink, not pure #111111, for the warm Indian institutional palette).
+
+| Heap Token | Heap Value | Fuel Forecast Token | Fuel Forecast Value |
+|---|---|---|---|
+| `{colors.primary}` | #31d891 | saffron | #C47335 |
+| `{colors.ink}` | #111111 | ink | #1A1F2E |
+| `{colors.canvas}` | #ffffff | canvas | #FAFAF8 |
+| `{colors.surface-dim}` | #100841 | surface-dim | #1A1F2E |
+| `{colors.hairline}` | #dfdfdf | hairline | #E5E7EB |
+| `{colors.ink-muted}` | #4f525d | ink-muted | #64748B |
+
+### Typeface Mapping
+
+Heap uses Lineto's Circular Standard and Lettera Text. Our open-source substitutes:
+
+| Heap Face | Purpose | Fuel Forecast Substitute |
+|---|---|---|
+| Circular Standard | Display, nav, eyebrow, headings | Inter (`--font-inter`) |
+| Lettera Text | Body prose, captions, pull quotes | Source Serif 4 (`--font-source-serif`) |
+
+The split follows the same semantic register rule: Inter handles everything structural (headings, labels, nav, eyebrow), Source Serif 4 handles everything readable (body text, descriptions, captions, metadata).
+
+### Added Elements
+
+- **Kolam ornament dividers**: Decorative SVG dot-grid patterns between sections. These are the Indian design identity marker — they sit alongside the Heap structure without conflicting since Heap's system defines card borders and type rules, not decorative elements.
+- **Heading-kolam**: A saffron left-accent underline for primary headings — replaces the pure hairline divider with a saffron-color block (18% of the border width) followed by hairline (82%).
+- **Decision banner**: A left-border-colored notification block that follows the Heap `dark-band` pattern — flat, no shadow, left border only, colored by action (green=BUY, amber=HOLD).
+- **Saffron-mark**: Inline text highlight using saffron at 15% alpha — equivalent to Heap's `highlight-mark` component.
+
+### Implementation Status (2026-06-15)
+
+| Principle | Status | Notes |
+|---|---|---|
+| Saffron-border-only (no fill on buttons) | ✅ Done | `btn-pill` uses ink fill + saffron border |
+| Dual typeface (Inter/Source Serif 4) | ✅ Done | CSS classes: `font-[family-name:var(--font-inter)]` and `.body-prose` |
+| No shadows (hairline borders only) | ✅ Done | `.design-card` uses `border: 1px solid var(--color-hairline)` |
+| Tight 4px radius dominant | ✅ Done | `--radius-xs: 4px` for inputs, `--radius-md: 10px` for cards |
+| Weight-400 display headings | ✅ Done | `.stat-metric` at 40px/400 weight, `.section-heading` at 20px/400 |
+| Uppercase eyebrow labels | ✅ Done | `.eyebrow` class: 13px/600/1.3px tracking |
+| Single dark band | ✅ Done | Decision banner uses tonal background, not full dark band yet |
+| Kolam motifs preserved | ✅ Done | `.kolam-ornament`, `.heading-kolam`, `.sidebar-kolam` |
+| Stat metrics at display size | ✅ Done | `.stat-metric` at 40px for key numbers |
+| Pill-shaped buttons | ✅ Done | `.btn-pill` with `border-radius: 9999px` |
+| Card internal padding 24-32px | ✅ Done | `.design-card` uses 24px padding |
+
+### Pages Implemented
+
+| Page | Route | Status |
+|---|---|---|
+| Dashboard Home | `/dashboard` | Complete — decision banner, fuel tabs, stat metrics, P&L, weather, alerts |
+| Settings (Cost Matrix) | `/dashboard/settings` | Complete — 7 editable sections, design-card layout |
+| Diagnostics (Run Forecast) | `/dashboard/diagnostics` | Complete — forecast runner, model cards, health status |
+| Trends | `/dashboard/trends` | Placeholder |
+| Orders | `/dashboard/orders` | Placeholder |
+| Sign In / Sign Up | `/sign-in`, `/sign-up` | Complete — Clerk styled with design tokens |
+
+### What's Missing for Production
+
+1. **Real ML pipeline connection**: The proxy forecast engine uses a 14-day moving average with empirical quantile multipliers. Production needs the CatBoost models from `petrol-pump-forecast/models/`.
+2. **Trends page**: Historical forecast vs. actual charts (needs real data from Docker PostgreSQL after pipeline runs).
+3. **Orders page**: 3-policy comparison table with inventory simulation.
+4. **Mobile responsive**: All components need breakpoint testing.
+5. **Dark mode**: Declared but not built.
+6. **Multi-tenancy**: Clerk orgs configured but only single pump tested.

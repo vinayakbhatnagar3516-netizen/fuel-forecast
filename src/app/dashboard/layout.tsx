@@ -56,14 +56,16 @@ const NAV_ITEMS = [
 /*  Kolam ornament — decorative divider                                */
 /* ------------------------------------------------------------------ */
 
-function KolamOrnament() {
+import { MandalaOrnament, LotusDivider, DiamondStripe } from "@/components/indic-flourishes";
+
+/* ------------------------------------------------------------------ */
+/*  Indic ornaments (replaces kolam)                                   */
+/* ------------------------------------------------------------------ */
+
+function FooterOrnament() {
   return (
-    <div className="kolam-ornament flex items-center justify-center gap-1">
-      <svg width="48" height="12" viewBox="0 0 48 12" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="8" cy="6" r="1.5" fill="#C47335" opacity="0.4" />
-        <circle cx="20" cy="6" r="1.5" fill="#C47335" opacity="0.4" />
-        <circle cx="32" cy="6" r="1.5" fill="#C47335" opacity="0.4" />
-      </svg>
+    <div className="flex flex-col items-center gap-1">
+      <MandalaOrnament size={64} accentColor="#C47335" opacity={0.2} />
     </div>
   );
 }
@@ -214,8 +216,8 @@ export default function DashboardLayout({
           <UserNav />
         </SidebarFooter>
 
-        {/* Kolam dot background */}
-        <div className="sidebar-kolam absolute inset-0 pointer-events-none opacity-50" />
+        {/* Jaali lattice background */}
+        <div className="jaali-bg absolute inset-0 pointer-events-none opacity-50" />
       </Sidebar>
 
       {/* -------- Main Content -------- */}
@@ -234,7 +236,7 @@ export default function DashboardLayout({
 
         {/* Footer */}
         <footer className="border-t border-hairline px-6 py-6">
-          <KolamOrnament />
+          <FooterOrnament />
           <p className="text-center font-[family-name:var(--font-inter)] text-xs text-ink-dim">
             {SITE.location}
           </p>
