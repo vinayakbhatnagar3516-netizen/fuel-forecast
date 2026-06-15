@@ -39,7 +39,7 @@ export default function DiagnosticsPage() {
 
       {/* Run Forecast */}
       <Card className="design-card shadow-none overflow-hidden relative">
-        <div className="mandala-light absolute inset-0 pointer-events-none" />
+        <div className="mandala-light filter-brown absolute inset-0 pointer-events-none" />
         <CardHeader className="relative z-10">
           <CardTitle className="section-heading font-[family-name:var(--font-inter)]">Generate fresh forecast</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">
@@ -68,7 +68,7 @@ export default function DiagnosticsPage() {
 
       {/* Model Metrics */}
       <Card className="design-card shadow-none overflow-hidden relative">
-        <div className="paisley-accent-bg absolute inset-0 pointer-events-none opacity-20" />
+        <div className="paisley-accent-bg filter-brown absolute inset-0 pointer-events-none opacity-20" />
         <CardHeader className="relative z-10">
           <CardTitle className="section-heading font-[family-name:var(--font-inter)]">Model accuracy</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">Per-quantile error metrics and proxy model info.</CardDescription>
@@ -98,7 +98,7 @@ export default function DiagnosticsPage() {
 
       {/* System Health */}
       <Card className="design-card shadow-none overflow-hidden relative">
-        <div className="mandala-bg absolute inset-0 pointer-events-none opacity-15" />
+        <div className="mandala-bg filter-brown absolute inset-0 pointer-events-none opacity-15" />
         <CardHeader className="relative z-10">
           <CardTitle className="section-heading font-[family-name:var(--font-inter)]">System health</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">Database, forecast, and weather data status.</CardDescription>
@@ -121,7 +121,7 @@ export default function DiagnosticsPage() {
       {/* Quick Stats */}
       {result && (
         <Card className="design-card shadow-none overflow-hidden relative">
-          <div className="paisley-accent-bg absolute inset-0 pointer-events-none opacity-25" />
+          <div className="paisley-accent-bg filter-brown absolute inset-0 pointer-events-none opacity-25" />
           <CardHeader className="relative z-10">
             <CardTitle className="section-heading font-[family-name:var(--font-inter)]">Last run summary</CardTitle>
             <CardDescription className="body-prose text-[13px] text-ink-muted">Proxy forecast completed successfully.</CardDescription>

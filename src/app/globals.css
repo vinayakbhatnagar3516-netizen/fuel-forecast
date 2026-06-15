@@ -289,6 +289,14 @@
   .fuel-tab-inactive { background: transparent; color: #7A6E60; border: 1px solid #C8B9A5; border-radius: 9999px; }
   .design-input { border-radius: var(--radius-xs); border: 1px solid #C8B9A5; padding: 6px 12px; height: 38px; font-size: 14px; font-family: var(--font-inter); box-shadow: none; background: #F2ECE4; }
   .saffron-mark { background: rgba(184, 149, 106, 0.2); color: #B8956A; padding: 1px 4px; border-radius: 2px; }
+
+  /* ═══════════════ PATTERN COLOUR VARIANTS ═══════════════
+     Apply to pattern background divs to shift JPG colours
+     without changing the source image. One group per page.
+     ═══════════════════════════════════════════════════════ */
+  .filter-indigo { filter: sepia(0.35) hue-rotate(190deg) saturate(0.55) brightness(0.9); }
+  .filter-green  { filter: sepia(0.45) hue-rotate(70deg) saturate(0.45) brightness(0.85); }
+  .filter-brown  { filter: sepia(0.55) saturate(0.6) brightness(0.9); }
 }
 
 /* ═══════════════════════════════════════════════════════════

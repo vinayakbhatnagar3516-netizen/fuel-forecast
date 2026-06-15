@@ -143,7 +143,7 @@ function SidebarLogo() {
         <div className="flex size-8 items-center justify-center rounded-sm bg-ink text-white text-sm font-semibold font-[family-name:var(--font-inter)]">
           FF
         </div>
-        <span className="font-[family-name:var(--font-instrument-serif)] text-base font-[400] italic tracking-tight text-ink">
+        <span className="font-[family-name:var(--font-instrument-serif)] text-base font-semibold italic tracking-tight text-[#222]">
           Fuel Forecast
         </span>
       </a>
@@ -179,7 +179,7 @@ export default function DashboardLayout({
         {/* -------- Navigation -------- */}
         <SidebarContent>
           <SidebarGroup>
-              <SidebarGroupLabel className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">
+              <SidebarGroupLabel className="text-[11px] font-extrabold text-[#222] uppercase tracking-widest font-[family-name:var(--font-inter)]">
                   Navigation
                 </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -192,10 +192,10 @@ export default function DashboardLayout({
                         isActive={isActive}
                         tooltip={item.label}
                         onClick={() => router.push(item.href)}
-                        className={`flex items-center gap-3 text-[14px] font-semibold font-[family-name:var(--font-inter)] ${
+                        className={`flex items-center gap-3 text-[15px] font-bold font-[family-name:var(--font-inter)] ${
                           isActive
-                            ? "text-saffron font-medium"
-                            : "text-sidebar-foreground"
+                            ? "text-[#8B6914] font-extrabold"
+                            : "text-[#222]"
                         }`}
                       >
                         <item.icon className="size-4 shrink-0" />
