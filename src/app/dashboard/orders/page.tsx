@@ -10,25 +10,27 @@ export default function OrdersPage() {
         <p className="body-prose text-[14px] text-ink-muted mt-1">Order recommendations, history, and upcoming deliveries.</p>
       </div>
 
-      <Card className="design-card">
-        <CardHeader>
-          <CardTitle className="section-heading font-[family-name:var(--font-inter)] heading-lotus">Current recommendation</CardTitle>
+      <Card className="design-card overflow-hidden relative">
+        <div className="mandala-light absolute inset-0 pointer-events-none" />
+        <CardHeader className="relative z-10">
+          <CardTitle className="section-heading heading-lotus">Current recommendation</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">Run a forecast to get an order recommendation.</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex h-32 items-center justify-center rounded-sm border border-dashed border-hairline bg-slate-50/50">
+        <CardContent className="relative z-10">
+          <div className="flex h-32 items-center justify-center rounded-xs border border-dashed border-hairline-dim bg-white/60">
             <p className="body-prose text-[14px] text-ink-dim">No recommendation yet</p>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="design-card">
-        <CardHeader>
-          <CardTitle className="section-heading font-[family-name:var(--font-inter)] heading-lotus">Order history</CardTitle>
+      <Card className="design-card overflow-hidden relative">
+        <div className="paisley-accent-bg absolute inset-0 pointer-events-none" />
+        <CardHeader className="relative z-10">
+          <CardTitle className="section-heading heading-lotus">Order history</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">Past orders and delivery status.</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex h-32 items-center justify-center rounded-sm border border-dashed border-hairline bg-slate-50/50">
+        <CardContent className="relative z-10">
+          <div className="flex h-32 items-center justify-center rounded-xs border border-dashed border-hairline-dim bg-white/60">
             <p className="body-prose text-[14px] text-ink-dim">No order history</p>
           </div>
         </CardContent>

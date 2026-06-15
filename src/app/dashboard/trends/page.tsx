@@ -11,37 +11,40 @@ export default function TrendsPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Card className="design-card col-span-full">
-          <CardHeader>
-            <CardTitle className="section-heading font-[family-name:var(--font-inter)] heading-lotus">Forecast history</CardTitle>
+        <Card className="design-card col-span-full overflow-hidden relative">
+          <div className="mandala-light absolute inset-0 pointer-events-none" />
+          <CardHeader className="relative z-10">
+            <CardTitle className="section-heading heading-lotus">Forecast history</CardTitle>
             <CardDescription className="body-prose text-[13px] text-ink-muted">Forecast trend chart will appear here once data is connected.</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="flex h-64 items-center justify-center rounded-sm border border-dashed border-hairline bg-slate-50/50">
+          <CardContent className="relative z-10">
+            <div className="flex h-64 items-center justify-center rounded-xs border border-dashed border-hairline-dim bg-white/60">
               <p className="body-prose text-[14px] text-ink-dim">No forecast history yet</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="design-card">
-          <CardHeader>
-            <CardTitle className="section-heading font-[family-name:var(--font-inter)] heading-lotus">Temperature</CardTitle>
+        <Card className="design-card overflow-hidden relative">
+          <div className="paisley-accent-bg absolute inset-0 pointer-events-none" />
+          <CardHeader className="relative z-10">
+            <CardTitle className="section-heading heading-lotus">Temperature</CardTitle>
             <CardDescription className="body-prose text-[13px] text-ink-muted">High and low temperatures</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="flex h-48 items-center justify-center rounded-sm border border-dashed border-hairline bg-slate-50/50">
+          <CardContent className="relative z-10">
+            <div className="flex h-48 items-center justify-center rounded-xs border border-dashed border-hairline-dim bg-white/60">
               <p className="body-prose text-[14px] text-ink-dim">No weather data</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="design-card">
-          <CardHeader>
-            <CardTitle className="section-heading font-[family-name:var(--font-inter)] heading-lotus">Rainfall</CardTitle>
+        <Card className="design-card overflow-hidden relative">
+          <div className="mandala-bg absolute inset-0 pointer-events-none opacity-20" />
+          <CardHeader className="relative z-10">
+            <CardTitle className="section-heading heading-lotus">Rainfall</CardTitle>
             <CardDescription className="body-prose text-[13px] text-ink-muted">Daily rainfall in mm</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="flex h-48 items-center justify-center rounded-sm border border-dashed border-hairline bg-slate-50/50">
+          <CardContent className="relative z-10">
+            <div className="flex h-48 items-center justify-center rounded-xs border border-dashed border-hairline-dim bg-white/60">
               <p className="body-prose text-[14px] text-ink-dim">No weather data</p>
             </div>
           </CardContent>

@@ -16,20 +16,20 @@
   --font-prose: var(--font-source-serif);
   --font-mono: var(--font-geist-mono);
 
-  /* Soothing Indian palette — muted, calm, warm */
-  --color-saffron:         #C98B5F;  /* soft terracotta (was #C47335) */
-  --color-saffron-deep:    #A8704A;
-  --color-ink:             #2C3440;  /* soft charcoal (was #1A1F2E) */
-  --color-canvas:          #F9F7F4;  /* warm cream */
-  --color-hairline:        #E8E4DD;
-  --color-hairline-dim:    #D5D0C8;
-  --color-ink-muted:       #7A7D85;  /* soft slate */
-  --color-ink-dim:         #A0A4AB;
-  --color-sage:            #5C8A6E;  /* muted sage green */
-  --color-burgundy:        #8F5A5A;  /* dusty rose */
-  --color-amber:           #A0814A;  /* warm gold */
-  --color-gold:            #C4A86A;  /* soft gold */
-  --color-indigo:          #5C6F8A;  /* dusty blue */
+  /* Nalanda sandstone palette — aged, scholarly, carved */
+  --color-saffron:         #B8956A;  /* gold leaf on stone */
+  --color-saffron-deep:    #9A7B52;
+  --color-ink:             #3B3228;  /* dark stone inscription */
+  --color-canvas:          #D9C7B0;  /* sandstone wall */
+  --color-hairline:        #C8B9A5;  /* stone joint mortar */
+  --color-hairline-dim:    #B8A890;
+  --color-ink-muted:       #7A6E60;  /* weathered inscription */
+  --color-ink-dim:         #A09588;
+  --color-sage:            #5C7A62;  /* moss on stone */
+  --color-burgundy:        #8B5E5E;  /* aged brick */
+  --color-amber:           #9E8234;  /* old brass */
+  --color-gold:            #B8956A;  /* gold leaf */
+  --color-indigo:          #5A6880;  /* faded manuscript ink */
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -70,34 +70,34 @@
    CSS CUSTOM PROPERTIES — soothing palette
    ═══════════════════════════════════════════════════════════ */
 :root {
-  --background:        #F0E6DD;  /* soft terracotta cream */
-  --foreground:        #2C3440;
-  --card:              #FDFBF8;  /* warm white */
-  --card-foreground:   #2C3440;
-  --popover:           #FDFBF8;
-  --popover-foreground:#2C3440;
-  --primary:           #2C3440;
-  --primary-foreground:#FFFFFF;
-  --secondary:         #EDE3D8;
-  --secondary-foreground: #2C3440;
-  --muted:             #EDE3D8;
-  --muted-foreground:  #7A7D85;
-  --accent:            #E8D9CB;  /* deeper terracotta accent */
-  --accent-foreground: #2C3440;
-  --destructive:       #8F5A5A;
-  --border:            #E2D8CD;  /* warm border */
-  --input:             #E2D8CD;
-  --ring:              #C98B5F;
-  --chart-1: #C98B5F; --chart-2: #5C6F8A; --chart-3: #C4A86A;
-  --chart-4: #5C8A6E; --chart-5: #8F5A5A;
-  --sidebar:               #F0E6DD;
-  --sidebar-foreground:    #1A1A1A;   /* darker text */
-  --sidebar-primary:       #2C3440;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent:        #E2D4C5;
-  --sidebar-accent-foreground: #1A1A1A;
-  --sidebar-border:        #E2D8CD;
-  --sidebar-ring:          #C98B5F;
+  --background:        #D9C7B0;  /* sandstone wall */
+  --foreground:        #3B3228;  /* dark inscription */
+  --card:              #F2ECE4;  /* carved limestone tablet */
+  --card-foreground:   #3B3228;
+  --popover:           #F2ECE4;
+  --popover-foreground:#3B3228;
+  --primary:           #3B3228;
+  --primary-foreground:#F2ECE4;
+  --secondary:         #E5DDD0;
+  --secondary-foreground: #3B3228;
+  --muted:             #E5DDD0;
+  --muted-foreground:  #7A6E60;
+  --accent:            #DDD2C2;  /* carved recess */
+  --accent-foreground: #3B3228;
+  --destructive:       #8B5E5E;
+  --border:            #C8B9A5;  /* stone mortar */
+  --input:             #C8B9A5;
+  --ring:              #B8956A;  /* gold leaf */
+  --chart-1: #B8956A; --chart-2: #5A6880; --chart-3: #9E8234;
+  --chart-4: #5C7A62; --chart-5: #8B5E5E;
+  --sidebar:               #D9C7B0;
+  --sidebar-foreground:    #3B3228;
+  --sidebar-primary:       #3B3228;
+  --sidebar-primary-foreground: #F2ECE4;
+  --sidebar-accent:        #CDBFA8;  /* tooled stone */
+  --sidebar-accent-foreground: #3B3228;
+  --sidebar-border:        #C8B9A5;
+  --sidebar-ring:          #B8956A;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -105,7 +105,21 @@
    ═══════════════════════════════════════════════════════════ */
 @layer base {
   * { @apply border-border outline-ring/50; }
-  body { @apply bg-background text-foreground antialiased; }
+  body {
+    @apply antialiased;
+    /* Indian sandstone — warm, aged, like Nalanda university walls */
+    background-color: #D9C7B0;
+    background-image:
+      /* stone grain — micro texture */
+      radial-gradient(circle at 15% 30%, rgba(184, 164, 138, 0.35) 0.8px, transparent 0.8px),
+      radial-gradient(circle at 75% 15%, rgba(161, 140, 115, 0.30) 1px, transparent 1px),
+      radial-gradient(circle at 35% 70%, rgba(194, 176, 152, 0.25) 1.2px, transparent 1.2px),
+      radial-gradient(circle at 90% 60%, rgba(168, 148, 125, 0.28) 0.6px, transparent 0.6px),
+      /* stone block variation — subtle horizontal bands */
+      linear-gradient(180deg, transparent 0%, rgba(196, 178, 155, 0.12) 40%, transparent 70%);
+    background-size: 55px 55px, 80px 80px, 45px 45px, 60px 60px, 100% 100%;
+    color: #3B3228;
+  }
   html { @apply font-sans; }
 
   /* ── ALL PATTERN CONTAINERS ── */
@@ -169,9 +183,9 @@
 
   /* Mehndi card scroll — vine border on top of cards */
   .card-mehndi {
-    border: 1px solid var(--color-hairline);
+    border: 1px solid #C8B9A5;
     border-radius: var(--radius-md);
-    background: #FFFFFF;
+    background: #F2ECE4;
     box-shadow: none;
     padding: 24px;
     position: relative;
@@ -182,13 +196,13 @@
     height: 6px;
     margin: -4px -4px 14px -4px;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
-    background: var(--color-saffron);
-    opacity: 0.2;
+    background: #B8956A;
+    opacity: 0.25;
   }
 
-  /* Lotus heading accent — petals under section titles */
+  /* Lotus heading accent — gold leaf on stone */
   .heading-lotus {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='14' viewBox='0 0 36 14'%3E%3Cdefs%3E%3Cpattern id='lp' width='36' height='14' patternUnits='userSpaceOnUse'%3E%3Cpath d='M8 12 Q18 0 28 12' fill='none' stroke='%23C47335' stroke-width='1.2'/%3E%3Cpath d='M12 12 Q18 3 24 12' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3Ccircle cx='18' cy='12' r='1.5' fill='%23C47335'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='14' fill='url(%23lp)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='14' viewBox='0 0 36 14'%3E%3Cdefs%3E%3Cpattern id='lp' width='36' height='14' patternUnits='userSpaceOnUse'%3E%3Cpath d='M8 12 Q18 0 28 12' fill='none' stroke='%23B8956A' stroke-width='1.2'/%3E%3Cpath d='M12 12 Q18 3 24 12' fill='none' stroke='%23B8956A' stroke-width='0.6'/%3E%3Ccircle cx='18' cy='12' r='1.5' fill='%23B8956A'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='14' fill='url(%23lp)'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: left bottom;
     background-size: 36px 14px;
@@ -199,11 +213,21 @@
 
   /* Flat design card — white with hairline border */
   .design-card {
-    background: #FDFBF8;
-    border: 1px solid var(--color-hairline);
+    background: #F2ECE4;
+    border: 1px solid #C8B9A5;
     border-radius: var(--radius-md);
     padding: 24px;
     box-shadow: none;
+    position: relative;
+  }
+
+  /* Carved stone tablet — slightly recessed card */
+  .card-carved {
+    background: #EEE5D8;
+    border: 1px solid #C0B098;
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: inset 0 1px 3px rgba(59, 50, 40, 0.06);
     position: relative;
   }
 
@@ -251,21 +275,20 @@
   /* ═══════════════ BUTTONS ═══════════════ */
   .btn-pill {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    background: var(--color-ink); color: #FFFFFF;
-    border: 1.5px solid var(--color-saffron);
+    background: #3B3228; color: #F2ECE4;
+    border: 1.5px solid #B8956A;
     border-radius: 9999px; padding: 8px 20px;
     font-family: var(--font-inter); font-size: 13px; font-weight: 500; line-height: 18px;
     transition: all 0.2s ease; box-shadow: none; cursor: pointer;
   }
-  .btn-pill:hover { background: #2D3348; border-color: var(--color-ink); }
-  .btn-pill-secondary { background: transparent; color: var(--color-ink); }
-  .btn-pill-secondary:hover { background: var(--color-ink); color: #FFFFFF; border-color: var(--color-ink); }
+  .btn-pill:hover { background: #4D4236; border-color: #3B3228; }
+  .btn-pill-secondary { background: transparent; color: #3B3228; }
+  .btn-pill-secondary:hover { background: #3B3228; color: #F2ECE4; border-color: #3B3228; }
 
-  /* ═══════════════ MISC ═══════════════ */
-  .fuel-tab-active { background: var(--color-saffron); color: #FFFFFF; border-radius: 9999px; box-shadow: none; }
-  .fuel-tab-inactive { background: transparent; color: var(--color-ink-muted); border: 1px solid var(--color-hairline); border-radius: 9999px; }
-  .design-input { border-radius: var(--radius-xs); border: 1px solid var(--color-hairline); padding: 6px 12px; height: 38px; font-size: 14px; font-family: var(--font-inter); box-shadow: none; }
-  .saffron-mark { background: rgba(196, 115, 53, 0.2); color: var(--color-saffron); padding: 1px 4px; border-radius: 2px; }
+  .fuel-tab-active { background: #B8956A; color: #F2ECE4; border-radius: 9999px; box-shadow: none; }
+  .fuel-tab-inactive { background: transparent; color: #7A6E60; border: 1px solid #C8B9A5; border-radius: 9999px; }
+  .design-input { border-radius: var(--radius-xs); border: 1px solid #C8B9A5; padding: 6px 12px; height: 38px; font-size: 14px; font-family: var(--font-inter); box-shadow: none; background: #F2ECE4; }
+  .saffron-mark { background: rgba(184, 149, 106, 0.2); color: #B8956A; padding: 1px 4px; border-radius: 2px; }
 }
 
 /* ═══════════════════════════════════════════════════════════

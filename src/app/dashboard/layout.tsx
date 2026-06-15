@@ -192,7 +192,7 @@ export default function DashboardLayout({
                         isActive={isActive}
                         tooltip={item.label}
                         onClick={() => router.push(item.href)}
-                        className={`flex items-center gap-3 text-[14px] font-[400] font-[family-name:var(--font-inter)] ${
+                        className={`flex items-center gap-3 text-[14px] font-semibold font-[family-name:var(--font-inter)] ${
                           isActive
                             ? "text-saffron font-medium"
                             : "text-sidebar-foreground"

@@ -84,7 +84,9 @@ function SettingsSection({ title, description, children, onSave, saving }: {
   saving?: boolean;
 }) {
   return (
-    <Card className="design-card shadow-none">
+    <Card className="design-card shadow-none overflow-hidden relative">
+      <div className="mandala-light absolute inset-0 pointer-events-none opacity-60" />
+      <div className="relative z-10">
       <CardHeader className="pb-4">
         <CardTitle className="section-heading font-[family-name:var(--font-inter)]">{title}</CardTitle>
         <CardDescription className="body-prose text-[13px] text-ink-muted">{description}</CardDescription>
@@ -99,6 +101,7 @@ function SettingsSection({ title, description, children, onSave, saving }: {
           </div>
         )}
       </CardContent>
+      </div>
     </Card>
   );
 }

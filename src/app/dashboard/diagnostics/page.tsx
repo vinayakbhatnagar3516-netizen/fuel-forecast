@@ -38,15 +38,16 @@ export default function DiagnosticsPage() {
       </div>
 
       {/* Run Forecast */}
-      <Card className="design-card shadow-none">
-        <CardHeader>
+      <Card className="design-card shadow-none overflow-hidden relative">
+        <div className="mandala-light absolute inset-0 pointer-events-none" />
+        <CardHeader className="relative z-10">
           <CardTitle className="section-heading font-[family-name:var(--font-inter)]">Generate fresh forecast</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">
             Runs the proxy forecast engine — generates synthetic sales, computes quantile forecasts,
             financial summaries, and order recommendations for the next 30 days.
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="relative z-10">
           <div className="flex items-center gap-4">
             <button
               onClick={runForecast}
@@ -66,8 +67,9 @@ export default function DiagnosticsPage() {
       </Card>
 
       {/* Model Metrics */}
-      <Card className="design-card shadow-none">
-        <CardHeader>
+      <Card className="design-card shadow-none overflow-hidden relative">
+        <div className="paisley-accent-bg absolute inset-0 pointer-events-none opacity-20" />
+        <CardHeader className="relative z-10">
           <CardTitle className="section-heading font-[family-name:var(--font-inter)]">Model accuracy</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">Per-quantile error metrics and proxy model info.</CardDescription>
         </CardHeader>
@@ -95,8 +97,9 @@ export default function DiagnosticsPage() {
       </Card>
 
       {/* System Health */}
-      <Card className="design-card shadow-none">
-        <CardHeader>
+      <Card className="design-card shadow-none overflow-hidden relative">
+        <div className="mandala-bg absolute inset-0 pointer-events-none opacity-15" />
+        <CardHeader className="relative z-10">
           <CardTitle className="section-heading font-[family-name:var(--font-inter)]">System health</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">Database, forecast, and weather data status.</CardDescription>
         </CardHeader>
@@ -117,8 +120,9 @@ export default function DiagnosticsPage() {
 
       {/* Quick Stats */}
       {result && (
-        <Card className="design-card shadow-none">
-          <CardHeader>
+        <Card className="design-card shadow-none overflow-hidden relative">
+          <div className="paisley-accent-bg absolute inset-0 pointer-events-none opacity-25" />
+          <CardHeader className="relative z-10">
             <CardTitle className="section-heading font-[family-name:var(--font-inter)]">Last run summary</CardTitle>
             <CardDescription className="body-prose text-[13px] text-ink-muted">Proxy forecast completed successfully.</CardDescription>
           </CardHeader>
