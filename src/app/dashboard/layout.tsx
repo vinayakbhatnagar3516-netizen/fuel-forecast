@@ -143,7 +143,7 @@ function SidebarLogo() {
         <div className="flex size-8 items-center justify-center rounded-sm bg-ink text-white text-sm font-semibold font-[family-name:var(--font-inter)]">
           FF
         </div>
-        <span className="font-[family-name:var(--font-inter)] text-base font-[400] tracking-tight text-ink">
+        <span className="font-[family-name:var(--font-instrument-serif)] text-base font-[400] italic tracking-tight text-ink">
           Fuel Forecast
         </span>
       </a>
@@ -216,8 +216,8 @@ export default function DashboardLayout({
           <UserNav />
         </SidebarFooter>
 
-        {/* Jaali lattice background */}
-        <div className="jaali-bg absolute inset-0 pointer-events-none opacity-50" />
+        {/* Escher lattice background */}
+        <div className="escher-lattice absolute inset-0 pointer-events-none" />
       </Sidebar>
 
       {/* -------- Main Content -------- */}

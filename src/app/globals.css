@@ -13,7 +13,7 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
-  --font-heading: var(--font-inter);
+  --font-heading: var(--font-instrument-serif);
   --font-prose: var(--font-source-serif);
   --font-mono: var(--font-geist-mono);
 
@@ -116,30 +116,15 @@
     overflow: visible !important;
   }
 
-  /* ═══════════════ PATTERN BACKGROUNDS ═══════════════ */
-
-  /* Jaali lattice — sidebar bg, card accent bg. Dense Mughal geometry. */
-  .jaali-bg {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cdefs%3E%3Cpattern id='j' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M30 2 L45 8 L54 22 L54 38 L45 52 L30 58 L15 52 L6 38 L6 22 L15 8 Z' fill='none' stroke='%23D4C5A9' stroke-width='0.8'/%3E%3Cpath d='M30 10 L40 16 L44 30 L40 44 L30 50 L20 44 L16 30 L20 16 Z' fill='none' stroke='%23D4C5A9' stroke-width='0.6'/%3E%3Ccircle cx='30' cy='30' r='3' fill='none' stroke='%23D4C5A9' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='1.8' fill='%23D4C5A9'/%3E%3C/path%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23j)'/%3E%3C/svg%3E");
-    background-size: 60px 60px;
+  /* ── ESCHER LATTICE (rhombille tiling) — sidebar bg ──
+     3 interlocking rhombuses per hexagon = 3 visible cube faces.
+     Shaded light/medium/dark to create the isometric 3D-cube
+     optical illusion. Pure mathematical tessellation. */
+  .escher-lattice {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='35' viewBox='0 0 60 35'%3E%3Cdefs%3E%3Cpattern id='esc' width='60' height='35' patternUnits='userSpaceOnUse'%3E%3C!-- face 1: top/light --%3E%3Cpolygon points='15,0 45,0 60,9 45,17 15,17 0,9' fill='%23C47335' opacity='0.12'/%3E%3C!-- face 2: right/mid --%3E%3Cpolygon points='60,9 45,17 60,26 75,17' fill='%23C47335' opacity='0.20'/%3E%3C!-- face 3: left/dark --%3E%3Cpolygon points='0,9 15,17 0,26 -15,17' fill='%23C47335' opacity='0.28'/%3E%3C!-- face: bottom-left --%3E%3Cpolygon points='0,26 15,17 15,35 0,35' fill='%23C47335' opacity='0.18'/%3E%3C!-- face: bottom-right --%3E%3Cpolygon points='60,26 45,17 45,35 60,35' fill='%23C47335' opacity='0.22'/%3E%3C!-- outlines --%3E%3Cpolyline points='15,0 45,0 60,9 60,26 60,35 45,35' fill='none' stroke='%23C47335' stroke-width='0.3' opacity='0.3'/%3E%3Cpolyline points='15,0 0,9 0,26 0,35 15,35' fill='none' stroke='%23C47335' stroke-width='0.3' opacity='0.3'/%3E%3Cline x1='15,0' y1='0' x2='15,35' y2='35' stroke='%23C47335' stroke-width='0.3' opacity='0.15'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23esc)'/%3E%3C/svg%3E");
+    background-size: 60px 35px;
     background-repeat: repeat;
-    opacity: 0.2;
-  }
-
-  /* Lighter jaali for white cards */
-  .jaali-light {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cdefs%3E%3Cpattern id='jl' width='80' height='80' patternUnits='userSpaceOnUse'%3E%3Cpath d='M40 4 L58 10 L70 26 L70 54 L58 70 L40 76 L22 70 L10 54 L10 26 L22 10 Z' fill='none' stroke='%23E8E0D4' stroke-width='0.6'/%3E%3Cpath d='M40 18 L48 24 L52 40 L48 56 L40 62 L32 56 L28 40 L32 24 Z' fill='none' stroke='%23E8E0D4' stroke-width='0.5'/%3E%3Ccircle cx='40' cy='40' r='2.5' fill='%23E8E0D4'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23jl)'/%3E%3C/svg%3E");
-    background-size: 80px 80px;
-    background-repeat: repeat;
-    opacity: 0.25;
-  }
-
-  /* Bandhani dots — tie-dye clustered dots for warm accent cards */
-  .bandhani-bg {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cdefs%3E%3Cpattern id='bd' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='8' cy='8' r='2' fill='%23C47335' opacity='0.5'/%3E%3Ccircle cx='14' cy='14' r='1.4' fill='%23C47335' opacity='0.4'/%3E%3Ccircle cx='6' cy='16' r='1' fill='%23C47335' opacity='0.35'/%3E%3Ccircle cx='16' cy='6' r='1' fill='%23C47335' opacity='0.35'/%3E%3Ccircle cx='38' cy='38' r='2' fill='%23C47335' opacity='0.5'/%3E%3Ccircle cx='44' cy='44' r='1.4' fill='%23C47335' opacity='0.4'/%3E%3Ccircle cx='36' cy='46' r='1' fill='%23C47335' opacity='0.35'/%3E%3Ccircle cx='46' cy='36' r='1' fill='%23C47335' opacity='0.35'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23bd)'/%3E%3C/svg%3E");
-    background-size: 60px 60px;
-    background-repeat: repeat;
-    opacity: 0.3;
+    opacity: 0.85;
   }
 
   /* ═══════════════ BORDER / DIVIDER PATTERNS ═══════════════ */
@@ -230,9 +215,9 @@
     font-size: 15px; font-weight: 400; line-height: 24px;
   }
   .section-heading {
-    font-family: var(--font-inter);
-    font-size: 20px; font-weight: 400; line-height: 28px;
-    letter-spacing: -0.6px;
+    font-family: var(--font-instrument-serif);
+    font-size: 22px; font-weight: 400; font-style: italic;
+    line-height: 30px; letter-spacing: -0.3px;
   }
 
   /* ═══════════════ BUTTONS ═══════════════ */

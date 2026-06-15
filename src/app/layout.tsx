@@ -1,20 +1,28 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Inter, Source_Serif_4 } from "next/font/google";
+import { Inter, Source_Serif_4, Instrument_Serif } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const inter = Inter({
-  variable: "--font-sans",
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
 
 const sourceSerif = Source_Serif_4({
-  variable: "--font-heading",
+  variable: "--font-source-serif",
   subsets: ["latin"],
   weight: ["400", "600", "700"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -33,9 +41,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${inter.variable} ${sourceSerif.variable} h-full antialiased`}
+        className={`${inter.variable} ${sourceSerif.variable} ${instrumentSerif.variable} h-full antialiased`}
       >
-        <body className="min-h-full flex flex-col bg-warm-bg text-foreground font-sans">
+        <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
           <TooltipProvider delay={0}>
             {children}
             <Toaster richColors closeButton />
