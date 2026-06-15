@@ -138,14 +138,14 @@ function SidebarLogo() {
   return (
     <div className="flex flex-col px-3 py-3">
       <a href={ROUTES.DASHBOARD} className="flex items-center gap-2">
-        <div className="flex size-8 items-center justify-center rounded-sm bg-[#2C3E50] text-white text-sm font-semibold font-heading">
+        <div className="flex size-8 items-center justify-center rounded-sm bg-ink text-white text-sm font-semibold font-[family-name:var(--font-inter)]">
           FF
         </div>
-        <span className="font-heading text-base font-semibold text-[#1A1F2E]">
+        <span className="font-[family-name:var(--font-inter)] text-base font-[400] tracking-tight text-ink">
           Fuel Forecast
         </span>
       </a>
-      <p className="mt-0.5 text-xs text-muted-foreground">
+      <p className="mt-0.5 text-xs text-ink-muted font-[family-name:var(--font-source-serif)]">
         {SITE.tagline}
       </p>
     </div>
@@ -177,9 +177,9 @@ export default function DashboardLayout({
         {/* -------- Navigation -------- */}
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel className="font-heading text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-              Navigation
-            </SidebarGroupLabel>
+              <SidebarGroupLabel className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">
+                  Navigation
+                </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {NAV_ITEMS.map((item) => {
@@ -190,9 +190,9 @@ export default function DashboardLayout({
                         isActive={isActive}
                         tooltip={item.label}
                         onClick={() => router.push(item.href)}
-                        className={`flex items-center gap-3 ${
+                        className={`flex items-center gap-3 text-[14px] font-[400] font-[family-name:var(--font-inter)] ${
                           isActive
-                            ? "text-[#C47335] font-medium"
+                            ? "text-saffron font-medium"
                             : "text-sidebar-foreground"
                         }`}
                       >
@@ -220,25 +220,25 @@ export default function DashboardLayout({
 
       {/* -------- Main Content -------- */}
       <SidebarInset>
-        <header className="flex h-14 items-center gap-3 border-b border-border bg-warm-bg px-4">
-          <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
+        <header className="flex h-14 items-center gap-3 border-b border-hairline bg-canvas px-4">
+          <SidebarTrigger className="text-ink-muted hover:text-foreground" />
           <div className="flex-1" />
-          <span className="text-xs text-muted-foreground hidden sm:block">
+          <span className="text-xs text-ink-dim hidden sm:block font-[family-name:var(--font-source-serif)]">
             {SITE.location}
           </span>
         </header>
 
-        <main className="flex-1 px-6 py-6 max-w-6xl mx-auto w-full">
+        <main className="flex-1 px-6 py-8 max-w-5xl mx-auto w-full">
           {children}
         </main>
 
         {/* Footer */}
-        <footer className="border-t border-border px-6 py-4">
+        <footer className="border-t border-hairline px-6 py-6">
           <KolamOrnament />
-          <p className="text-center font-heading text-xs text-muted-foreground">
+          <p className="text-center font-[family-name:var(--font-inter)] text-xs text-ink-dim">
             {SITE.location}
           </p>
-          <p className="text-center text-[10px] text-muted-foreground mt-0.5">
+          <p className="text-center text-[11px] text-ink-dim mt-0.5 font-[family-name:var(--font-source-serif)]">
             {SITE.tagline}
           </p>
         </footer>

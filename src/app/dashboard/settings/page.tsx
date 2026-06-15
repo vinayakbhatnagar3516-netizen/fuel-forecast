@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import type { CostMatrixData } from "@/db/schema";
@@ -16,7 +15,7 @@ function formatCurrency(n: number): string {
 
 function SectionSkeleton() {
   return (
-    <Card className="border-border rounded-sm shadow-none">
+    <Card className="design-card shadow-none">
       <CardHeader>
         <Skeleton className="h-5 w-48 bg-muted mb-1" />
         <Skeleton className="h-3 w-64 bg-muted" />
@@ -41,17 +40,17 @@ function NumberField({ label, value, onChange, suffix, disabled }: {
 }) {
   return (
     <div className="space-y-1">
-      <Label className="text-xs font-medium text-muted-foreground">{label}</Label>
+      <Label className="text-[12px] font-medium text-ink-muted font-[family-name:var(--font-inter)]">{label}</Label>
       <div className="relative">
         <Input
           type="number"
           value={value ?? ""}
           onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
-          className="border-border rounded-sm pr-8 text-sm"
+          className="design-input pr-8"
           disabled={disabled}
           step="any"
         />
-        {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">{suffix}</span>}
+        {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-ink-dim">{suffix}</span>}
       </div>
     </div>
   );
@@ -85,22 +84,18 @@ function SettingsSection({ title, description, children, onSave, saving }: {
   saving?: boolean;
 }) {
   return (
-    <Card className="border-border rounded-sm shadow-none">
+    <Card className="design-card shadow-none">
       <CardHeader className="pb-4">
-        <CardTitle className="text-sm font-semibold text-[#2C3E50]">{title}</CardTitle>
-        <CardDescription className="text-xs">{description}</CardDescription>
+        <CardTitle className="section-heading font-[family-name:var(--font-inter)]">{title}</CardTitle>
+        <CardDescription className="body-prose text-[13px] text-ink-muted">{description}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {children}
         {onSave && (
           <div className="pt-2 flex justify-end">
-            <Button
-              onClick={onSave}
-              disabled={saving}
-              className="bg-[#C47335] hover:bg-[#A85F2A] text-white rounded-sm text-xs h-8 px-4"
-            >
+            <button onClick={onSave} disabled={saving} className="btn-pill-secondary btn-pill">
               {saving ? "Saving..." : "Save changes"}
-            </Button>
+            </button>
           </div>
         )}
       </CardContent>
@@ -187,9 +182,7 @@ export default function SettingsPage() {
         <Card className="border-border rounded-sm shadow-none">
           <CardContent className="py-12 text-center">
             <p className="text-sm text-muted-foreground">No configuration found.</p>
-            <Button onClick={saveAll} className="mt-4 bg-[#C47335] text-white rounded-sm">
-              Create default config
-            </Button>
+            <button onClick={saveAll} className="btn-pill mt-4">Create default config</button>
           </CardContent>
         </Card>
       </div>
@@ -201,20 +194,14 @@ export default function SettingsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-heading text-2xl font-semibold text-[#1A1F2E] heading-kolam pb-1">
-            Settings
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Financial configuration for <span className="font-medium text-[#C47335]">{draft.pump_name}</span>
+          <p className="eyebrow">Settings</p>
+          <p className="body-prose text-[14px] text-ink-muted mt-1">
+            Financial configuration for <span className="saffron-mark">{draft.pump_name}</span>
           </p>
         </div>
-        <Button
-          onClick={saveAll}
-          disabled={saving}
-          className="bg-[#C47335] hover:bg-[#A85F2A] text-white rounded-sm"
-        >
+        <button onClick={saveAll} disabled={saving} className="btn-pill">
           {saving ? "Saving all..." : "Save all changes"}
-        </Button>
+        </button>
       </div>
 
       {/* ── 1. Station Identity ── */}
@@ -552,14 +539,9 @@ export default function SettingsPage() {
 
       {/* ── Global Save ── */}
       <div className="flex justify-end pb-8">
-        <Button
-          onClick={saveAll}
-          disabled={saving}
-          size="lg"
-          className="bg-[#C47335] hover:bg-[#A85F2A] text-white rounded-sm px-8"
-        >
+        <button onClick={saveAll} disabled={saving} className="btn-pill px-8">
           {saving ? "Saving all changes..." : "Save all changes"}
-        </Button>
+        </button>
       </div>
     </div>
   );

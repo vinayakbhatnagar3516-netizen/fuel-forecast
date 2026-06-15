@@ -4,104 +4,285 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ═══════════════════════════════════════════════════════
+   HEAP-INSPIRED DESIGN SYSTEM for Fuel Forecast
+   Principles:
+   - Dual typeface: Inter (structural) / Source Serif 4 (prose)
+   - Saffron is border & text only — never a button fill
+   - No shadows — elevation via 1px hairline borders
+   - Tight 4px radius; 10px for cards; pill for buttons
+   - Weight-400 display headings; hierarchy = scale, not weight
+   - Single dark band retained as editorial punctuation
+   ═══════════════════════════════════════════════════════ */
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-heading: var(--font-heading);
+  /* ── Font families ── */
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-inter);
+  --font-prose: var(--font-source-serif);
   --font-mono: var(--font-geist-mono);
 
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
+  /* ── Anchor palette tokens ── */
+  --color-saffron:         #C47335;   /* border & highlight ONLY */
+  --color-saffron-deep:    #A85F2A;
+  --color-saffron-dark:    #8B4513;
+  --color-ink:             #1A1F2E;   /* primary text, button fill */
+  --color-canvas:          #FAFAF8;   /* page floor */
+  --color-surface-dim:     #1A1F2E;   /* single dark band */
+  --color-hairline:        #E5E7EB;
+  --color-hairline-dim:    #D1D5DB;
+  --color-ink-muted:       #64748B;
+  --color-ink-dim:         #94A3B8;
+  --color-sage:            #4A7C59;
+  --color-burgundy:        #8B3A3A;
+  --color-amber:           #946C00;
+  --color-gold:            #DAA520;
+  --color-warm-grid:       #E8E0D4;
 
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-
-  --color-saffron: #C47335;
-  --color-saffron-light: rgba(196, 115, 53, 0.08);
-  --color-slate: #5B7B9A;
-  --color-slate-light: rgba(91, 123, 154, 0.10);
-  --color-gold: #B8860B;
-  --color-sage: #4A7C59;
-  --color-burgundy: #8B3A3A;
-  --color-warm-bg: #FAFAF8;
-  --color-warm-grid: #E8E0D4;
-
+  /* ── Shadcn-compatible mapping ── */
+  --color-background:        var(--background);
+  --color-foreground:        var(--foreground);
+  --color-card:              var(--card);
+  --color-card-foreground:   var(--card-foreground);
+  --color-popover:           var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
+  --color-primary:           var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:         var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:             var(--muted);
+  --color-muted-foreground:  var(--muted-foreground);
+  --color-accent:            var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive:       var(--destructive);
+  --color-border:            var(--border);
+  --color-input:             var(--input);
+  --color-ring:              var(--ring);
+  --color-chart-1: var(--chart-1);  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
 
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
+  --color-sidebar-ring:              var(--sidebar-ring);
+  --color-sidebar-border:            var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent:            var(--sidebar-accent);
+  --color-sidebar-primary-foreground:var(--sidebar-primary-foreground);
+  --color-sidebar-primary:           var(--sidebar-primary);
+  --color-sidebar-foreground:        var(--sidebar-foreground);
+  --color-sidebar:                   var(--sidebar);
+
+  /* ── Radius scale (tight-tight) ── */
+  --radius-xs: 0.25rem;   /* 4px  — inputs, chips, forms */
+  --radius-sm: 0.375rem;  /* 6px  — secondary elements */
+  --radius-md: 0.625rem;  /* 10px — cards */
+  --radius-lg: 1rem;      /* 16px — panels */
+  --radius-pill: 9999px;  /* buttons */
+
+  /* Backward compat */
+  --radius: var(--radius-md);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ═══════════════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES (Light)
+   ═══════════════════════════════════════════════════════ */
 :root {
-  /* Indian institutional palette — muted, authoritative, warm */
-  --background: #FAFAF8;
-  --foreground: #1A1F2E;
-  --card: #FFFFFF;
-  --card-foreground: #1A1F2E;
-  --popover: #FFFFFF;
-  --popover-foreground: #1A1F2E;
-  --primary: #2C3E50;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F5F7FA;
-  --secondary-foreground: #2C3E50;
-  --muted: #F5F7FA;
-  --muted-foreground: #6B7280;
-  --accent: #F5F7FA;
-  --accent-foreground: #2C3E50;
-  --destructive: #8B3A3A;
-  --border: #E5E7EB;
-  --input: #E5E7EB;
-  --ring: #C47335;
-  --radius: 0.375rem;
+  --background:        #FAFAF8;
+  --foreground:        #1A1F2E;
+  --card:              #FFFFFF;
+  --card-foreground:   #1A1F2E;
+  --popover:           #FFFFFF;
+  --popover-foreground:#1A1F2E;
+  --primary:           #1A1F2E;         /* ink for shadcn "primary" bg */
+  --primary-foreground:#FFFFFF;
+  --secondary:         #F5F7FA;
+  --secondary-foreground: #1A1F2E;
+  --muted:             #F5F7FA;
+  --muted-foreground:  #64748B;
+  --accent:            #F5F7FA;
+  --accent-foreground: #1A1F2E;
+  --destructive:       #8B3A3A;
+  --border:            #E5E7EB;         /* hairline */
+  --input:             #E5E7EB;
+  --ring:              #C47335;         /* saffron focus ring */
 
-  /* Chart palette */
-  --chart-1: #C47335;
-  --chart-2: #5B7B9A;
-  --chart-3: #B8860B;
-  --chart-4: #4A7C59;
-  --chart-5: #8B3A3A;
+  --chart-1: #C47335; --chart-2: #5B7B9A; --chart-3: #B8860B;
+  --chart-4: #4A7C59; --chart-5: #8B3A3A;
 
-  /* Sidebar — warm off-white with kolam dot motif */
-  --sidebar: #FAFAF8;
-  --sidebar-foreground: #1A1F2E;
-  --sidebar-primary: #2C3E50;
+  --sidebar:               #FAFAF8;
+  --sidebar-foreground:    #1A1F2E;
+  --sidebar-primary:       #1A1F2E;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F0EDE6;
+  --sidebar-accent:        #F0EDE6;
   --sidebar-accent-foreground: #1A1F2E;
-  --sidebar-border: #E5E7EB;
-  --sidebar-ring: #C47335;
+  --sidebar-border:        #E5E7EB;
+  --sidebar-ring:          #C47335;
+
+  /* Border width tokens */
+  --bw-card:   1px;
+  --bw-button: 1.5px;
 }
 
+/* ═══════════════════════════════════════════════════════
+   BASE LAYER
+   ═══════════════════════════════════════════════════════ */
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground antialiased; }
+  html { @apply font-sans; }
+
+  /* ── Kolam dot-grid sidebar background ── */
+  .sidebar-kolam {
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='0.7' fill='%23D4C5A9' opacity='0.35'/%3E%3C/svg%3E");
+  }
+
+  /* ── Saffron heading underline ── */
+  .heading-kolam {
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(to right, #C47335 0%, #C47335 18%, #E5E7EB 18%, #E5E7EB 100%) 1;
+  }
+
+  /* ── Decision banner (flat, left border, no shadow) ── */
+  .decision-banner {
+    @apply relative rounded-sm p-5 border-l-4;
+    background: none;
+    box-shadow: none;
+  }
+  .decision-banner::before { content: none; }
+
+  /* ── Kolam ornament divider ── */
+  .kolam-ornament {
+    @apply text-center my-4 opacity-35 leading-none;
+  }
+
+  /* ── Uppercase eyebrow label ── */
+  .eyebrow {
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  /* ── Stat metric (48px, weight 400, -1.44px tracking) ── */
+  .stat-metric {
+    font-family: var(--font-inter);
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 44px;
+    letter-spacing: -1.2px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Prose body (Source Serif 4) ── */
+  .body-prose {
+    font-family: var(--font-source-serif);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  /* ── Section header (Inter, weight 400) ── */
+  .section-heading {
+    font-family: var(--font-inter);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: -0.6px;
+  }
+
+  /* ── Card: hairline border, no shadow, 10px radius ── */
+  .design-card {
+    background: #FFFFFF;
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: none;
+  }
+
+  /* ── Pill button (ink fill + saffron border) ── */
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--color-ink);
+    color: #FFFFFF;
+    border: 1.5px solid var(--color-saffron);
+    border-radius: 9999px;
+    padding: 8px 20px;
+    font-family: var(--font-inter);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0;
+    transition: all 0.2s ease;
+    box-shadow: none;
+    cursor: pointer;
+  }
+  .btn-pill:hover {
+    background: #2D3348;
+    border-color: var(--color-ink);
+  }
+  .btn-pill-secondary {
+    background: transparent;
+    color: var(--color-ink);
+  }
+  .btn-pill-secondary:hover {
+    background: var(--color-ink);
+    color: #FFFFFF;
+    border-color: var(--color-ink);
+  }
+
+  /* ── Dark band (single editorial island) ── */
+  .dark-band {
+    background: var(--color-surface-dim);
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: 40px 32px;
+  }
+
+  /* ── Text highlight (saffron inline mark) ── */
+  .saffron-mark {
+    background: rgba(196, 115, 53, 0.15);
+    color: var(--color-saffron);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+
+  /* ── Input: tight 4px radius, hairline border ── */
+  .design-input {
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--color-hairline);
+    padding: 6px 12px;
+    height: 38px;
+    font-size: 14px;
+    font-family: var(--font-inter);
+    box-shadow: none;
+  }
+
+  /* ── Segmented fuel tabs ── */
+  .fuel-tab-active {
+    background: var(--color-saffron);
+    color: #FFFFFF;
+    border-radius: 9999px;
+    box-shadow: none;
+  }
+  .fuel-tab-inactive {
+    background: transparent;
+    color: var(--color-ink-muted);
+    border: 1px solid var(--color-hairline);
+    border-radius: 9999px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   DARK MODE (minimal overrides)
+   ═══════════════════════════════════════════════════════ */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -121,10 +302,8 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
+  --chart-1: oklch(0.87 0 0); --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0); --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
@@ -134,47 +313,4 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
-  }
-
-  /* Kolam dot-grid sidebar background */
-  .sidebar-kolam {
-    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='0.7' fill='%23D4C5A9' opacity='0.35'/%3E%3C/svg%3E");
-  }
-
-  /* Saffron heading underline — like the first stroke of a kolam */
-  .heading-kolam {
-    border-bottom: 2px solid transparent;
-    border-image: linear-gradient(to right, #C47335 0%, #C47335 15%, #E5E7EB 15%, #E5E7EB 100%) 1;
-  }
-
-  /* Decision banner — jaali-inspired left border */
-  .decision-banner {
-    @apply relative rounded-sm p-6 mb-6 border-l-4;
-  }
-  .decision-banner::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 0L24 12L12 24L0 12Z' fill='none' stroke='%231A1F2E' stroke-width='0.5'/%3E%3C/svg%3E");
-    background-size: 24px 24px;
-    pointer-events: none;
-    border-radius: 4px;
-  }
-
-  /* Kolam ornament divider */
-  .kolam-ornament {
-    @apply text-center my-4 opacity-35 leading-none;
-  }
 }
