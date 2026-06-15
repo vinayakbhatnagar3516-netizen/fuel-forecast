@@ -109,6 +109,76 @@ export const dailyFinancialSummary = pgTable("daily_financial_summary", {
 });
 
 /**
+ * Cost matrix — editable financial configuration for the pump
+ * Stored as a single JSONB row mirroring config/cost_matrix.json
+ */
+export const costMatrix = pgTable("cost_matrix", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  data: jsonb("data").notNull().$type<CostMatrixData>(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+/**
+ * TypeScript type matching the cost_matrix.json structure
+ */
+export type CostMatrixData = {
+  pump_name: string;
+  location: { latitude: number; longitude: number };
+  costs: {
+    stockout_cost_per_liter: { value: number; description?: string; components?: Record<string, number> };
+    overstock_cost_per_liter_per_day: { value: number; description?: string; components?: Record<string, number> };
+    cost_per_order: { value: number; description?: string };
+  };
+  seasonal_adjustments: Record<string, {
+    months: number[];
+    stockout_multiplier: number;
+    overstock_multiplier: number;
+    notes?: string;
+  }>;
+  by_fuel_grade: Record<string, {
+    commission_per_liter: number;
+    tank_capacity_liters: number;
+    purchase_price_per_liter: number;
+    stockout_cost_per_liter?: number;
+    overstock_cost_per_liter_per_day?: number;
+    contractual_min_annual_liters?: number;
+    evaporation_loss_pct?: number;
+    max_order_size?: number;
+    notes?: string;
+  }>;
+  operational_constraints: {
+    tank_capacity_liters: number;
+    tanker_capacity_liters: number;
+    order_lead_time_days: number;
+    hill_area_allowance_per_liter?: number;
+    min_order_size?: number;
+    max_order_size?: number;
+  };
+  financial: {
+    monthly_opex: { total: number; [key: string]: unknown };
+    non_fuel_monthly_income: { base_value: number; [key: string]: unknown };
+    debt: {
+      term_loan?: { monthly_interest: number; [key: string]: unknown };
+      edfs_working_capital?: { edfs_mclr_rate_pct: number; edfs_credit_days: number; [key: string]: unknown };
+      total_monthly_interest?: number;
+    };
+    cash_invested: { total_cash_outlay: number; [key: string]: unknown };
+    depreciation: { total_daily_non_cash: number; [key: string]: unknown };
+    equity: { net_book_equity: number; working_equity_at_risk: number; [key: string]: unknown };
+    [key: string]: unknown;
+  };
+  decision_parameters: {
+    risk_aversion?: number;
+    policies: Record<string, {
+      quantile_target: number;
+      safety_buffer_liters: number;
+      description?: string;
+    }>;
+  };
+  [key: string]: unknown;
+};
+
+/**
  * Daily order recommendations — 3 policies (conservative, balanced, aggressive)
  */
 export const dailyOrderRecommendation = pgTable("daily_order_recommendation", {

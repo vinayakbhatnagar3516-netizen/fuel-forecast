@@ -4,8 +4,15 @@ import { dailyForecastQuantiles, dailyFinancialSummary, dailyOrderRecommendation
 import { eq, and, sql } from "drizzle-orm";
 import type { DecisionData, MetricCard, Alert, FuelTypeOption } from "@/lib/api-types";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const fuelType = searchParams.get("fuelType") || "combined";
+
+    // Validate fuel type
+    const validFuelTypes = ["combined", "Petrol", "High-Speed Diesel"];
+    const ft = validFuelTypes.includes(fuelType) ? fuelType : "combined";
+
     // Get the latest forecast date from the database
     const latestDateResult = await db
       .select({ maxDate: sql<string>`MAX(forecast_date)` })
@@ -17,14 +24,14 @@ export async function GET() {
       return NextResponse.json(emptyState());
     }
 
-    // Fetch quantile forecast for 'combined' fuel type on the latest date
+    // Fetch quantile forecast
     const forecast = await db
       .select()
       .from(dailyForecastQuantiles)
       .where(
         and(
           eq(dailyForecastQuantiles.forecastDate, latestDate),
-          eq(dailyForecastQuantiles.fuelType, "combined"),
+          eq(dailyForecastQuantiles.fuelType, ft),
         ),
       )
       .limit(1);
@@ -35,14 +42,14 @@ export async function GET() {
 
     const f = forecast[0];
 
-    // Fetch financial summary for the same date (combined)
+    // Fetch financial summary
     const financial = await db
       .select()
       .from(dailyFinancialSummary)
       .where(
         and(
           eq(dailyFinancialSummary.forecastDate, latestDate),
-          eq(dailyFinancialSummary.fuelType, "combined"),
+          eq(dailyFinancialSummary.fuelType, ft),
         ),
       )
       .limit(1);
@@ -54,7 +61,7 @@ export async function GET() {
       .where(
         and(
           eq(dailyOrderRecommendation.forecastDate, latestDate),
-          eq(dailyOrderRecommendation.fuelType, "combined"),
+          eq(dailyOrderRecommendation.fuelType, ft),
         ),
       )
       .orderBy(dailyOrderRecommendation.policy);
