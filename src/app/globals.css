@@ -6,9 +6,8 @@
 
 /* ═══════════════════════════════════════════════════════════
    INDIC DESIGN SYSTEM — Fuel Forecast
-   Patterns: jaali · mandala · toran · mehndi · bandhani · lotus · paisley
-   All opacities raised to 0.2-0.5 — patterns are visible.
-   All overflow clipping removed — patterns render edge-to-edge.
+   Soothing palette: cream · sage · soft terracotta · dusty blue
+   Vintage Freepik patterns at 30-45% opacity — clearly visible.
    ═══════════════════════════════════════════════════════════ */
 
 @theme inline {
@@ -17,19 +16,20 @@
   --font-prose: var(--font-source-serif);
   --font-mono: var(--font-geist-mono);
 
-  --color-saffron:         #C47335;
-  --color-saffron-deep:    #A85F2A;
-  --color-ink:             #1A1F2E;
-  --color-canvas:          #FAFAF8;
-  --color-hairline:        #E5E7EB;
-  --color-hairline-dim:    #D1D5DB;
-  --color-ink-muted:       #64748B;
-  --color-ink-dim:         #94A3B8;
-  --color-sage:            #4A7C59;
-  --color-burgundy:        #8B3A3A;
-  --color-amber:           #946C00;
-  --color-gold:            #DAA520;
-  --color-indigo:          #4A5B7B;
+  /* Soothing Indian palette — muted, calm, warm */
+  --color-saffron:         #C98B5F;  /* soft terracotta (was #C47335) */
+  --color-saffron-deep:    #A8704A;
+  --color-ink:             #2C3440;  /* soft charcoal (was #1A1F2E) */
+  --color-canvas:          #F9F7F4;  /* warm cream */
+  --color-hairline:        #E8E4DD;
+  --color-hairline-dim:    #D5D0C8;
+  --color-ink-muted:       #7A7D85;  /* soft slate */
+  --color-ink-dim:         #A0A4AB;
+  --color-sage:            #5C8A6E;  /* muted sage green */
+  --color-burgundy:        #8F5A5A;  /* dusty rose */
+  --color-amber:           #A0814A;  /* warm gold */
+  --color-gold:            #C4A86A;  /* soft gold */
+  --color-indigo:          #5C6F8A;  /* dusty blue */
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -67,37 +67,37 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   CSS CUSTOM PROPERTIES
+   CSS CUSTOM PROPERTIES — soothing palette
    ═══════════════════════════════════════════════════════════ */
 :root {
-  --background:        #FAFAF8;
-  --foreground:        #1A1F2E;
+  --background:        #F9F7F4;
+  --foreground:        #2C3440;
   --card:              #FFFFFF;
-  --card-foreground:   #1A1F2E;
+  --card-foreground:   #2C3440;
   --popover:           #FFFFFF;
-  --popover-foreground:#1A1F2E;
-  --primary:           #1A1F2E;
+  --popover-foreground:#2C3440;
+  --primary:           #2C3440;
   --primary-foreground:#FFFFFF;
-  --secondary:         #F5F7FA;
-  --secondary-foreground: #1A1F2E;
-  --muted:             #F5F7FA;
-  --muted-foreground:  #64748B;
-  --accent:            #FAF5F0;
-  --accent-foreground: #1A1F2E;
-  --destructive:       #8B3A3A;
-  --border:            #E5E7EB;
-  --input:             #E5E7EB;
-  --ring:              #C47335;
-  --chart-1: #C47335; --chart-2: #5B7B9A; --chart-3: #B8860B;
-  --chart-4: #4A7C59; --chart-5: #8B3A3A;
-  --sidebar:               #FAFAF8;
-  --sidebar-foreground:    #1A1F2E;
-  --sidebar-primary:       #1A1F2E;
+  --secondary:         #F5F3F0;
+  --secondary-foreground: #2C3440;
+  --muted:             #F5F3F0;
+  --muted-foreground:  #7A7D85;
+  --accent:            #F4EFE8;
+  --accent-foreground: #2C3440;
+  --destructive:       #8F5A5A;
+  --border:            #E8E4DD;
+  --input:             #E8E4DD;
+  --ring:              #C98B5F;
+  --chart-1: #C98B5F; --chart-2: #5C6F8A; --chart-3: #C4A86A;
+  --chart-4: #5C8A6E; --chart-5: #8F5A5A;
+  --sidebar:               #F9F7F4;
+  --sidebar-foreground:    #2C3440;
+  --sidebar-primary:       #2C3440;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent:        #F0EDE6;
-  --sidebar-accent-foreground: #1A1F2E;
-  --sidebar-border:        #E5E7EB;
-  --sidebar-ring:          #C47335;
+  --sidebar-accent:        #EFEBE5;
+  --sidebar-accent-foreground: #2C3440;
+  --sidebar-border:        #E8E4DD;
+  --sidebar-ring:          #C98B5F;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -115,41 +115,45 @@
 
   /* ═══════════════ PATTERN BACKGROUNDS ═══════════════ */
 
-  /* Mandala — seamless vintage hand-drawn pattern (sidebar bg) */
+  /* Mandala — vintage hand-drawn, shifted to warm cream via sepia filter.
+     35% opacity so it's clearly visible without overwhelming content. */
   .mandala-bg {
     background-image: url('/patterns/mandala.jpg');
     background-size: 400px 400px;
     background-repeat: repeat;
     background-position: center;
-    opacity: 0.18;
+    filter: sepia(0.15) hue-rotate(-10deg) saturate(0.6);
+    opacity: 0.35;
   }
 
-  /* Mandala light — subtle accent on white cards */
+  /* Mandala light — subtle accent on white cards (22% — visible but gentle) */
   .mandala-light {
     background-image: url('/patterns/mandala.jpg');
     background-size: 300px 300px;
     background-repeat: repeat;
     background-position: center;
-    opacity: 0.07;
+    filter: sepia(0.1) hue-rotate(-5deg) saturate(0.4);
+    opacity: 0.22;
   }
 
-  /* Paisley banner — horizontal header flourish */
-  .paisley-header {
-    background-image: url('/patterns/paisley-banner.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    min-height: 120px;
-    opacity: 0.85;
-  }
-
-  /* Paisley ornament accent — decorative card background */
+  /* Paisley ornament — decorative background, shifted to soft dusty blue-green */
   .paisley-accent-bg {
     background-image: url('/patterns/paisley-ornament.jpg');
     background-size: 400px 400px;
     background-repeat: repeat;
     background-position: center;
-    opacity: 0.08;
+    filter: sepia(0.2) hue-rotate(120deg) saturate(0.5);
+    opacity: 0.28;
+  }
+
+  /* Paisley banner header */
+  .paisley-header {
+    background-image: url('/patterns/paisley-banner.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: sepia(0.15) saturate(0.5);
+    opacity: 0.85;
   }
 
   /* ═══════════════ BORDER / DIVIDER PATTERNS ═══════════════ */
