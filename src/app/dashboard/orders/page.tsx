@@ -11,7 +11,7 @@ export default function OrdersPage() {
       </div>
 
       <Card className="design-card overflow-hidden relative">
-        <div className="mandala-light filter-indigo absolute inset-0 pointer-events-none" />
+        <div className="mandala-light filter-indigo pattern-sparse-tr" />
         <CardHeader className="relative z-10">
           <CardTitle className="section-heading heading-lotus">Current recommendation</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">Run a forecast to get an order recommendation.</CardDescription>
@@ -24,7 +24,7 @@ export default function OrdersPage() {
       </Card>
 
       <Card className="design-card overflow-hidden relative">
-        <div className="paisley-accent-bg filter-indigo absolute inset-0 pointer-events-none" />
+        <div className="paisley-accent-bg filter-indigo pattern-sparse-br" />
         <CardHeader className="relative z-10">
           <CardTitle className="section-heading heading-lotus">Order history</CardTitle>
           <CardDescription className="body-prose text-[13px] text-ink-muted">Past orders and delivery status.</CardDescription>

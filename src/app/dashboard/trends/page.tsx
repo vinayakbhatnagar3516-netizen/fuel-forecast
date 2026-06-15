@@ -12,7 +12,7 @@ export default function TrendsPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="design-card col-span-full overflow-hidden relative">
-          <div className="mandala-light filter-green absolute inset-0 pointer-events-none" />
+          <div className="mandala-light filter-green pattern-sparse-tr" />
           <CardHeader className="relative z-10">
             <CardTitle className="section-heading heading-lotus">Forecast history</CardTitle>
             <CardDescription className="body-prose text-[13px] text-ink-muted">Forecast trend chart will appear here once data is connected.</CardDescription>
@@ -25,7 +25,7 @@ export default function TrendsPage() {
         </Card>
 
         <Card className="design-card overflow-hidden relative">
-          <div className="paisley-accent-bg filter-green absolute inset-0 pointer-events-none" />
+          <div className="paisley-accent-bg filter-green pattern-sparse-tr" />
           <CardHeader className="relative z-10">
             <CardTitle className="section-heading heading-lotus">Temperature</CardTitle>
             <CardDescription className="body-prose text-[13px] text-ink-muted">High and low temperatures</CardDescription>
@@ -38,7 +38,7 @@ export default function TrendsPage() {
         </Card>
 
         <Card className="design-card overflow-hidden relative">
-          <div className="mandala-bg filter-green absolute inset-0 pointer-events-none opacity-20" />
+          <div className="mandala-bg filter-green pattern-sparse-br opacity-20" />
           <CardHeader className="relative z-10">
             <CardTitle className="section-heading heading-lotus">Rainfall</CardTitle>
             <CardDescription className="body-prose text-[13px] text-ink-muted">Daily rainfall in mm</CardDescription>

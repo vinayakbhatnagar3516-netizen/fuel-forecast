@@ -291,12 +291,48 @@
   .saffron-mark { background: rgba(184, 149, 106, 0.2); color: #B8956A; padding: 1px 4px; border-radius: 2px; }
 
   /* ═══════════════ PATTERN COLOUR VARIANTS ═══════════════
-     Apply to pattern background divs to shift JPG colours
-     without changing the source image. One group per page.
+     Stronger, more distinct hues. One group per page.
      ═══════════════════════════════════════════════════════ */
-  .filter-indigo { filter: sepia(0.35) hue-rotate(190deg) saturate(0.55) brightness(0.9); }
-  .filter-green  { filter: sepia(0.45) hue-rotate(70deg) saturate(0.45) brightness(0.85); }
-  .filter-brown  { filter: sepia(0.55) saturate(0.6) brightness(0.9); }
+  .filter-indigo { filter: sepia(0.4) hue-rotate(200deg) saturate(0.7) brightness(0.85); }
+  .filter-green  { filter: sepia(0.5) hue-rotate(75deg) saturate(0.6) brightness(0.8); }
+  .filter-brown  { filter: sepia(0.6) saturate(0.65) brightness(0.88); }
+
+  /* ═══════════════ SPARSE / OFFSET PATTERNS ═══════════════
+     Patterns pushed to edges so they never obscure text.
+     ═══════════════════════════════════════════════════════ */
+  /* Bottom-right quadrant — faint accent */
+  .pattern-sparse-br {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 55%;
+    height: 50%;
+    opacity: 0.12;
+    pointer-events: none;
+    mask-image: linear-gradient(to top left, black 30%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top left, black 30%, transparent 100%);
+  }
+  /* Top-right corner — gentle flourish */
+  .pattern-sparse-tr {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 45%;
+    height: 45%;
+    opacity: 0.14;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom left, black 35%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom left, black 35%, transparent 100%);
+  }
+  /* Full card but gradient-faded — dense at edges, clear at centre */
+  .pattern-fade-edge {
+    position: absolute;
+    inset: 0;
+    opacity: 0.20;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, transparent 30%, black 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, transparent 30%, black 80%);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════

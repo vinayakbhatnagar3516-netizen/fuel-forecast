@@ -85,7 +85,7 @@ function SettingsSection({ title, description, children, onSave, saving }: {
 }) {
   return (
     <Card className="design-card shadow-none overflow-hidden relative">
-      <div className="mandala-light absolute inset-0 pointer-events-none opacity-60" />
+      <div className="mandala-light pattern-sparse-br" />
       <div className="relative z-10">
       <CardHeader className="pb-4">
         <CardTitle className="section-heading font-[family-name:var(--font-inter)]">{title}</CardTitle>

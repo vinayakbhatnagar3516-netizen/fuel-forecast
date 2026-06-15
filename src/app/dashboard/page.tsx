@@ -94,7 +94,7 @@ function StatCard({ value, unit, label, description, accent }: {
   return (
     <Card className="design-card hover:border-hairline-dim transition-colors relative overflow-hidden">
       {/* paisley ornament background */}
-      <div className="paisley-accent-bg absolute inset-0 pointer-events-none" />
+      <div className="paisley-accent-bg pattern-sparse-tr absolute inset-0 pointer-events-none" />
       <CardHeader className="pb-1.5">
         <CardTitle className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">{label}</CardTitle>
       </CardHeader>
@@ -114,7 +114,7 @@ function PnLCard({ label, value, unit, accent }: { label: string; value: string;
     : accent === "green" ? "text-sage" : accent === "amber" ? "text-amber" : "text-burgundy";
   return (
     <Card className="design-card overflow-hidden relative">
-      <div className="mandala-light absolute inset-0 pointer-events-none" />
+      <div className="mandala-light pattern-fade-edge absolute inset-0 pointer-events-none" />
       <CardHeader className="pb-1.5">
         <CardTitle className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">{label}</CardTitle>
       </CardHeader>
