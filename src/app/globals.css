@@ -70,33 +70,33 @@
    CSS CUSTOM PROPERTIES — soothing palette
    ═══════════════════════════════════════════════════════════ */
 :root {
-  --background:        #F9F7F4;
+  --background:        #F0E6DD;  /* soft terracotta cream */
   --foreground:        #2C3440;
-  --card:              #FFFFFF;
+  --card:              #FDFBF8;  /* warm white */
   --card-foreground:   #2C3440;
-  --popover:           #FFFFFF;
+  --popover:           #FDFBF8;
   --popover-foreground:#2C3440;
   --primary:           #2C3440;
   --primary-foreground:#FFFFFF;
-  --secondary:         #F5F3F0;
+  --secondary:         #EDE3D8;
   --secondary-foreground: #2C3440;
-  --muted:             #F5F3F0;
+  --muted:             #EDE3D8;
   --muted-foreground:  #7A7D85;
-  --accent:            #F4EFE8;
+  --accent:            #E8D9CB;  /* deeper terracotta accent */
   --accent-foreground: #2C3440;
   --destructive:       #8F5A5A;
-  --border:            #E8E4DD;
-  --input:             #E8E4DD;
+  --border:            #E2D8CD;  /* warm border */
+  --input:             #E2D8CD;
   --ring:              #C98B5F;
   --chart-1: #C98B5F; --chart-2: #5C6F8A; --chart-3: #C4A86A;
   --chart-4: #5C8A6E; --chart-5: #8F5A5A;
-  --sidebar:               #F9F7F4;
-  --sidebar-foreground:    #2C3440;
+  --sidebar:               #F0E6DD;
+  --sidebar-foreground:    #1A1A1A;   /* darker text */
   --sidebar-primary:       #2C3440;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent:        #EFEBE5;
-  --sidebar-accent-foreground: #2C3440;
-  --sidebar-border:        #E8E4DD;
+  --sidebar-accent:        #E2D4C5;
+  --sidebar-accent-foreground: #1A1A1A;
+  --sidebar-border:        #E2D8CD;
   --sidebar-ring:          #C98B5F;
 }
 
@@ -199,7 +199,7 @@
 
   /* Flat design card — white with hairline border */
   .design-card {
-    background: #FFFFFF;
+    background: #FDFBF8;
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-md);
     padding: 24px;

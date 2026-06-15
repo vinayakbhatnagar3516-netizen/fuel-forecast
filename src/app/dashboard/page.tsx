@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { DecisionData } from "@/lib/api-types";
-import { MandalaOrnament, LotusDivider, PaisleyAccent } from "@/components/indic-flourishes";
+import { MandalaOrnament, LotusDivider } from "@/components/indic-flourishes";
 
 /* ─── Constants ─── */
 const FUEL_TABS = [
@@ -92,11 +92,9 @@ function StatCard({ value, unit, label, description, accent }: {
   const clr = !accent || accent === "neutral" || !isReal ? "text-ink"
     : accent === "green" ? "text-sage" : accent === "amber" ? "text-amber" : "text-burgundy";
   return (
-    <Card className="design-card hover:border-hairline-dim transition-colors relative">
-      {/* paisley corner accent */}
-      <div className="absolute top-2 right-2 text-saffron">
-        <PaisleyAccent size={14} color="#C47335" opacity={0.16} />
-      </div>
+    <Card className="design-card hover:border-hairline-dim transition-colors relative overflow-hidden">
+      {/* paisley ornament background */}
+      <div className="paisley-accent-bg absolute inset-0 pointer-events-none" />
       <CardHeader className="pb-1.5">
         <CardTitle className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">{label}</CardTitle>
       </CardHeader>
@@ -115,7 +113,8 @@ function PnLCard({ label, value, unit, accent }: { label: string; value: string;
   const clr = !accent || accent === "neutral" || !isReal ? "text-ink"
     : accent === "green" ? "text-sage" : accent === "amber" ? "text-amber" : "text-burgundy";
   return (
-    <Card className="design-card">
+    <Card className="design-card overflow-hidden relative">
+      <div className="mandala-light absolute inset-0 pointer-events-none" />
       <CardHeader className="pb-1.5">
         <CardTitle className="text-[11px] font-semibold text-ink-muted uppercase tracking-widest font-[family-name:var(--font-inter)]">{label}</CardTitle>
       </CardHeader>
@@ -286,6 +285,7 @@ export default function DashboardHome() {
         {/* ── Decision Banner ── */}
         <div className="card-mehndi relative overflow-hidden">
           <div className={`absolute left-0 top-0 bottom-0 w-1 ${bannerBorder.replace('border-l-', 'bg-')}`} />
+          <div className="absolute inset-0 paisley-accent-bg pointer-events-none opacity-40" />
           <div className="pl-4 space-y-2">
             <ActionBadge action={decision.action} />
             <p className="text-lg font-[400] text-ink font-[family-name:var(--font-inter)] leading-snug">{decision.headline}</p>
