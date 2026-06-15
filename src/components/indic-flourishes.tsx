@@ -1,262 +1,301 @@
 /**
- * Indic Flourishes — reusable Indian decorative SVG components
+ * Indic Flourishes — traditional Indian decorative patterns
  *
- * Industry-practice patterns:
- * - Inline SVG with semantic <defs> for reusable gradients/masks
- * - Proper viewBox for responsive scaling
- * - CSS custom-property-driven colors so they adapt to the theme
- * - Subtle opacities (0.04–0.12) so content remains primary
- * - All motifs are traditional Indian designs in the public domain
+ * All motifs are authentic Indian art forms in the public domain.
+ * Built with proper SVG <defs>/<pattern> — scale-responsive, accessible.
+ * Opacities raised to 0.2-0.5 range so patterns are clearly visible.
  */
 
-/*═══════════════════════════════════════════════════════════════════
-  JAALI LATTICE — Mughal geometric pierced-screen pattern
-  Repeating hex-star motif. Use as card background or sidebar.
-  ═══════════════════════════════════════════════════════════════════*/
-export function JaaliPattern({ opacity = 0.06 }: { opacity?: number }) {
+import React from "react";
+
+/*════════════════════════════════════════════════════════════════════════
+  JAALI LATTICE — Mughal hexagonal pierced-screen
+  Dense interlocking octagon + star + connecting lines.
+  Use at opacity 0.08-0.15 for backgrounds, 0.25 for card accents.
+  ════════════════════════════════════════════════════════════════════════*/
+export function JaaliPattern({
+  opacity = 0.12,
+  scale = 1,
+}: {
+  opacity?: number; scale?: number;
+}) {
+  const s = 60 * scale;
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="60" height="60" viewBox="0 0 60 60"
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity, pointerEvents: "none" }}
+      width={s} height={s} viewBox="0 0 60 60"
+      style={{ opacity, position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
       aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
     >
       <defs>
-        <pattern id="jaali" width="60" height="60" patternUnits="userSpaceOnUse">
+        <pattern id="jaali-full" width="60" height="60" patternUnits="userSpaceOnUse">
           {/* outer octagon */}
           <path d="M30 2 L45 8 L54 22 L54 38 L45 52 L30 58 L15 52 L6 38 L6 22 L15 8 Z"
-            fill="none" stroke="currentColor" strokeWidth="0.6" />
+            fill="none" stroke="currentColor" strokeWidth="0.7" />
           {/* inner star */}
-          <path d="M30 12 L38 18 L42 30 L38 42 L30 48 L22 42 L18 30 L22 18 Z"
-            fill="none" stroke="currentColor" strokeWidth="0.4" />
-          {/* center dot */}
-          <circle cx="30" cy="30" r="1.8" fill="currentColor" />
-          {/* corner quarter-stars */}
-          <path d="M2 2 L8 2 L8 8" fill="none" stroke="currentColor" strokeWidth="0.4" />
-          <path d="M58 2 L52 2 L52 8" fill="none" stroke="currentColor" strokeWidth="0.4" />
-          <path d="M2 58 L8 58 L8 52" fill="none" stroke="currentColor" strokeWidth="0.4" />
-          <path d="M58 58 L52 58 L52 52" fill="none" stroke="currentColor" strokeWidth="0.4" />
-          {/* connecting lines */}
-          <line x1="15" y1="8" x2="8" y2="15" stroke="currentColor" strokeWidth="0.3" />
-          <line x1="45" y1="8" x2="52" y2="15" stroke="currentColor" strokeWidth="0.3" />
-          <line x1="15" y1="52" x2="8" y2="45" stroke="currentColor" strokeWidth="0.3" />
-          <line x1="45" y1="52" x2="52" y2="45" stroke="currentColor" strokeWidth="0.3" />
+          <path d="M30 10 L40 16 L44 30 L40 44 L30 50 L20 44 L16 30 L20 16 Z"
+            fill="none" stroke="currentColor" strokeWidth="0.5" />
+          {/* center ring + dot */}
+          <circle cx="30" cy="30" r="3.5" fill="none" stroke="currentColor" strokeWidth="0.5" />
+          <circle cx="30" cy="30" r="1.5" fill="currentColor" />
+          {/* corner stars */}
+          <path d="M2 2 L8 3 L10 8 L7 10 L2 7 Z" fill="none" stroke="currentColor" strokeWidth="0.4" />
+          <path d="M58 2 L52 3 L50 8 L53 10 L58 7 Z" fill="none" stroke="currentColor" strokeWidth="0.4" />
+          <path d="M2 58 L8 57 L10 52 L7 50 L2 53 Z" fill="none" stroke="currentColor" strokeWidth="0.4" />
+          <path d="M58 58 L52 57 L50 52 L53 50 L58 53 Z" fill="none" stroke="currentColor" strokeWidth="0.4" />
+          {/* connecting diagonals */}
+          <line x1="15" y1="8" x2="6" y2="15" stroke="currentColor" strokeWidth="0.4" strokeDasharray="3 2" />
+          <line x1="45" y1="8" x2="54" y2="15" stroke="currentColor" strokeWidth="0.4" strokeDasharray="3 2" />
+          <line x1="15" y1="52" x2="6" y2="45" stroke="currentColor" strokeWidth="0.4" strokeDasharray="3 2" />
+          <line x1="45" y1="52" x2="54" y2="45" stroke="currentColor" strokeWidth="0.4" strokeDasharray="3 2" />
         </pattern>
       </defs>
-      <rect width="100%" height="100%" fill="url(#jaali)" />
+      <rect width="100%" height="100%" fill="url(#jaali-full)" />
     </svg>
   );
 }
 
-/*═══════════════════════════════════════════════════════════════════
-  MANDALA ORNAMENT — South Indian rangoli / kolam
-  8-petal concentric geometric flower. Section divider.
-  ═══════════════════════════════════════════════════════════════════*/
+/*════════════════════════════════════════════════════════════════════════
+  MANDALA — 16-petal concentric rangoli, horizontal orientation
+  ════════════════════════════════════════════════════════════════════════*/
 export function MandalaOrnament({
-  size = 64,
+  size = 100,
   accentColor = "currentColor",
-  opacity = 0.24,
+  opacity = 0.35,
 }: {
   size?: number; accentColor?: string; opacity?: number;
 }) {
+  const cx = size / 2;
+  const cy = size * 0.15;
+  const rings = [0.08, 0.16, 0.26];
+  const petals = 16;
   return (
     <svg
-      width={size} height={size / 4}
-      viewBox={`0 0 ${size} ${size / 4}`}
+      width={size} height={size * 0.3}
+      viewBox={`0 0 ${size} ${size * 0.3}`}
       fill="none" xmlns="http://www.w3.org/2000/svg"
-      style={{ opacity, display: "block" }}
+      style={{ opacity, display: "block", margin: "0 auto" }}
       aria-hidden="true"
     >
-      {/* center circle */}
-      <circle cx={size / 2} cy={size / 8} r={size / 24} fill={accentColor} />
-      {/* petals — 8 equally spaced arcs */}
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => {
-        const rad = (angle * Math.PI) / 180;
-        const cx = size / 2 + Math.cos(rad) * size * 0.18;
-        const cy = size / 8 + Math.sin(rad) * size * 0.18;
-        // skip downward petals — keep ornament horizontal
-        if (angle > 180 && angle < 360) return null;
+      {/* concentric rings */}
+      {rings.map((r, i) => (
+        <circle key={`ring-${i}`} cx={cx} cy={cy} r={size * r}
+          fill="none" stroke={accentColor} strokeWidth={i === 0 ? 0.8 : 0.4}
+          strokeDasharray={i === 2 ? "3 4" : undefined} />
+      ))}
+      {/* petals */}
+      {Array.from({ length: petals }, (_, i) => {
+        const angle = (i / petals) * Math.PI * 2 - Math.PI / 2;
+        const midR = size * 0.19;
+        const px = cx + Math.cos(angle) * midR;
+        const py = cy + Math.sin(angle) * midR;
+        if (py > cy + size * 0.1) return null; // skip downward petals
         return (
-          <circle key={i} cx={cx} cy={cy} r={size / 40} fill={accentColor} />
+          <ellipse key={i} cx={px} cy={py} rx={size * 0.018} ry={size * 0.032}
+            transform={`rotate(${(angle * 180) / Math.PI}, ${px}, ${py})`}
+            fill={accentColor} />
         );
       })}
-      {/* horizontal guide lines */}
-      <line x1={size * 0.05} y1={size / 8} x2={size / 2 - size * 0.12} y2={size / 8}
-        stroke={accentColor} strokeWidth="0.3" strokeDasharray="2 3" />
-      <line x1={size / 2 + size * 0.12} y1={size / 8} x2={size * 0.95} y2={size / 8}
-        stroke={accentColor} strokeWidth="0.3" strokeDasharray="2 3" />
+      {/* center dot */}
+      <circle cx={cx} cy={cy} r={size * 0.025} fill={accentColor} />
+      {/* side guide lines */}
+      <line x1={size * 0.03} y1={cy} x2={cx - size * 0.14} y2={cy}
+        stroke={accentColor} strokeWidth="0.4" strokeDasharray="3 4" />
+      <line x1={cx + size * 0.14} y1={cy} x2={size * 0.97} y2={cy}
+        stroke={accentColor} strokeWidth="0.4" strokeDasharray="3 4" />
     </svg>
   );
 }
 
-/*═══════════════════════════════════════════════════════════════════
-  LOTUS DIVIDER — row of lotus petals as a horizontal section break
-  ═══════════════════════════════════════════════════════════════════*/
-export function LotusDivider({ color = "currentColor", opacity = 0.18 }: {
-  color?: string; opacity?: number;
-}) {
-  const petals = Array.from({ length: 12 }, (_, i) => i);
-  return (
-    <svg
-      width="100%" height="12" viewBox="0 0 480 12" preserveAspectRatio="none"
-      fill="none" xmlns="http://www.w3.org/2000/svg"
-      style={{ opacity, display: "block" }}
-      aria-hidden="true"
-    >
-      <defs>
-        <pattern id="lotus-petal" width="40" height="12" patternUnits="userSpaceOnUse">
-          <path d="M10 10 Q20 0 30 10" fill="none" stroke={color} strokeWidth="0.6" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="12" fill="url(#lotus-petal)" />
-    </svg>
-  );
-}
-
-/*═══════════════════════════════════════════════════════════════════
-  MEHNDI SCROLL — vine-and-leaf border flourish (used on cards)
-  ═══════════════════════════════════════════════════════════════════*/
-export function MehndiScrollBorder({
-  height = 4, color = "currentColor", opacity = 0.22, side = "top",
-}: {
-  height?: number; color?: string; opacity?: number; side?: "top" | "bottom";
-}) {
-  const curls = Array.from({ length: 16 }, (_, i) => i);
-  return (
-    <div
-      style={{
-        height: `${height * 4}px`,
-        opacity,
-        overflow: "hidden",
-        marginBottom: side === "top" ? "12px" : 0,
-        marginTop: side === "bottom" ? "12px" : 0,
-      }}
-      aria-hidden="true"
-    >
-      <svg
-        width="100%" height="16" viewBox="0 0 480 16" preserveAspectRatio="none"
-        fill="none" xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <pattern id="mehndi-scroll" width="30" height="16" patternUnits="userSpaceOnUse">
-            {/* main vine */}
-            <path d="M0 8 Q7.5 2 15 8 Q22.5 14 30 8"
-              fill="none" stroke={color} strokeWidth="0.5" />
-            {/* leaves */}
-            <path d="M5 8 Q3 4 1 5" fill="none" stroke={color} strokeWidth="0.4" />
-            <path d="M10 8 Q8 12 6 11" fill="none" stroke={color} strokeWidth="0.4" />
-            <path d="M20 8 Q22 4 24 5" fill="none" stroke={color} strokeWidth="0.4" />
-            <path d="M25 8 Q27 12 29 11" fill="none" stroke={color} strokeWidth="0.4" />
-            {/* dots */}
-            <circle cx="7.5" cy="8" r="0.6" fill={color} />
-            <circle cx="22.5" cy="8" r="0.6" fill={color} />
-          </pattern>
-        </defs>
-        <rect width="100%" height="16" fill="url(#mehndi-scroll)" />
-      </svg>
-    </div>
-  );
-}
-
-/*═══════════════════════════════════════════════════════════════════
-  PAISLEY ACCENT — small teardrop motif for card corners or bullets
-  ═══════════════════════════════════════════════════════════════════*/
+/*════════════════════════════════════════════════════════════════════════
+  PAISLEY — larger teardrop motif, more ornate
+  ════════════════════════════════════════════════════════════════════════*/
 export function PaisleyAccent({
-  size = 20, color = "currentColor", opacity = 0.3,
+  size = 24, color = "currentColor", opacity = 0.35,
 }: {
   size?: number; color?: string; opacity?: number;
 }) {
   return (
     <svg
-      width={size} height={size} viewBox="0 0 24 24"
+      width={size} height={size * 1.1} viewBox="0 0 28 30"
       fill="none" xmlns="http://www.w3.org/2000/svg"
       style={{ opacity }}
       aria-hidden="true"
     >
+      {/* main teardrop */}
       <path
-        d="M14 22 C18 18 22 12 18 6 C14 2 10 4 10 8 C10 12 14 16 14 22 Z"
-        fill={color}
+        d="M16 26 C22 20 26 10 22 4 C18 0 14 2 14 6 C14 12 18 18 16 26 Z"
+        fill={color} opacity="0.8"
       />
-      <circle cx="13" cy="6" r="2" fill={color} opacity="0.6" />
+      {/* inner highlight */}
+      <path
+        d="M18 22 C22 18 23 12 20 7 C18 4 15 6 15 8 C15 12 17 16 18 22 Z"
+        fill={color} opacity="0.5"
+      />
+      {/* top dot ornament */}
+      <circle cx="20" cy="6" r="2.5" fill={color} opacity="0.7" />
+      <circle cx="20" cy="6" r="1" fill="white" opacity="0.6" />
     </svg>
   );
 }
 
-/*═══════════════════════════════════════════════════════════════════
-  MUGHAL ARCH — pointed arch header accent for decision banners
-  ═══════════════════════════════════════════════════════════════════*/
-export function MughalArch({
-  color = "currentColor", opacity = 0.12,
+/*════════════════════════════════════════════════════════════════════════
+  TORAN BORDER — auspicious mango-leaf + marigold garland
+  Used as a full-width header/footer decorative band.
+  ════════════════════════════════════════════════════════════════════════*/
+export function ToranBorder({
+  color = "currentColor", opacity = 0.3,
 }: {
   color?: string; opacity?: number;
 }) {
   return (
     <svg
-      width="100%" height="24" viewBox="0 0 480 24" preserveAspectRatio="none"
+      width="100%" height="20" viewBox="0 0 480 20" preserveAspectRatio="none"
       fill="none" xmlns="http://www.w3.org/2000/svg"
-      style={{ opacity, position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
+      style={{ opacity, display: "block" }}
       aria-hidden="true"
     >
-      {/* main arch */}
-      <path
-        d="M80 24 L80 8 Q240 -8 400 8 L400 24"
-        fill="none" stroke={color} strokeWidth="1.2"
-      />
-      {/* inner arch line */}
-      <path
-        d="M120 24 L120 12 Q240 4 360 12 L360 24"
-        fill="none" stroke={color} strokeWidth="0.6"
-      />
+      <defs>
+        <pattern id="toran-pattern" width="32" height="20" patternUnits="userSpaceOnUse">
+          {/* mango leaf left */}
+          <path d="M4 16 Q8 6 14 10 Q8 14 4 16 Z" fill={color} opacity="0.5" />
+          {/* mango leaf right */}
+          <path d="M28 16 Q24 6 18 10 Q24 14 28 16 Z" fill={color} opacity="0.5" />
+          {/* marigold center */}
+          <circle cx="16" cy="10" r="3" fill={color} opacity="0.6" />
+          <circle cx="16" cy="10" r="1.2" fill="white" opacity="0.4" />
+          {/* connecting line */}
+          <line x1="0" y1="14" x2="32" y2="14" stroke={color} strokeWidth="0.5" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="20" fill="url(#toran-pattern)" />
     </svg>
   );
 }
 
-/*═══════════════════════════════════════════════════════════════════
-  DIAMOND STRIPE — like a sari border / zari pattern for card edges
-  ═══════════════════════════════════════════════════════════════════*/
-export function DiamondStripe({
-  color = "currentColor", opacity = 0.15, count = 14,
+/*════════════════════════════════════════════════════════════════════════
+  BANDHANI DOTS — Rajasthani tie-dye clustered dot pattern
+  ════════════════════════════════════════════════════════════════════════*/
+export function BandhaniDots({
+  color = "currentColor", opacity = 0.3, density = 12,
 }: {
-  color?: string; opacity?: number; count?: number;
+  color?: string; opacity?: number; density?: number;
 }) {
-  const diamonds = Array.from({ length: count }, (_, i) => i);
-  const spacing = 100 / count;
   return (
-    <div
-      style={{ height: "6px", opacity, overflow: "hidden" }}
+    <svg
+      width="100%" height="100%" viewBox="0 0 60 60"
+      style={{ opacity, position: "absolute", inset: 0, pointerEvents: "none" }}
       aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <svg width="100%" height="6" viewBox="0 0 480 6" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="diamond-stripe" width="34" height="6" patternUnits="userSpaceOnUse">
-            <path d="M17 0 L20 3 L17 6 L14 3 Z" fill={color} />
-          </pattern>
-        </defs>
-        <rect width="100%" height="6" fill="url(#diamond-stripe)" />
-      </svg>
-    </div>
+      <defs>
+        <pattern id="bandhani" width="60" height="60" patternUnits="userSpaceOnUse">
+          {/* cluster of 4 dots */}
+          <circle cx="8" cy="8" r="1.8" fill={color} />
+          <circle cx="14" cy="14" r="1.2" fill={color} opacity="0.6" />
+          <circle cx="6" cy="16" r="1.0" fill={color} opacity="0.5" />
+          <circle cx="16" cy="6" r="1.0" fill={color} opacity="0.5" />
+          {/* repeating clusters */}
+          <circle cx="38" cy="38" r="1.8" fill={color} />
+          <circle cx="44" cy="44" r="1.2" fill={color} opacity="0.6" />
+          <circle cx="36" cy="46" r="1.0" fill={color} opacity="0.5" />
+          <circle cx="46" cy="36" r="1.0" fill={color} opacity="0.5" />
+          {/* offset clusters */}
+          <circle cx="38" cy="8" r="1.4" fill={color} opacity="0.7" />
+          <circle cx="44" cy="6" r="0.9" fill={color} opacity="0.5" />
+          <circle cx="8" cy="38" r="1.4" fill={color} opacity="0.7" />
+          <circle cx="6" cy="44" r="0.9" fill={color} opacity="0.5" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#bandhani)" />
+    </svg>
   );
 }
 
-/*═══════════════════════════════════════════════════════════════════
-  KANTHA STITCH — running stitch border like Bengali embroidery
-  ═══════════════════════════════════════════════════════════════════*/
-export function KanthaStitch({
-  color = "currentColor", opacity = 0.2,
+/*════════════════════════════════════════════════════════════════════════
+  LOTUS DIVIDER — row of blooming lotus petals
+  ════════════════════════════════════════════════════════════════════════*/
+export function LotusDivider({
+  color = "#C47335", opacity = 0.3,
 }: {
   color?: string; opacity?: number;
 }) {
   return (
-    <div style={{ height: "4px", opacity, overflow: "hidden" }} aria-hidden="true">
-      <svg width="100%" height="4" viewBox="0 0 480 4" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="kantha-stitch" width="8" height="4" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="2" x2="5" y2="2" stroke={color} strokeWidth="0.7" />
-            <circle cx="2" cy="2" r="0.4" fill={color} />
-          </pattern>
-        </defs>
-        <rect width="100%" height="4" fill="url(#kantha-stitch)" />
-      </svg>
-    </div>
+    <svg
+      width="100%" height="16" viewBox="0 0 480 16" preserveAspectRatio="none"
+      fill="none" xmlns="http://www.w3.org/2000/svg"
+      style={{ opacity, display: "block" }}
+      aria-hidden="true"
+    >
+      <defs>
+        <pattern id="lotus-div" width="36" height="16" patternUnits="userSpaceOnUse">
+          {/* lotus petal */}
+          <path d="M8 14 Q18 -2 28 14" fill="none" stroke={color} strokeWidth="1" />
+          <path d="M12 14 Q18 2 24 14" fill="none" stroke={color} strokeWidth="0.5" />
+          {/* center dot */}
+          <circle cx="18" cy="14" r="1.2" fill={color} />
+        </pattern>
+      </defs>
+      <rect width="100%" height="16" fill="url(#lotus-div)" />
+    </svg>
+  );
+}
+
+/*════════════════════════════════════════════════════════════════════════
+  MEHNDI VINE — flowing henna scroll with leaves and buds
+  ════════════════════════════════════════════════════════════════════════*/
+export function MehndiScrollBorder({
+  color = "#C47335", opacity = 0.35,
+}: {
+  color?: string; opacity?: number;
+}) {
+  return (
+    <svg
+      width="100%" height="28" viewBox="0 0 480 28" preserveAspectRatio="none"
+      fill="none" xmlns="http://www.w3.org/2000/svg"
+      style={{ opacity, display: "block" }}
+      aria-hidden="true"
+    >
+      <defs>
+        <pattern id="mehndi-vine" width="52" height="28" patternUnits="userSpaceOnUse">
+          {/* main vine — sine wave */}
+          <path d="M0 14 Q13 2 26 14 Q39 26 52 14"
+            fill="none" stroke={color} strokeWidth="0.8" />
+          {/* leaves */}
+          <path d="M8 8 Q3 2 -1 4" fill="none" stroke={color} strokeWidth="0.6" />
+          <path d="M18 20 Q14 25 10 23" fill="none" stroke={color} strokeWidth="0.6" />
+          <path d="M34 8 Q37 2 41 4" fill="none" stroke={color} strokeWidth="0.6" />
+          <path d="M44 20 Q48 25 52 23" fill="none" stroke={color} strokeWidth="0.6" />
+          {/* buds (small circles) */}
+          <circle cx="13" cy="14" r="2.2" fill={color} opacity="0.7" />
+          <circle cx="13" cy="14" r="0.8" fill="white" opacity="0.5" />
+          <circle cx="39" cy="14" r="2.2" fill={color} opacity="0.7" />
+          <circle cx="39" cy="14" r="0.8" fill="white" opacity="0.5" />
+          {/* vine dots */}
+          <circle cx="6" cy="7" r="1.0" fill={color} opacity="0.5" />
+          <circle cx="20" cy="18" r="1.0" fill={color} opacity="0.5" />
+          <circle cx="32" cy="7" r="1.0" fill={color} opacity="0.5" />
+          <circle cx="46" cy="18" r="1.0" fill={color} opacity="0.5" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="28" fill="url(#mehndi-vine)" />
+    </svg>
+  );
+}
+
+/*════════════════════════════════════════════════════════════════════════
+  BORDER DIAMOND STRIPE
+  ════════════════════════════════════════════════════════════════════════*/
+export function DiamondStripe({ color = "#C47335", opacity = 0.3 }: { color?: string; opacity?: number }) {
+  return (
+    <svg width="100%" height="8" viewBox="0 0 480 8" preserveAspectRatio="none" fill="none"
+      style={{ opacity, display: "block" }} aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="diamond-stripe" width="28" height="8" patternUnits="userSpaceOnUse">
+          <path d="M14 0 L17 4 L14 8 L11 4 Z" fill={color} />
+        </pattern>
+      </defs>
+      <rect width="100%" height="8" fill="url(#diamond-stripe)" />
+    </svg>
   );
 }

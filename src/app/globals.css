@@ -6,8 +6,9 @@
 
 /* ═══════════════════════════════════════════════════════════
    INDIC DESIGN SYSTEM — Fuel Forecast
-   Patterns: jaali lattice · mandala · lotus · mehndi · paisley
-   Palette: warm Indian institutional (saffron + ink + canvas)
+   Patterns: jaali · mandala · toran · mehndi · bandhani · lotus · paisley
+   All opacities raised to 0.2-0.5 — patterns are visible.
+   All overflow clipping removed — patterns render edge-to-edge.
    ═══════════════════════════════════════════════════════════ */
 
 @theme inline {
@@ -60,10 +61,8 @@
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
 
-  --radius-xs: 0.25rem;
-  --radius-sm: 0.375rem;
-  --radius-md: 0.625rem;
-  --radius-lg: 1rem;
+  --radius-xs: 0.25rem; --radius-sm: 0.375rem;
+  --radius-md: 0.625rem; --radius-lg: 1rem;
   --radius: var(--radius-md);
 }
 
@@ -89,10 +88,8 @@
   --border:            #E5E7EB;
   --input:             #E5E7EB;
   --ring:              #C47335;
-
   --chart-1: #C47335; --chart-2: #5B7B9A; --chart-3: #B8860B;
   --chart-4: #4A7C59; --chart-5: #8B3A3A;
-
   --sidebar:               #FAFAF8;
   --sidebar-foreground:    #1A1F2E;
   --sidebar-primary:       #1A1F2E;
@@ -104,71 +101,90 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   BASE LAYER
+   BASE LAYER — no overflow:hidden on containers
    ═══════════════════════════════════════════════════════════ */
 @layer base {
   * { @apply border-border outline-ring/50; }
   body { @apply bg-background text-foreground antialiased; }
   html { @apply font-sans; }
 
-  /* ── JAALI LATTICE BACKGROUND (sidebar) ── */
+  /* ── ALL PATTERN CONTAINERS: ensure visible, not clipped ── */
+  [class*="jaali-"],
+  [class*="card-mehndi"],
+  [class*="bandhani-"],
+  .design-card {
+    overflow: visible !important;
+  }
+
+  /* ═══════════════ PATTERN BACKGROUNDS ═══════════════ */
+
+  /* Jaali lattice — sidebar bg, card accent bg. Dense Mughal geometry. */
   .jaali-bg {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M30 2 L45 8 L54 22 L54 38 L45 52 L30 58 L15 52 L6 38 L6 22 L15 8 Z' fill='none' stroke='%23D4C5A9' stroke-width='0.6'/%3E%3Cpath d='M30 12 L38 18 L42 30 L38 42 L30 48 L22 42 L18 30 L22 18 Z' fill='none' stroke='%23D4C5A9' stroke-width='0.4'/%3E%3Ccircle cx='30' cy='30' r='1.8' fill='%23D4C5A9'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cdefs%3E%3Cpattern id='j' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpath d='M30 2 L45 8 L54 22 L54 38 L45 52 L30 58 L15 52 L6 38 L6 22 L15 8 Z' fill='none' stroke='%23D4C5A9' stroke-width='0.8'/%3E%3Cpath d='M30 10 L40 16 L44 30 L40 44 L30 50 L20 44 L16 30 L20 16 Z' fill='none' stroke='%23D4C5A9' stroke-width='0.6'/%3E%3Ccircle cx='30' cy='30' r='3' fill='none' stroke='%23D4C5A9' stroke-width='0.5'/%3E%3Ccircle cx='30' cy='30' r='1.8' fill='%23D4C5A9'/%3E%3C/path%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23j)'/%3E%3C/svg%3E");
     background-size: 60px 60px;
     background-repeat: repeat;
-    background-position: center;
+    opacity: 0.2;
   }
 
-  /* ── JAALI LIGHT (subtle card bg) ── */
+  /* Lighter jaali for white cards */
   .jaali-light {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 4 L58 10 L70 26 L70 54 L58 70 L40 76 L22 70 L10 54 L10 26 L22 10 Z' fill='none' stroke='%23E8E0D4' stroke-width='0.5'/%3E%3Cpath d='M40 18 L48 24 L52 40 L48 56 L40 62 L32 56 L28 40 L32 24 Z' fill='none' stroke='%23E8E0D4' stroke-width='0.35'/%3E%3Ccircle cx='40' cy='40' r='2' fill='%23E8E0D4'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cdefs%3E%3Cpattern id='jl' width='80' height='80' patternUnits='userSpaceOnUse'%3E%3Cpath d='M40 4 L58 10 L70 26 L70 54 L58 70 L40 76 L22 70 L10 54 L10 26 L22 10 Z' fill='none' stroke='%23E8E0D4' stroke-width='0.6'/%3E%3Cpath d='M40 18 L48 24 L52 40 L48 56 L40 62 L32 56 L28 40 L32 24 Z' fill='none' stroke='%23E8E0D4' stroke-width='0.5'/%3E%3Ccircle cx='40' cy='40' r='2.5' fill='%23E8E0D4'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23jl)'/%3E%3C/svg%3E");
     background-size: 80px 80px;
     background-repeat: repeat;
-    background-position: center;
+    opacity: 0.25;
   }
 
-  /* ── PATTERN-LINED CARD — mehndi-scroll border on top ── */
+  /* Bandhani dots — tie-dye clustered dots for warm accent cards */
+  .bandhani-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cdefs%3E%3Cpattern id='bd' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='8' cy='8' r='2' fill='%23C47335' opacity='0.5'/%3E%3Ccircle cx='14' cy='14' r='1.4' fill='%23C47335' opacity='0.4'/%3E%3Ccircle cx='6' cy='16' r='1' fill='%23C47335' opacity='0.35'/%3E%3Ccircle cx='16' cy='6' r='1' fill='%23C47335' opacity='0.35'/%3E%3Ccircle cx='38' cy='38' r='2' fill='%23C47335' opacity='0.5'/%3E%3Ccircle cx='44' cy='44' r='1.4' fill='%23C47335' opacity='0.4'/%3E%3Ccircle cx='36' cy='46' r='1' fill='%23C47335' opacity='0.35'/%3E%3Ccircle cx='46' cy='36' r='1' fill='%23C47335' opacity='0.35'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23bd)'/%3E%3C/svg%3E");
+    background-size: 60px 60px;
+    background-repeat: repeat;
+    opacity: 0.3;
+  }
+
+  /* ═══════════════ BORDER / DIVIDER PATTERNS ═══════════════ */
+
+  /* Toran border — mango leaves + marigold, full width */
+  .toran-top {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='20' viewBox='0 0 480 20' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cpattern id='tor' width='36' height='20' patternUnits='userSpaceOnUse'%3E%3Cpath d='M4 16 Q8 6 14 10 Q8 14 4 16 Z' fill='%23C47335' opacity='0.5'/%3E%3Cpath d='M32 16 Q28 6 22 10 Q28 14 32 16 Z' fill='%23C47335' opacity='0.5'/%3E%3Ccircle cx='18' cy='10' r='3' fill='%23C47335' opacity='0.6'/%3E%3Ccircle cx='18' cy='10' r='1.2' fill='white' opacity='0.4'/%3E%3Cline x1='0' y1='14' x2='36' y2='14' stroke='%23C47335' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='20' fill='url(%23tor)'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 36px 20px;
+    height: 20px;
+    opacity: 0.35;
+  }
+
+  /* Mehndi card scroll — vine border on top of cards */
   .card-mehndi {
-    position: relative;
     border: 1px solid var(--color-hairline);
     border-radius: var(--radius-md);
     background: #FFFFFF;
     box-shadow: none;
-    padding: 24px;
+    padding: 28px 24px 24px;
+    position: relative;
   }
   .card-mehndi::before {
     content: '';
     display: block;
-    height: 4px;
-    margin-bottom: 16px;
-    opacity: 0.22;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='4' preserveAspectRatio='none' viewBox='0 0 480 4'%3E%3Cpath d='M0 2 Q120 -2 240 2 Q360 6 480 2' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3Ccircle cx='60' cy='1.5' r='0.8' fill='%23C47335'/%3E%3Ccircle cx='180' cy='2.5' r='0.8' fill='%23C47335'/%3E%3Ccircle cx='300' cy='1.5' r='0.8' fill='%23C47335'/%3E%3Ccircle cx='420' cy='2.5' r='0.8' fill='%23C47335'/%3E%3C/svg%3E");
+    height: 20px;
+    margin: -8px -8px 16px -8px;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='20' preserveAspectRatio='none' viewBox='0 0 480 20'%3E%3Cdefs%3E%3Cpattern id='mv' width='52' height='20' patternUnits='userSpaceOnUse'%3E%3Cpath d='M0 10 Q13 0 26 10 Q39 20 52 10' fill='none' stroke='%23C47335' stroke-width='1'/%3E%3Ccircle cx='13' cy='10' r='2.5' fill='%23C47335' opacity='0.7'/%3E%3Ccircle cx='13' cy='10' r='1' fill='white' opacity='0.4'/%3E%3Ccircle cx='39' cy='10' r='2.5' fill='%23C47335' opacity='0.7'/%3E%3Ccircle cx='39' cy='10' r='1' fill='white' opacity='0.4'/%3E%3Cpath d='M8 6 Q3 2 0 4' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3Cpath d='M18 14 Q22 18 26 16' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3Cpath d='M34 6 Q36 2 40 4' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3Cpath d='M44 14 Q48 18 52 16' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='20' fill='url(%23mv)'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
-    background-size: auto 4px;
+    background-size: auto 20px;
   }
 
-  /* ── LOTUS-ACCENT HEADING — section title with lotus petals ── */
+  /* Lotus heading accent — petals under section titles */
   .heading-lotus {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='12' viewBox='0 0 40 12'%3E%3Cpath d='M10 10 Q20 0 30 10' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='14' viewBox='0 0 36 14'%3E%3Cdefs%3E%3Cpattern id='lp' width='36' height='14' patternUnits='userSpaceOnUse'%3E%3Cpath d='M8 12 Q18 0 28 12' fill='none' stroke='%23C47335' stroke-width='1.2'/%3E%3Cpath d='M12 12 Q18 3 24 12' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3Ccircle cx='18' cy='12' r='1.5' fill='%23C47335'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='14' fill='url(%23lp)'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: left bottom;
-    background-size: 40px 12px;
-    padding-bottom: 8px;
+    background-size: 36px 14px;
+    padding-bottom: 10px;
   }
 
-  /* ── PAISLEY BULLET — for list items ── */
-  .paisley-bullet::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 8px;
-    margin-right: 6px;
-    background: var(--color-saffron);
-    clip-path: polygon(50% 0%, 0% 50%, 50% 100%, 100% 50%);
-    opacity: 0.6;
-  }
+  /* ═══════════════ COMPONENT CLASSES ═══════════════ */
 
-  /* ── DESIGN CARD — flat card with jaali-light bg ── */
+  /* Flat design card — white with hairline border, jaali interior */
   .design-card {
     background: #FFFFFF;
     border: 1px solid var(--color-hairline);
@@ -176,153 +192,88 @@
     padding: 24px;
     box-shadow: none;
     position: relative;
-    overflow: hidden;
   }
 
-  /* ── Icon-sized paisley accent ── */
-  .paisley-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  /* Top pattern-accented card */
+  .card-accented {
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-md);
+    background: #FFFFFF;
+    box-shadow: none;
+    padding: 24px;
+    position: relative;
+  }
+  .card-accented::before {
+    content: '';
+    display: block;
+    height: 6px;
+    margin: -24px -24px 18px -24px;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    background: var(--color-saffron);
+    opacity: 0.15;
   }
 
-  /* ── Typography utilities ── */
+  /* ═══════════════ TYPOGRAPHY ═══════════════ */
   .eyebrow {
     font-family: var(--font-inter);
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 18px;
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
+    font-size: 13px; font-weight: 600; line-height: 18px;
+    letter-spacing: 1.3px; text-transform: uppercase;
     color: var(--color-ink-muted);
   }
   .stat-metric {
     font-family: var(--font-inter);
-    font-size: 40px;
-    font-weight: 400;
-    line-height: 44px;
-    letter-spacing: -1.2px;
-    font-variant-numeric: tabular-nums;
+    font-size: 40px; font-weight: 400; line-height: 44px;
+    letter-spacing: -1.2px; font-variant-numeric: tabular-nums;
   }
   .body-prose {
     font-family: var(--font-source-serif);
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 24px;
+    font-size: 15px; font-weight: 400; line-height: 24px;
   }
   .section-heading {
     font-family: var(--font-inter);
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 28px;
+    font-size: 20px; font-weight: 400; line-height: 28px;
     letter-spacing: -0.6px;
   }
 
-  /* ── Pill button ── */
+  /* ═══════════════ BUTTONS ═══════════════ */
   .btn-pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: var(--color-ink);
-    color: #FFFFFF;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    background: var(--color-ink); color: #FFFFFF;
     border: 1.5px solid var(--color-saffron);
-    border-radius: 9999px;
-    padding: 8px 20px;
-    font-family: var(--font-inter);
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 18px;
-    transition: all 0.2s ease;
-    box-shadow: none;
-    cursor: pointer;
+    border-radius: 9999px; padding: 8px 20px;
+    font-family: var(--font-inter); font-size: 13px; font-weight: 500; line-height: 18px;
+    transition: all 0.2s ease; box-shadow: none; cursor: pointer;
   }
-  .btn-pill:hover {
-    background: #2D3348;
-    border-color: var(--color-ink);
-  }
-  .btn-pill-secondary {
-    background: transparent;
-    color: var(--color-ink);
-  }
-  .btn-pill-secondary:hover {
-    background: var(--color-ink);
-    color: #FFFFFF;
-    border-color: var(--color-ink);
-  }
+  .btn-pill:hover { background: #2D3348; border-color: var(--color-ink); }
+  .btn-pill-secondary { background: transparent; color: var(--color-ink); }
+  .btn-pill-secondary:hover { background: var(--color-ink); color: #FFFFFF; border-color: var(--color-ink); }
 
-  /* ── Fuel tab ── */
-  .fuel-tab-active {
-    background: var(--color-saffron);
-    color: #FFFFFF;
-    border-radius: 9999px;
-    box-shadow: none;
-  }
-  .fuel-tab-inactive {
-    background: transparent;
-    color: var(--color-ink-muted);
-    border: 1px solid var(--color-hairline);
-    border-radius: 9999px;
-  }
-
-  /* ── Design input ── */
-  .design-input {
-    border-radius: var(--radius-xs);
-    border: 1px solid var(--color-hairline);
-    padding: 6px 12px;
-    height: 38px;
-    font-size: 14px;
-    font-family: var(--font-inter);
-    box-shadow: none;
-  }
-
-  /* ── Saffron mark (inline highlight) ── */
-  .saffron-mark {
-    background: rgba(196, 115, 53, 0.15);
-    color: var(--color-saffron);
-    padding: 1px 4px;
-    border-radius: 2px;
-  }
-
-  /* ── Diamond stripe border ── */
-  .border-diamond {
-    border-bottom: 6px solid transparent;
-    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='6' viewBox='0 0 34 6'%3E%3Crect width='34' height='6' fill='transparent'/%3E%3Cpath d='M17 0 L20 3 L17 6 L14 3 Z' fill='%23C47335'/%3E%3C/svg%3E") 6 repeat;
-    opacity: 0.15;
-  }
+  /* ═══════════════ MISC ═══════════════ */
+  .fuel-tab-active { background: var(--color-saffron); color: #FFFFFF; border-radius: 9999px; box-shadow: none; }
+  .fuel-tab-inactive { background: transparent; color: var(--color-ink-muted); border: 1px solid var(--color-hairline); border-radius: 9999px; }
+  .design-input { border-radius: var(--radius-xs); border: 1px solid var(--color-hairline); padding: 6px 12px; height: 38px; font-size: 14px; font-family: var(--font-inter); box-shadow: none; }
+  .saffron-mark { background: rgba(196, 115, 53, 0.2); color: var(--color-saffron); padding: 1px 4px; border-radius: 2px; }
 }
 
 /* ═══════════════════════════════════════════════════════════
    DARK MODE
    ═══════════════════════════════════════════════════════════ */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --background: oklch(0.145 0 0); --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0); --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0); --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0); --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0); --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0); --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0); --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  --border: oklch(1 0 0 / 10%); --input: oklch(1 0 0 / 15%); --ring: oklch(0.556 0 0);
   --chart-1: oklch(0.87 0 0); --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0); --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
+  --chart-3: oklch(0.439 0 0); --chart-4: oklch(0.371 0 0); --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0); --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%); --sidebar-ring: oklch(0.556 0 0);
 }
