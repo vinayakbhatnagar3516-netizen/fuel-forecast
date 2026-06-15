@@ -216,8 +216,8 @@ export default function DashboardLayout({
           <UserNav />
         </SidebarFooter>
 
-        {/* Escher lattice background */}
-        <div className="escher-lattice absolute inset-0 pointer-events-none" />
+        {/* Mandala vintage pattern background */}
+        <div className="mandala-bg absolute inset-0 pointer-events-none" />
       </Sidebar>
 
       {/* -------- Main Content -------- */}
