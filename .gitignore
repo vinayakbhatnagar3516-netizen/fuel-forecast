@@ -49,4 +49,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-heap.design.md:Zone.Identifier
+
+# OS / downloaded binaries
+*.exe
+*:Zone.Identifier

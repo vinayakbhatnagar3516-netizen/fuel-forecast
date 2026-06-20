@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { weatherData } from "@/db/schema";
 import { desc } from "drizzle-orm";
+import { requireAuth } from "@/lib/auth-guard";
 
 export type WeatherRecord = {
   id: string;
@@ -13,6 +14,9 @@ export type WeatherRecord = {
 };
 
 export async function GET() {
+  const guard = await requireAuth();
+  if (!guard.ok) return guard.response;
+
   try {
     const rows = await db
       .select()

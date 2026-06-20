@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SITE, ROUTES } from "@/lib/constants";
+import { YantraMark, LotusRule } from "@/components/indic-motifs";
 
 /* ------------------------------------------------------------------ */
 /*  Navigation items                                                   */
@@ -50,22 +51,18 @@ const NAV_ITEMS = [
   { href: ROUTES.ORDERS, label: "Orders", icon: Truck },
   { href: ROUTES.SETTINGS, label: "Settings", icon: Settings },
   { href: ROUTES.DIAGNOSTICS, label: "Diagnostics", icon: Activity },
+  { href: ROUTES.ACCOUNT, label: "Account", icon: User },
 ] as const;
 
 /* ------------------------------------------------------------------ */
-/*  Kolam ornament — decorative divider                                */
-/* ------------------------------------------------------------------ */
-
-import { MandalaOrnament, LotusDivider, DiamondStripe } from "@/components/indic-flourishes";
-
-/* ------------------------------------------------------------------ */
-/*  Indic ornaments (replaces kolam)                                   */
+/*  Footer ornament                                                    */
 /* ------------------------------------------------------------------ */
 
 function FooterOrnament() {
   return (
-    <div className="flex flex-col items-center gap-1">
-      <MandalaOrnament size={64} accentColor="#C47335" opacity={0.2} />
+    <div className="flex flex-col items-center gap-2">
+      <YantraMark size={44} color="#C47335" className="opacity-40" />
+      <LotusRule color="#C47335" className="w-16 opacity-60" />
     </div>
   );
 }
@@ -77,6 +74,7 @@ function FooterOrnament() {
 function UserNav() {
   const { user } = useUser();
   const { signOut } = useClerk();
+  const router = useRouter();
 
   const initials = user
     ? `${user.firstName?.charAt(0) ?? ""}${user.lastName?.charAt(0) ?? ""}`
@@ -91,7 +89,7 @@ function UserNav() {
       <DropdownMenuTrigger className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-sidebar-foreground hover:bg-sidebar-accent transition-colors cursor-pointer">
         <Avatar className="size-7">
           <AvatarImage src={user?.imageUrl} />
-          <AvatarFallback className="text-xs bg-[#C47335] text-white">
+          <AvatarFallback className="text-xs bg-saffron text-canvas">
             {initials || "U"}
           </AvatarFallback>
         </Avatar>
@@ -108,16 +106,23 @@ function UserNav() {
         align="start"
         className="w-56 rounded-sm border-border"
       >
-        <DropdownMenuLabel className="font-heading text-sm text-[#1A1F2E]">
+        <DropdownMenuLabel className="font-[family-name:var(--font-inter)] text-sm text-ink">
           {name}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() => window.location.href = ROUTES.SETTINGS}
+          onClick={() => router.push(ROUTES.ACCOUNT)}
           className="cursor-pointer"
         >
           <User className="mr-2 size-4" />
-          Profile & Settings
+          Account
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => router.push(ROUTES.SETTINGS)}
+          className="cursor-pointer"
+        >
+          <Settings className="mr-2 size-4" />
+          Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -140,10 +145,10 @@ function SidebarLogo() {
   return (
     <div className="flex flex-col px-3 py-3">
       <a href={ROUTES.DASHBOARD} className="flex items-center gap-2">
-        <div className="flex size-8 items-center justify-center rounded-sm bg-ink text-white text-sm font-semibold font-[family-name:var(--font-inter)]">
-          FF
+        <div className="flex size-8 items-center justify-center rounded-sm bg-ink text-canvas text-sm font-semibold font-[family-name:var(--font-inter)]">
+          <YantraMark size={24} color="#FAFAF8" />
         </div>
-        <span className="font-[family-name:var(--font-instrument-serif)] text-base font-semibold italic tracking-tight text-[#222]">
+        <span className="font-[family-name:var(--font-instrument-serif)] text-base font-semibold italic tracking-tight text-ink">
           Fuel Forecast
         </span>
       </a>
@@ -179,9 +184,9 @@ export default function DashboardLayout({
         {/* -------- Navigation -------- */}
         <SidebarContent>
           <SidebarGroup>
-              <SidebarGroupLabel className="text-[11px] font-extrabold text-[#222] uppercase tracking-widest font-[family-name:var(--font-inter)]">
-                  Navigation
-                </SidebarGroupLabel>
+            <SidebarGroupLabel className="text-[11px] font-extrabold text-ink uppercase tracking-widest font-[family-name:var(--font-inter)]">
+              Navigation
+            </SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {NAV_ITEMS.map((item) => {
@@ -194,8 +199,8 @@ export default function DashboardLayout({
                         onClick={() => router.push(item.href)}
                         className={`flex items-center gap-3 text-[15px] font-bold font-[family-name:var(--font-inter)] ${
                           isActive
-                            ? "text-[#8B6914] font-extrabold"
-                            : "text-[#222]"
+                            ? "text-saffron font-extrabold"
+                            : "text-ink"
                         }`}
                       >
                         <item.icon className="size-4 shrink-0" />
@@ -215,9 +220,6 @@ export default function DashboardLayout({
         <SidebarFooter>
           <UserNav />
         </SidebarFooter>
-
-        {/* Mandala vintage pattern background */}
-        <div className="mandala-bg absolute inset-0 pointer-events-none" />
       </Sidebar>
 
       {/* -------- Main Content -------- */}

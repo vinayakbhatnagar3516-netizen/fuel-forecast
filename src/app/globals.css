@@ -5,9 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ═══════════════════════════════════════════════════════════
-   INDIC DESIGN SYSTEM — Fuel Forecast
-   Soothing palette: cream · sage · soft terracotta · dusty blue
-   Vintage Freepik patterns at 30-45% opacity — clearly visible.
+   FUEL FORECAST DESIGN SYSTEM
+   heap.design.md tokens adapted for Fuel Forecast.
+   Palette: warm canvas, deep ink, saffron border voltage,
+   Inter (structure) + Source Serif 4 (prose).
    ═══════════════════════════════════════════════════════════ */
 
 @theme inline {
@@ -16,20 +17,21 @@
   --font-prose: var(--font-source-serif);
   --font-mono: var(--font-geist-mono);
 
-  /* Nalanda sandstone palette — aged, scholarly, carved */
-  --color-saffron:         #B8956A;  /* gold leaf on stone */
-  --color-saffron-deep:    #9A7B52;
-  --color-ink:             #3B3228;  /* dark stone inscription */
-  --color-canvas:          #D9C7B0;  /* sandstone wall */
-  --color-hairline:        #C8B9A5;  /* stone joint mortar */
-  --color-hairline-dim:    #B8A890;
-  --color-ink-muted:       #7A6E60;  /* weathered inscription */
-  --color-ink-dim:         #A09588;
-  --color-sage:            #5C7A62;  /* moss on stone */
-  --color-burgundy:        #8B5E5E;  /* aged brick */
-  --color-amber:           #9E8234;  /* old brass */
-  --color-gold:            #B8956A;  /* gold leaf */
-  --color-indigo:          #5A6880;  /* faded manuscript ink */
+  /* Heap/Fuel Forecast tokens — saffron is border & highlight only */
+  --color-saffron:         #C47335;
+  --color-saffron-deep:    #A85F2A;
+  --color-saffron-dark:    #8B4513;
+  --color-ink:             #1A1F2E;
+  --color-canvas:          #FAFAF8;
+  --color-hairline:        #E5E7EB;
+  --color-hairline-dim:    #D1D5DB;
+  --color-ink-muted:       #64748B;
+  --color-ink-dim:         #94A3B8;
+  --color-sage:            #4A7C59;
+  --color-burgundy:        #8B3A3A;
+  --color-amber:           #946C00;
+  --color-gold:            #DAA520;
+  --color-indigo:          #4A5568;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -67,97 +69,91 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   CSS CUSTOM PROPERTIES — soothing palette
+   CSS CUSTOM PROPERTIES
    ═══════════════════════════════════════════════════════════ */
 :root {
-  --background:        #D9C7B0;  /* sandstone wall */
-  --foreground:        #3B3228;  /* dark inscription */
-  --card:              #F2ECE4;  /* carved limestone tablet */
-  --card-foreground:   #3B3228;
-  --popover:           #F2ECE4;
-  --popover-foreground:#3B3228;
-  --primary:           #3B3228;
-  --primary-foreground:#F2ECE4;
-  --secondary:         #E5DDD0;
-  --secondary-foreground: #3B3228;
-  --muted:             #E5DDD0;
-  --muted-foreground:  #7A6E60;
-  --accent:            #DDD2C2;  /* carved recess */
-  --accent-foreground: #3B3228;
-  --destructive:       #8B5E5E;
-  --border:            #C8B9A5;  /* stone mortar */
-  --input:             #C8B9A5;
-  --ring:              #B8956A;  /* gold leaf */
-  --chart-1: #B8956A; --chart-2: #5A6880; --chart-3: #9E8234;
-  --chart-4: #5C7A62; --chart-5: #8B5E5E;
-  --sidebar:               #D9C7B0;
-  --sidebar-foreground:    #3B3228;
-  --sidebar-primary:       #3B3228;
-  --sidebar-primary-foreground: #F2ECE4;
-  --sidebar-accent:        #CDBFA8;  /* tooled stone */
-  --sidebar-accent-foreground: #3B3228;
-  --sidebar-border:        #C8B9A5;
-  --sidebar-ring:          #B8956A;
+  --background:        #FAFAF8;
+  --foreground:        #1A1F2E;
+  --card:              #FFFFFF;
+  --card-foreground:   #1A1F2E;
+  --popover:           #FFFFFF;
+  --popover-foreground:#1A1F2E;
+  --primary:           #1A1F2E;
+  --primary-foreground:#FAFAF8;
+  --secondary:         #F3F4F6;
+  --secondary-foreground: #1A1F2E;
+  --muted:             #F3F4F6;
+  --muted-foreground:  #64748B;
+  --accent:            #F3F4F6;
+  --accent-foreground: #1A1F2E;
+  --destructive:       #8B3A3A;
+  --border:            #E5E7EB;
+  --input:             #E5E7EB;
+  --ring:              #C47335;
+  --chart-1: #C47335; --chart-2: #4A5568; --chart-3: #DAA520;
+  --chart-4: #4A7C59; --chart-5: #8B3A3A;
+  --sidebar:               #FAFAF8;
+  --sidebar-foreground:    #1A1F2E;
+  --sidebar-primary:       #1A1F2E;
+  --sidebar-primary-foreground: #FAFAF8;
+  --sidebar-accent:        #F3F4F6;
+  --sidebar-accent-foreground: #1A1F2E;
+  --sidebar-border:        #E5E7EB;
+  --sidebar-ring:          #C47335;
 }
 
 /* ═══════════════════════════════════════════════════════════
-   BASE LAYER — no overflow:hidden on containers
+   BASE LAYER
    ═══════════════════════════════════════════════════════════ */
 @layer base {
   * { @apply border-border outline-ring/50; }
   body {
     @apply antialiased;
-    /* Indian sandstone — warm, aged, like Nalanda university walls */
-    background-color: #D9C7B0;
+    background-color: #FAFAF8;
+    /* Parchment grain — extremely faint so the canvas stays clean */
     background-image:
-      /* stone grain — micro texture */
-      radial-gradient(circle at 15% 30%, rgba(184, 164, 138, 0.35) 0.8px, transparent 0.8px),
-      radial-gradient(circle at 75% 15%, rgba(161, 140, 115, 0.30) 1px, transparent 1px),
-      radial-gradient(circle at 35% 70%, rgba(194, 176, 152, 0.25) 1.2px, transparent 1.2px),
-      radial-gradient(circle at 90% 60%, rgba(168, 148, 125, 0.28) 0.6px, transparent 0.6px),
-      /* stone block variation — subtle horizontal bands */
-      linear-gradient(180deg, transparent 0%, rgba(196, 178, 155, 0.12) 40%, transparent 70%);
+      radial-gradient(circle at 15% 30%, rgba(26, 31, 46, 0.03) 0.6px, transparent 0.6px),
+      radial-gradient(circle at 75% 15%, rgba(26, 31, 46, 0.025) 0.8px, transparent 0.8px),
+      radial-gradient(circle at 35% 70%, rgba(26, 31, 46, 0.02) 1px, transparent 1px),
+      radial-gradient(circle at 90% 60%, rgba(196, 115, 53, 0.018) 0.8px, transparent 0.8px),
+      linear-gradient(180deg, transparent 0%, rgba(26, 31, 46, 0.012) 40%, transparent 70%);
     background-size: 55px 55px, 80px 80px, 45px 45px, 60px 60px, 100% 100%;
-    color: #3B3228;
+    color: #1A1F2E;
   }
   html { @apply font-sans; }
 
-  /* ── ALL PATTERN CONTAINERS ── */
-  .design-card {
-    overflow: visible;
-  }
+  .design-card { overflow: visible; }
 
-  /* ═══════════════ PATTERN BACKGROUNDS ═══════════════ */
+  /* ═══════════════ PATTERN BACKGROUNDS (toned down) ═══════════════ */
 
-  /* Mandala — vintage hand-drawn, shifted to warm cream via sepia filter.
-     35% opacity so it's clearly visible without overwhelming content. */
+  /* Mandala — vintage hand-drawn, shifted to warm ink. Very quiet. */
   .mandala-bg {
     background-image: url('/patterns/mandala.jpg');
     background-size: 400px 400px;
     background-repeat: repeat;
     background-position: center;
-    filter: sepia(0.15) hue-rotate(-10deg) saturate(0.6);
-    opacity: 0.35;
+    filter: sepia(0.25) saturate(0.35) brightness(1.05);
+    opacity: 0.08;
   }
 
-  /* Mandala light — subtle accent on white cards (22% — visible but gentle) */
+  /* Mandala light — subtle accent on white cards */
   .mandala-light {
     background-image: url('/patterns/mandala.jpg');
     background-size: 300px 300px;
     background-repeat: repeat;
     background-position: center;
-    filter: sepia(0.1) hue-rotate(-5deg) saturate(0.4);
-    opacity: 0.22;
+    filter: sepia(0.2) saturate(0.25) brightness(1.1);
+    opacity: 0.06;
   }
 
-  /* Paisley ornament — decorative background, shifted to soft dusty blue-green */
+  /* Paisley ornament — decorative background, dusty blue-green */
   .paisley-accent-bg {
     background-image: url('/patterns/paisley-ornament.jpg');
     background-size: 400px 400px;
     background-repeat: repeat;
     background-position: center;
-    filter: sepia(0.2) hue-rotate(120deg) saturate(0.5);
-    opacity: 0.28;
+    filter: sepia(0.15) hue-rotate(120deg) saturate(0.35) brightness(1.1);
+    opacity: 0.06;
   }
 
   /* Paisley banner header */
@@ -166,8 +162,8 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    filter: sepia(0.15) saturate(0.5);
-    opacity: 0.85;
+    filter: sepia(0.15) saturate(0.4) brightness(1.05);
+    opacity: 0.65;
   }
 
   /* ═══════════════ BORDER / DIVIDER PATTERNS ═══════════════ */
@@ -178,14 +174,14 @@
     background-repeat: repeat-x;
     background-size: 36px 20px;
     height: 20px;
-    opacity: 0.35;
+    opacity: 0.28;
   }
 
   /* Mehndi card scroll — vine border on top of cards */
   .card-mehndi {
-    border: 1px solid #C8B9A5;
+    border: 1px solid #E5E7EB;
     border-radius: var(--radius-md);
-    background: #F2ECE4;
+    background: #FFFFFF;
     box-shadow: none;
     padding: 24px;
     position: relative;
@@ -196,13 +192,13 @@
     height: 6px;
     margin: -4px -4px 14px -4px;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
-    background: #B8956A;
-    opacity: 0.25;
+    background: #C47335;
+    opacity: 0.18;
   }
 
-  /* Lotus heading accent — gold leaf on stone */
+  /* Lotus heading accent — saffron on canvas */
   .heading-lotus {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='14' viewBox='0 0 36 14'%3E%3Cdefs%3E%3Cpattern id='lp' width='36' height='14' patternUnits='userSpaceOnUse'%3E%3Cpath d='M8 12 Q18 0 28 12' fill='none' stroke='%23B8956A' stroke-width='1.2'/%3E%3Cpath d='M12 12 Q18 3 24 12' fill='none' stroke='%23B8956A' stroke-width='0.6'/%3E%3Ccircle cx='18' cy='12' r='1.5' fill='%23B8956A'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='14' fill='url(%23lp)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='14' viewBox='0 0 36 14'%3E%3Cdefs%3E%3Cpattern id='lp' width='36' height='14' patternUnits='userSpaceOnUse'%3E%3Cpath d='M8 12 Q18 0 28 12' fill='none' stroke='%23C47335' stroke-width='1.2'/%3E%3Cpath d='M12 12 Q18 3 24 12' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3Ccircle cx='18' cy='12' r='1.5' fill='%23C47335'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='14' fill='url(%23lp)'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: left bottom;
     background-size: 36px 14px;
@@ -213,8 +209,8 @@
 
   /* Flat design card — white with hairline border */
   .design-card {
-    background: #F2ECE4;
-    border: 1px solid #C8B9A5;
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
     border-radius: var(--radius-md);
     padding: 24px;
     box-shadow: none;
@@ -223,11 +219,11 @@
 
   /* Carved stone tablet — slightly recessed card */
   .card-carved {
-    background: #EEE5D8;
-    border: 1px solid #C0B098;
+    background: #F8F7F4;
+    border: 1px solid #E5E7EB;
     border-radius: var(--radius-md);
     padding: 24px;
-    box-shadow: inset 0 1px 3px rgba(59, 50, 40, 0.06);
+    box-shadow: inset 0 1px 2px rgba(26, 31, 46, 0.04);
     position: relative;
   }
 
@@ -247,7 +243,7 @@
     margin: -24px -24px 18px -24px;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     background: var(--color-saffron);
-    opacity: 0.15;
+    opacity: 0.12;
   }
 
   /* ═══════════════ TYPOGRAPHY ═══════════════ */
@@ -275,60 +271,100 @@
   /* ═══════════════ BUTTONS ═══════════════ */
   .btn-pill {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    background: #3B3228; color: #F2ECE4;
-    border: 1.5px solid #B8956A;
+    background: #1A1F2E; color: #FAFAF8;
+    border: 1.5px solid #C47335;
     border-radius: 9999px; padding: 8px 20px;
     font-family: var(--font-inter); font-size: 13px; font-weight: 500; line-height: 18px;
     transition: all 0.2s ease; box-shadow: none; cursor: pointer;
   }
-  .btn-pill:hover { background: #4D4236; border-color: #3B3228; }
-  .btn-pill-secondary { background: transparent; color: #3B3228; }
-  .btn-pill-secondary:hover { background: #3B3228; color: #F2ECE4; border-color: #3B3228; }
+  .btn-pill:hover { background: #2D3348; border-color: #1A1F2E; }
+  .btn-pill-secondary { background: transparent; color: #1A1F2E; }
+  .btn-pill-secondary:hover { background: #1A1F2E; color: #FAFAF8; border-color: #1A1F2E; }
 
-  .fuel-tab-active { background: #B8956A; color: #F2ECE4; border-radius: 9999px; box-shadow: none; }
-  .fuel-tab-inactive { background: transparent; color: #7A6E60; border: 1px solid #C8B9A5; border-radius: 9999px; }
-  .design-input { border-radius: var(--radius-xs); border: 1px solid #C8B9A5; padding: 6px 12px; height: 38px; font-size: 14px; font-family: var(--font-inter); box-shadow: none; background: #F2ECE4; }
-  .saffron-mark { background: rgba(184, 149, 106, 0.2); color: #B8956A; padding: 1px 4px; border-radius: 2px; }
+  .fuel-tab-active { background: #C47335; color: #FAFAF8; border-radius: 9999px; box-shadow: none; }
+  .fuel-tab-inactive { background: transparent; color: #64748B; border: 1px solid #E5E7EB; border-radius: 9999px; }
+  .design-input { border-radius: var(--radius-xs); border: 1px solid #E5E7EB; padding: 6px 12px; height: 38px; font-size: 14px; font-family: var(--font-inter); box-shadow: none; background: #FFFFFF; }
+  .saffron-mark { background: rgba(196, 115, 53, 0.12); color: #A85F2A; padding: 1px 4px; border-radius: 2px; }
 
-  /* ═══════════════ PATTERN COLOUR VARIANTS ═══════════════
-     Stronger, more distinct hues. One group per page.
+  /* ═══════════════ REFINED INDIC MOTIFS ═══════════════
+     Ancient geometry modernised: quiet, structural, single-purpose.
      ═══════════════════════════════════════════════════════ */
-  .filter-indigo { filter: sepia(0.4) hue-rotate(200deg) saturate(0.7) brightness(0.85); }
-  .filter-green  { filter: sepia(0.5) hue-rotate(75deg) saturate(0.6) brightness(0.8); }
-  .filter-brown  { filter: sepia(0.6) saturate(0.65) brightness(0.88); }
 
-  /* ═══════════════ SPARSE / OFFSET PATTERNS ═══════════════
-     Patterns pushed to edges so they never obscure text.
-     ═══════════════════════════════════════════════════════ */
-  /* Bottom-right quadrant — faint accent */
+  /* Kolam dot grid — faint mathematical floor pattern */
+  .motif-kolam-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle, #1A1F2E 0.8px, transparent 0.9px),
+      linear-gradient(to right, rgba(196, 115, 53, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(196, 115, 53, 0.08) 1px, transparent 1px);
+    background-size: 40px 40px, 40px 40px, 40px 40px;
+    opacity: 0.12;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+  }
+
+  /* Jaali corner — Mughal pierced-screen as a corner watermark */
+  .motif-jaali-corner {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    pointer-events: none;
+    opacity: 0.08;
+    color: #1A1F2E;
+  }
+
+  /* Lotus rule — horizontal divider */
+  .motif-lotus-rule {
+    height: 12px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='12' viewBox='0 0 48 12'%3E%3Cdefs%3E%3Cpattern id='lr' width='48' height='12' patternUnits='userSpaceOnUse'%3E%3Cpath d='M12 11 Q24 -2 36 11' fill='none' stroke='%23C47335' stroke-width='0.8'/%3E%3Cpath d='M18 11 Q24 2 30 11' fill='none' stroke='%23C47335' stroke-width='0.4'/%3E%3Ccircle cx='24' cy='11' r='1' fill='%23C47335'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='12' fill='url(%23lr)'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 48px 12px;
+    opacity: 0.35;
+  }
+
+  /* Saffron diamond stitch — micro border rhythm */
+  .motif-diamond-stitch {
+    height: 6px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='6' viewBox='0 0 24 6'%3E%3Cdefs%3E%3Cpattern id='ds' width='24' height='6' patternUnits='userSpaceOnUse'%3E%3Cpath d='M12 0 L14 3 L12 6 L10 3 Z' fill='%23C47335' opacity='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='6' fill='url(%23ds)'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 24px 6px;
+    opacity: 0.45;
+  }
+
+  /* Yantra mark — geometric emblem, currentColor driven */
+  .motif-yantra {
+    color: #1A1F2E;
+  }
+
+  /* Sparse / offset patterns */
   .pattern-sparse-br {
     position: absolute;
     right: 0;
     bottom: 0;
     width: 55%;
     height: 50%;
-    opacity: 0.12;
+    opacity: 0.06;
     pointer-events: none;
     mask-image: linear-gradient(to top left, black 30%, transparent 100%);
     -webkit-mask-image: linear-gradient(to top left, black 30%, transparent 100%);
   }
-  /* Top-right corner — gentle flourish */
   .pattern-sparse-tr {
     position: absolute;
     right: 0;
     top: 0;
     width: 45%;
     height: 45%;
-    opacity: 0.14;
+    opacity: 0.08;
     pointer-events: none;
     mask-image: linear-gradient(to bottom left, black 35%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom left, black 35%, transparent 100%);
   }
-  /* Full card but gradient-faded — dense at edges, clear at centre */
   .pattern-fade-edge {
     position: absolute;
     inset: 0;
-    opacity: 0.20;
+    opacity: 0.10;
     pointer-events: none;
     mask-image: radial-gradient(ellipse at center, transparent 30%, black 80%);
     -webkit-mask-image: radial-gradient(ellipse at center, transparent 30%, black 80%);

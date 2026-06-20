@@ -3,8 +3,12 @@ import { db } from "@/db";
 import { dailyForecastQuantiles, dailyFinancialSummary, dailyOrderRecommendation } from "@/db/schema";
 import { eq, and, sql } from "drizzle-orm";
 import type { DecisionData, MetricCard, Alert, FuelTypeOption } from "@/lib/api-types";
+import { requireAuth } from "@/lib/auth-guard";
 
 export async function GET(request: Request) {
+  const guard = await requireAuth();
+  if (!guard.ok) return guard.response;
+
   try {
     const { searchParams } = new URL(request.url);
     const fuelType = searchParams.get("fuelType") || "combined";

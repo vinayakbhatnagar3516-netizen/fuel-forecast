@@ -30,6 +30,7 @@ export const ROUTES = {
   ORDERS: "/dashboard/orders",
   SETTINGS: "/dashboard/settings",
   DIAGNOSTICS: "/dashboard/diagnostics",
+  ACCOUNT: "/dashboard/account",
 } as const;
 
 export const FUEL_TYPES = [

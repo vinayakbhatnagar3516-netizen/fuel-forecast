@@ -3,8 +3,12 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { costMatrix } from "@/db/schema";
 import type { CostMatrixData } from "@/db/schema";
+import { requireAuth } from "@/lib/auth-guard";
 
 export async function GET() {
+  const guard = await requireAuth();
+  if (!guard.ok) return guard.response;
+
   try {
     const rows = await db.select().from(costMatrix).limit(1);
     if (rows.length === 0) {
@@ -18,6 +22,9 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
+  const guard = await requireAuth();
+  if (!guard.ok) return guard.response;
+
   try {
     const data: CostMatrixData = await request.json();
 
