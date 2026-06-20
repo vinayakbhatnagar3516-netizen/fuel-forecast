@@ -8,6 +8,7 @@ import {
   boolean,
   integer,
   date,
+  serial,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -204,5 +205,30 @@ export const dailyOrderRecommendation = pgTable("daily_order_recommendation", {
   expectedCost: decimal("expected_cost", { precision: 12, scale: 2 }).default("0"),
   pStockout: decimal("p_stockout", { precision: 5, scale: 4 }).default("0"),
   fuelType: text("fuel_type").notNull().default("combined"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// ── Historical Data Tables (mirrored from backend ML pipeline) ──
+
+/** Transaction-level sales — referenced by the ML pipeline's feature engineering. */
+export const fuelTransactions = pgTable("fuel_transactions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  transactionId: serial("transaction_id"),
+  transactionDatetime: timestamp("transaction_datetime").notNull(),
+  fuelType: text("fuel_type").notNull(),
+  quantityLiters: decimal("quantity_liters", { precision: 10, scale: 2 }).notNull(),
+  amountInr: decimal("amount_inr", { precision: 10, scale: 2 }).notNull(),
+  paymentMethod: text("payment_method"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+/** Daily aggregated volumes per fuel type — used for feature engineering. */
+export const dailyFuelSummary = pgTable("daily_fuel_summary", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  summaryDate: date("summary_date").notNull(),
+  fuelType: text("fuel_type").notNull(),
+  totalLiters: decimal("total_liters", { precision: 10, scale: 2 }).notNull(),
+  totalTransactions: integer("total_transactions").notNull(),
+  totalRevenue: decimal("total_revenue", { precision: 10, scale: 2 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
