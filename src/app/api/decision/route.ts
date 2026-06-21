@@ -209,7 +209,12 @@ export async function GET(request: Request) {
     } satisfies DecisionData);
   } catch (error) {
     console.error("Decision API error:", error);
-    return NextResponse.json(emptyState());
+    // Return 500 with empty state rather than 200 with empty state —
+    // the client can distinguish "no data" from "server error"
+    return NextResponse.json(
+      { ...emptyState(), _error: "Failed to load decision data" },
+      { status: 500 },
+    );
   }
 }
 

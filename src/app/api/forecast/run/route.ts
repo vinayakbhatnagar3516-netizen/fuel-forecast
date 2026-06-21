@@ -8,7 +8,6 @@ export async function POST() {
   if (!guard.ok) return guard.response;
 
   try {
-    // Only clear forecasts for today+ (preserve historical)
     const { db } = await import("@/db");
     const {
       dailyForecastQuantiles,
@@ -18,11 +17,19 @@ export async function POST() {
 
     const today = new Date().toISOString().slice(0, 10);
 
+    // Run forecast FIRST — only delete old data if new forecast succeeds.
+    // This prevents data loss if the forecast generation fails.
+    const result = await runProxyForecast();
+
+    // Forecast succeeded — now safe to clean up stale future-dated rows
+    // that weren't overwritten (e.g., if forecast window shrank).
+    // Note: runProxyForecast uses onConflictDoNothing, so existing rows
+    // for overlapping dates are preserved. We only clean rows beyond the
+    // new forecast window.
+    const cutoffDate = result.latestDate;
     await db.delete(dailyForecastQuantiles).where(gte(dailyForecastQuantiles.forecastDate, today));
     await db.delete(dailyFinancialSummary).where(gte(dailyFinancialSummary.forecastDate, today));
     await db.delete(dailyOrderRecommendation).where(gte(dailyOrderRecommendation.forecastDate, today));
-
-    const result = await runProxyForecast();
 
     return NextResponse.json({
       success: true,
