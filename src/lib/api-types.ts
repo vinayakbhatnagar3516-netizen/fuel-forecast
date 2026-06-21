@@ -19,6 +19,37 @@ export type FuelTypeOption = {
   active: boolean;
 };
 
+/** A single day's P&L data point for the chart */
+export type PnLHistoryPoint = {
+  date: string;            // "15 Jun"
+  dateFull: string;        // "2026-06-15"
+  dailyProfit: number;
+  commission: number;
+  nonFuel: number;
+  opex: number;
+  cumulative: number;      // running total
+};
+
+export type PolicyRecommendation = {
+  recommendedOrder: string;
+  reorderPoint: string;
+  pStockout: string;
+  orderQuantity: string;
+  expectedCost: string;
+  safetyBuffer: string;
+};
+
+export type OrderRecommendationData = {
+  defaultPolicy: "conservative" | "balanced" | "aggressive";
+  perLiterPrice: string;
+  totalCost: string;
+  policies: {
+    conservative: PolicyRecommendation | null;
+    balanced: PolicyRecommendation | null;
+    aggressive: PolicyRecommendation | null;
+  };
+};
+
 export type DecisionData = {
   decision: {
     action: "BUY" | "SELL" | "HOLD" | "NO_DATA";
@@ -36,7 +67,9 @@ export type DecisionData = {
     pLoss: MetricCard;
     var5: MetricCard;
   };
+  pnlHistory: PnLHistoryPoint[];
   alerts: Alert[];
   fuelTypes: FuelTypeOption[];
   lastUpdated: string | null;
+  orderRecommendation: OrderRecommendationData;
 };

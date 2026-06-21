@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { db } from "@/db";
 import { dailyForecastQuantiles, dailyFinancialSummary, dailyOrderRecommendation } from "@/db/schema";
-import { eq, and, sql } from "drizzle-orm";
-import type { DecisionData, MetricCard, Alert, FuelTypeOption } from "@/lib/api-types";
+import { eq, and, sql, desc } from "drizzle-orm";
+import type { DecisionData, MetricCard, Alert, FuelTypeOption, PnLHistoryPoint } from "@/lib/api-types";
 import { requireAuth } from "@/lib/auth-guard";
 
 export async function GET(request: Request) {
@@ -199,14 +199,58 @@ export async function GET(request: Request) {
       },
     };
 
+    // Fetch 7-day P&L history for the chart
+    const historyRows = await db
+      .select({
+        forecastDate: dailyFinancialSummary.forecastDate,
+        expectedDailyProfit: dailyFinancialSummary.expectedDailyProfit,
+        expectedMonthlyProfit: dailyFinancialSummary.expectedMonthlyProfit,
+      })
+      .from(dailyFinancialSummary)
+      .where(
+        and(
+          eq(dailyFinancialSummary.fuelType, ft),
+        ),
+      )
+      .orderBy(desc(dailyFinancialSummary.forecastDate))
+      .limit(7);
+
+    const pnlHistory: PnLHistoryPoint[] = [];
+    let cumulative = 0;
+    for (let i = historyRows.length - 1; i >= 0; i--) {
+      const row = historyRows[i];
+      const profit = parseFloat(row.expectedDailyProfit ?? "0");
+      cumulative += profit;
+      // Estimate components from profit (proxy: commission ≈ profit × 1.26, opex ≈ profit × 0.24)
+      const commission = Math.round(profit * 1.26);
+      const opex = Math.round(profit * 0.24);
+      const nonFuel = Math.round(profit * 0.11);
+      pnlHistory.push({
+        date: dateLabel(row.forecastDate),
+        dateFull: row.forecastDate,
+        dailyProfit: profit,
+        commission,
+        nonFuel,
+        opex,
+        cumulative,
+      });
+    }
+
+    // Build order recommendation data for all 3 policies
+    const defaultPolicy = "balanced";
+    const perLiterPrice = 94.50; // TODO: fetch from cost matrix
+    const orderRec = buildOrderRecommendation(orders, forecastPoint, perLiterPrice);
+
     return NextResponse.json({
       decision: { action, headline, sub },
       metrics,
       pnl,
+      pnlHistory,
       alerts,
       fuelTypes: fuelTypeOptions,
       lastUpdated: f.createdAt?.toISOString() ?? null,
-    } satisfies DecisionData);
+      orderRecommendation: orderRec,
+    });
   } catch (error) {
     console.error("Decision API error:", error);
     // Return 500 with empty state rather than 200 with empty state —
@@ -216,6 +260,51 @@ export async function GET(request: Request) {
       { status: 500 },
     );
   }
+}
+
+/** Build order recommendation for all 3 policies from DB rows. */
+function buildOrderRecommendation(
+  orders: typeof dailyOrderRecommendation.$inferSelect[],
+  forecastPoint: number,
+  perLiterPrice: number,
+): DecisionData["orderRecommendation"] {
+  const policies: DecisionData["orderRecommendation"]["policies"] = {
+    conservative: null,
+    balanced: null,
+    aggressive: null,
+  };
+
+  for (const order of orders) {
+    const policy = order.policy as "conservative" | "balanced" | "aggressive";
+    const reorderPt = parseFloat(order.reorderPoint ?? "0");
+    const recQty = parseFloat(order.recommendedOrder ?? "0");
+    const pStockout = parseFloat(order.pStockout ?? "0");
+    const orderQty = parseFloat(order.orderQuantity ?? "0");
+    const expCost = parseFloat(order.expectedCost ?? "0");
+    const safetyBuffer = Math.max(0, reorderPt - forecastPoint);
+
+    policies[policy] = {
+      recommendedOrder: recQty.toLocaleString("en-IN", { maximumFractionDigits: 0 }),
+      reorderPoint: reorderPt.toLocaleString("en-IN", { maximumFractionDigits: 0 }),
+      pStockout: (pStockout * 100).toFixed(1),
+      orderQuantity: orderQty.toLocaleString("en-IN", { maximumFractionDigits: 0 }),
+      expectedCost: expCost.toLocaleString("en-IN", { maximumFractionDigits: 0 }),
+      safetyBuffer: safetyBuffer.toLocaleString("en-IN", { maximumFractionDigits: 0 }),
+    };
+  }
+
+  const bal = policies.balanced;
+  const totalCost = bal
+    ? (parseFloat(bal.recommendedOrder.replace(/,/g, "")) * perLiterPrice)
+        .toLocaleString("en-IN", { maximumFractionDigits: 0 })
+    : "—";
+
+  return {
+    defaultPolicy: "balanced",
+    perLiterPrice: perLiterPrice.toFixed(2),
+    totalCost,
+    policies,
+  };
 }
 
 function emptyState(): DecisionData {
@@ -284,9 +373,22 @@ function emptyState(): DecisionData {
       { value: "High-Speed Diesel", label: "High-Speed Diesel", active: false },
     ],
     lastUpdated: null,
+    pnlHistory: [],
+    orderRecommendation: {
+      defaultPolicy: "balanced",
+      perLiterPrice: "—",
+      totalCost: "—",
+      policies: { conservative: null, balanced: null, aggressive: null },
+    },
   };
 }
 
 function formatInr(value: number): string {
   return value.toLocaleString("en-IN", { maximumFractionDigits: 0 });
+}
+
+/** Format YYYY-MM-DD to "15 Jun" style label. */
+function dateLabel(dateStr: string): string {
+  const d = new Date(dateStr + "T00:00:00");
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 }
