@@ -208,6 +208,21 @@ export const dailyOrderRecommendation = pgTable("daily_order_recommendation", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+/**
+ * Async forecast job registry — mirrored by the FastAPI backend so jobs
+ * survive Railway restarts and can be polled across replicas.
+ */
+export const forecastJobs = pgTable("forecast_jobs", {
+  id: uuid("id").primaryKey(),
+  status: text("status").notNull(), // 'pending' | 'running' | 'succeeded' | 'failed'
+  fuelType: text("fuel_type"),
+  requestedBy: text("requested_by"),
+  result: jsonb("result"),
+  error: text("error"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 // ── Historical Data Tables (mirrored from backend ML pipeline) ──
 
 /** Transaction-level sales — referenced by the ML pipeline's feature engineering. */
