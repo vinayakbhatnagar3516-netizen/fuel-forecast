@@ -20,8 +20,9 @@ export default function DiagnosticsPage() {
   const pollCountRef = useRef(0);
 
   useEffect(() => {
-    fetch("/api/forecast/run-backend", { method: "HEAD" })
-      .then(() => setBackendStatus("connected"))
+    fetch("/api/health")
+      .then((r) => r.json())
+      .then((d) => setBackendStatus(d.backend?.ok ? "connected" : "disconnected"))
       .catch(() => setBackendStatus("disconnected"));
   }, []);
   useEffect(() => { return () => { if (pollRef.current) clearInterval(pollRef.current); }; }, []);
