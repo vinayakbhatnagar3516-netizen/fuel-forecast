@@ -164,4 +164,38 @@ export async function setUserRole(
   }
 }
 
+/**
+ * Update a user's email without changing their role.
+ */
+export async function updateUserEmail(
+  clerkUserId: string,
+  email: string,
+): Promise<void> {
+  const existing = await db
+    .select()
+    .from(userRoles)
+    .where(eq(userRoles.clerkUserId, clerkUserId))
+    .limit(1);
+
+  if (existing.length > 0) {
+    await db
+      .update(userRoles)
+      .set({ email, updatedAt: new Date() })
+      .where(eq(userRoles.clerkUserId, clerkUserId));
+  } else {
+    await db.insert(userRoles).values({
+      clerkUserId,
+      email,
+      role: "waitlisted",
+    });
+  }
+}
+
+/**
+ * Delete a user record (used by webhook on user.deleted).
+ */
+export async function deleteUserRole(clerkUserId: string): Promise<void> {
+  await db.delete(userRoles).where(eq(userRoles.clerkUserId, clerkUserId));
+}
+
 type UserRole = "admin" | "member" | "waitlisted";
