@@ -14,17 +14,15 @@ const POLL_INTERVAL_MS = 2000;
 export default function DiagnosticsPage() {
   const [running, setRunning] = useState(false);
   const [job, setJob] = useState<JobResult | null>(null);
-  const [backendUrl, setBackendUrl] = useState("");
+  const [backendStatus, setBackendStatus] = useState<"checking" | "connected" | "disconnected">("checking");
   const [pollTimeout, setPollTimeout] = useState(false);
   const pollRef = useRef<NodeJS.Timeout | null>(null);
   const pollCountRef = useRef(0);
 
   useEffect(() => {
-    // Check Railway backend health
-    fetch("https://fuel-forecast-api-production.up.railway.app/health")
-      .then(r => r.json().catch(() => null))
-      .then(d => setBackendUrl(d?.status === "ok" ? "Connected" : "Not configured"))
-      .catch(() => setBackendUrl("Not configured"));
+    fetch("/api/forecast/run-backend", { method: "HEAD" })
+      .then(() => setBackendStatus("connected"))
+      .catch(() => setBackendStatus("disconnected"));
   }, []);
   useEffect(() => { return () => { if (pollRef.current) clearInterval(pollRef.current); }; }, []);
 
@@ -53,16 +51,24 @@ export default function DiagnosticsPage() {
       const res = await fetch("/api/forecast/run-backend", { method: "POST" });
       const data = await res.json();
       if (!data.success) throw new Error(data.error || "Backend returned failure");
+      setBackendStatus("connected");
       setJob({ jobId: data.jobId, status: data.status, forecastDate: data.forecastDate });
       if (data.status === "pending" || data.status === "running") {
         pollRef.current = setInterval(() => pollJobStatus(data.jobId), POLL_INTERVAL_MS);
       }
     } catch (e) {
       console.error("Forecast run error:", e);
+      setBackendStatus("disconnected");
       setRunning(false);
       setJob({ jobId: "error", status: "failed", error: e instanceof Error ? e.message : "Unknown error" });
     }
   }, [pollJobStatus]);
+
+  const backendBadgeClass = backendStatus === "connected"
+    ? "bg-[rgba(5,150,105,0.1)] text-[#059669]"
+    : "bg-[rgba(217,119,6,0.08)] text-[#d97706]";
+  const backendDotClass = backendStatus === "connected" ? "bg-[#059669]" : "bg-[#d97706]";
+  const backendLabel = backendStatus === "connected" ? "Available" : backendStatus === "checking" ? "Checking..." : "Not configured";
 
   return (
     <div className="space-y-6">
@@ -122,9 +128,9 @@ export default function DiagnosticsPage() {
       <div className="card-slate">
         <div className="flex items-center justify-between mb-3">
           <h3 className="heading-sm">ML Pipeline</h3>
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-semibold ${backendUrl === "Proxy engine ready" ? "bg-[rgba(5,150,105,0.1)] text-[#059669]" : "bg-[rgba(217,119,6,0.08)] text-[#d97706]"}`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${backendUrl === "Proxy engine ready" ? "bg-[#059669]" : "bg-[#d97706]"}`}></span>
-            {backendUrl || "Checking..."}
+          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-semibold ${backendBadgeClass}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${backendDotClass}`}></span>
+            {backendLabel}
           </span>
         </div>
         <p className="text-[12px] text-[#5a626d] mb-3">Generate fresh forecasts using the CatBoost pipeline.</p>
@@ -160,9 +166,9 @@ export default function DiagnosticsPage() {
             <div className="flex items-center justify-between p-2 border border-[#d0d5db] rounded-sm" data-tip="CatBoost ML backend">
               <span className="text-[13px]">ML Backend</span>
               <div className="flex items-center gap-2">
-                <span className={`w-2 h-2 rounded-full ${backendUrl === "Connected" ? "bg-[#059669]" : "bg-[#d97706]"}`}></span>
-                <span className={`text-[12px] font-semibold ${backendUrl === "Connected" ? "text-[#059669]" : "text-[#d97706]"}`}>
-                  {backendUrl === "Connected" ? "Available" : "Not configured"}
+                <span className={`w-2 h-2 rounded-full ${backendDotClass}`}></span>
+                <span className={`text-[12px] font-semibold ${backendStatus === "connected" ? "text-[#059669]" : "text-[#d97706]"}`}>
+                  {backendLabel}
                 </span>
               </div>
             </div>
