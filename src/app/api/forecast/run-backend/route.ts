@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 import { requireAuth } from "@/lib/auth-guard";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8000";
@@ -8,9 +9,9 @@ export async function POST(request: Request) {
   if (!guard.ok) return guard.response;
 
   try {
-    // Get the Clerk session token to pass to the backend
-    const { getToken } = await import("@clerk/nextjs");
-    const token = await getToken({ template: "backend-api" });
+    // Get the Clerk session token to pass to the backend (server-side)
+    const session = await auth();
+    const token = await session.getToken();
 
     // Parse request body
     const body = await request.json().catch(() => ({}));

@@ -3,68 +3,70 @@
 import { UserProfile } from "@clerk/nextjs";
 import { SignOutButton } from "@clerk/nextjs";
 import { LogOut } from "lucide-react";
-
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { LotusRule } from "@/components/indic-motifs";
 
 export default function AccountPage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="eyebrow">Account</p>
-        <h1 className="mt-2 font-[family-name:var(--font-inter)] text-2xl font-normal tracking-tight text-ink">
-          Manage your profile
-        </h1>
-        <p className="mt-1 font-[family-name:var(--font-source-serif)] text-sm text-ink-muted">
-          Update your photo, email, password, and connected accounts.
-        </p>
-        <LotusRule color="#C47335" className="mt-4 w-24" />
+        <div className="page-heading"><span className="accent">My</span> Account</div>
+        <div className="page-sub">Profile · Notifications · Sign out</div>
       </div>
 
-      <Card className="design-card shadow-none overflow-hidden">
-        <CardContent className="p-0">
-          <UserProfile
-            appearance={{
-              elements: {
-                rootBox: "w-full",
-                card: "shadow-none border-0 bg-transparent",
-                navbar: "hidden",
-                pageScrollBox: "p-6",
-                headerTitle: "font-[family-name:var(--font-inter)] text-lg text-ink",
-                headerSubtitle: "font-[family-name:var(--font-source-serif)] text-sm text-ink-muted",
-                formButtonPrimary:
-                  "bg-ink hover:bg-ink/90 text-canvas font-[family-name:var(--font-inter)] text-sm font-medium rounded-sm",
-                formFieldInput:
-                  "border-hairline rounded-sm text-ink focus:border-saffron focus:ring-saffron",
-                footerActionLink: "text-saffron hover:text-saffron-deep",
-                profileSectionTitle: "font-[family-name:var(--font-inter)] text-base text-ink",
-                profileSectionContent: "font-[family-name:var(--font-source-serif)] text-sm text-ink-muted",
-              },
-            }}
-          />
-        </CardContent>
-      </Card>
+      <div className="card-slate overflow-hidden">
+        <UserProfile
+          appearance={{
+            elements: {
+              rootBox: "w-full",
+              card: "shadow-none border-0 bg-transparent",
+              navbar: "hidden",
+              pageScrollBox: "p-6",
+              headerTitle: "font-[family-name:var(--font-inter)] text-lg text-[#1a1d21]",
+              headerSubtitle: "font-[family-name:var(--font-inter)] text-sm text-[#5a626d]",
+              formButtonPrimary: "bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-[family-name:var(--font-inter)] text-sm font-medium rounded-sm",
+              formFieldInput: "border-[#d0d5db] rounded-sm text-[#1a1d21] focus:border-[#2563eb] focus:ring-[#2563eb]",
+              footerActionLink: "text-[#2563eb] hover:text-[#1d4ed8]",
+              profileSectionTitle: "font-[family-name:var(--font-inter)] text-base text-[#1a1d21]",
+              profileSectionContent: "font-[family-name:var(--font-inter)] text-sm text-[#5a626d]",
+            },
+          }}
+        />
+      </div>
 
-      <Card className="design-card shadow-none">
-        <CardContent className="p-6">
-          <h2 className="font-[family-name:var(--font-inter)] text-base font-medium text-ink">
-            Session
-          </h2>
-          <p className="mt-1 font-[family-name:var(--font-source-serif)] text-sm text-ink-muted">
-            Sign out from Fuel Forecast on this device.
-          </p>
-          <SignOutButton redirectUrl="/">
-            <Button
-              variant="outline"
-              className="mt-4 rounded-sm border-burgundy text-burgundy hover:bg-burgundy hover:text-white font-[family-name:var(--font-inter)]"
-            >
-              <LogOut className="mr-2 size-4" />
-              Sign out
-            </Button>
-          </SignOutButton>
-        </CardContent>
-      </Card>
+      {/* Notification Preferences */}
+      <div className="card-accent accent-blue">
+        <h3 className="heading-sm mb-4">Notification Preferences</h3>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between py-2 border-b border-[#e4e8ed]">
+            <span className="text-[13px]">Daily forecast ready</span>
+            <span className="badge badge-green">ON</span>
+          </div>
+          <div className="flex items-center justify-between py-2 border-b border-[#e4e8ed]">
+            <span className="text-[13px]">Stockout alert (≤3 days stock)</span>
+            <span className="badge badge-green">ON</span>
+          </div>
+          <div className="flex items-center justify-between py-2 border-b border-[#e4e8ed]">
+            <span className="text-[13px]">Weekly P&amp;L summary</span>
+            <span className="badge badge-blue">OFF</span>
+          </div>
+          <div className="flex items-center justify-between py-2">
+            <span className="text-[13px]">System health alerts</span>
+            <span className="badge badge-green">ON</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Session */}
+      <div className="card-accent accent-slate">
+        <h3 className="heading-sm mb-2">Session</h3>
+        <p className="text-[13px] text-[#5a626d] mb-3">Sign out from Fuel Forecast on this device.</p>
+        <SignOutButton redirectUrl="/">
+          <Button variant="outline" className="rounded-sm border-[#dc2626] text-[#dc2626] hover:bg-[#dc2626] hover:text-white font-[family-name:var(--font-inter)]">
+            <LogOut className="mr-2 size-4" />
+            Sign out
+          </Button>
+        </SignOutButton>
+      </div>
     </div>
   );
 }

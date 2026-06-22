@@ -20,7 +20,8 @@ vi.mock('@/db', () => ({
 
 // Mock the auth guard
 vi.mock('@/lib/auth-guard', () => ({
-  requireAuth: vi.fn().mockResolvedValue({ ok: true }),
+  requireAuth: vi.fn<(session?: { userId?: string }) => Promise<{ ok: boolean; response?: { status: number }; session?: { userId: string } }>>()
+    .mockResolvedValue({ ok: true as const, session: { userId: 'test-user' } }),
 }));
 
 // Mock Next.js server components

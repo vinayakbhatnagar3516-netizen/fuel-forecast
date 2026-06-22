@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
+import { DashboardAuthGuard } from "@/components/dashboard-auth-guard";
 import {
   LayoutDashboard,
   TrendingUp,
@@ -39,37 +40,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SITE, ROUTES } from "@/lib/constants";
-import { YantraMark, LotusRule } from "@/components/indic-motifs";
-
-/* ------------------------------------------------------------------ */
-/*  Navigation items                                                   */
-/* ------------------------------------------------------------------ */
 
 const NAV_ITEMS = [
   { href: ROUTES.DASHBOARD, label: "Dashboard", icon: LayoutDashboard },
-  { href: ROUTES.TRENDS, label: "Trends", icon: TrendingUp },
+  { href: ROUTES.TRENDS, label: "Forecast", icon: TrendingUp },
   { href: ROUTES.ORDERS, label: "Orders", icon: Truck },
+  { href: ROUTES.DIAGNOSTICS, label: "Model & Health", icon: Activity },
   { href: ROUTES.SETTINGS, label: "Settings", icon: Settings },
-  { href: ROUTES.DIAGNOSTICS, label: "Diagnostics", icon: Activity },
   { href: ROUTES.ACCOUNT, label: "Account", icon: User },
 ] as const;
-
-/* ------------------------------------------------------------------ */
-/*  Footer ornament                                                    */
-/* ------------------------------------------------------------------ */
-
-function FooterOrnament() {
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <YantraMark size={44} color="#C47335" className="opacity-40" />
-      <LotusRule color="#C47335" className="w-16 opacity-60" />
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  User nav — avatar + dropdown in sidebar footer                     */
-/* ------------------------------------------------------------------ */
 
 function UserNav() {
   const { user } = useUser();
@@ -89,7 +68,7 @@ function UserNav() {
       <DropdownMenuTrigger className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-sidebar-foreground hover:bg-sidebar-accent transition-colors cursor-pointer">
         <Avatar className="size-7">
           <AvatarImage src={user?.imageUrl} />
-          <AvatarFallback className="text-xs bg-saffron text-canvas">
+          <AvatarFallback className="text-xs bg-[#2563eb] text-white">
             {initials || "U"}
           </AvatarFallback>
         </Avatar>
@@ -106,7 +85,7 @@ function UserNav() {
         align="start"
         className="w-56 rounded-sm border-border"
       >
-        <DropdownMenuLabel className="font-[family-name:var(--font-inter)] text-sm text-ink">
+        <DropdownMenuLabel className="font-[family-name:var(--font-inter)] text-sm text-[#1a1d21]">
           {name}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -127,7 +106,7 @@ function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => signOut({ redirectUrl: "/" })}
-          className="text-burgundy cursor-pointer"
+          className="text-[#dc2626] cursor-pointer"
         >
           <LogOut className="mr-2 size-4" />
           Sign out
@@ -137,31 +116,23 @@ function UserNav() {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/*  Sidebar logo                                                       */
-/* ------------------------------------------------------------------ */
-
 function SidebarLogo() {
   return (
     <div className="flex flex-col px-3 py-3">
       <a href={ROUTES.DASHBOARD} className="flex items-center gap-2">
-        <div className="flex size-8 items-center justify-center rounded-sm bg-ink text-canvas text-sm font-semibold font-[family-name:var(--font-inter)]">
-          <YantraMark size={24} color="#FAFAF8" />
+        <div className="flex size-8 items-center justify-center rounded-sm bg-[#2563eb] text-white text-sm font-semibold font-[family-name:var(--font-inter)]">
+          F
         </div>
-        <span className="font-[family-name:var(--font-instrument-serif)] text-base font-semibold italic tracking-tight text-ink">
-          Fuel Forecast
+        <span className="font-[family-name:var(--font-inter)] text-base font-semibold tracking-tight text-[#1a1d21]">
+          Fuel Cast
         </span>
       </a>
-      <p className="mt-0.5 text-xs text-ink-muted font-[family-name:var(--font-source-serif)]">
+      <p className="mt-0.5 text-xs text-[#5a626d] font-[family-name:var(--font-inter)]">
         {SITE.tagline}
       </p>
     </div>
   );
 }
-
-/* ------------------------------------------------------------------ */
-/*  Dashboard Layout — the main shell                                  */
-/* ------------------------------------------------------------------ */
 
 export default function DashboardLayout({
   children,
@@ -174,17 +145,15 @@ export default function DashboardLayout({
   return (
     <SidebarProvider defaultOpen={true}>
       <Sidebar variant="sidebar" collapsible="icon">
-        {/* -------- Header -------- */}
         <SidebarHeader>
           <SidebarLogo />
         </SidebarHeader>
 
         <SidebarSeparator />
 
-        {/* -------- Navigation -------- */}
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel className="text-[11px] font-extrabold text-ink uppercase tracking-widest font-[family-name:var(--font-inter)]">
+            <SidebarGroupLabel className="text-[11px] font-extrabold text-[#5a626d] uppercase tracking-widest font-[family-name:var(--font-inter)]">
               Navigation
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -199,8 +168,8 @@ export default function DashboardLayout({
                         onClick={() => router.push(item.href)}
                         className={`flex items-center gap-3 text-[15px] font-bold font-[family-name:var(--font-inter)] ${
                           isActive
-                            ? "text-saffron font-extrabold"
-                            : "text-ink"
+                            ? "text-[#2563eb] font-extrabold"
+                            : "text-[#1a1d21]"
                         }`}
                       >
                         <item.icon className="size-4 shrink-0" />
@@ -216,18 +185,17 @@ export default function DashboardLayout({
 
         <SidebarSeparator />
 
-        {/* -------- Footer: User -------- */}
         <SidebarFooter>
           <UserNav />
         </SidebarFooter>
       </Sidebar>
 
-      {/* -------- Main Content -------- */}
       <SidebarInset>
-        <header className="flex h-14 items-center gap-3 border-b border-hairline bg-canvas px-4">
-          <SidebarTrigger className="text-ink-muted hover:text-foreground" />
+        <DashboardAuthGuard>
+        <header className="flex h-14 items-center gap-3 border-b border-[#d0d5db] bg-[#ffffff] px-4">
+          <SidebarTrigger className="text-[#5a626d] hover:text-[#1a1d21]" />
           <div className="flex-1" />
-          <span className="text-xs text-ink-dim hidden sm:block font-[family-name:var(--font-source-serif)]">
+          <span className="text-xs text-[#8a94a0] hidden sm:block font-[family-name:var(--font-inter)]">
             {SITE.location}
           </span>
         </header>
@@ -236,16 +204,12 @@ export default function DashboardLayout({
           {children}
         </main>
 
-        {/* Footer */}
-        <footer className="border-t border-hairline px-6 py-6">
-          <FooterOrnament />
-          <p className="text-center font-[family-name:var(--font-inter)] text-xs text-ink-dim">
-            {SITE.location}
-          </p>
-          <p className="text-center text-[11px] text-ink-dim mt-0.5 font-[family-name:var(--font-source-serif)]">
-            {SITE.tagline}
+        <footer className="border-t border-[#d0d5db] px-6 py-4">
+          <p className="text-center font-[family-name:var(--font-inter)] text-xs text-[#8a94a0]">
+            {SITE.location} · {SITE.tagline}
           </p>
         </footer>
+        </DashboardAuthGuard>
       </SidebarInset>
     </SidebarProvider>
   );

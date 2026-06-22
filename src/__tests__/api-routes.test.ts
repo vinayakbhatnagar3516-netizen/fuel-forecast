@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+// Helper to build a mock NextResponse-like guard result
+function mockDeniedGuard() {
+  return { ok: false as const, response: { status: 401 } as any };
+}
+
 // Mock the database
 vi.mock('@/db', () => ({
   db: {
@@ -46,14 +51,11 @@ describe('API: /api/forecast/run validation', () => {
 
   it('requires authentication', async () => {
     const { requireAuth } = await import('@/lib/auth-guard');
-    vi.mocked(requireAuth).mockResolvedValueOnce({
-      ok: false,
-      response: new Response(null, { status: 401 }),
-    });
+    vi.mocked(requireAuth).mockResolvedValueOnce(mockDeniedGuard());
 
     const guard = await requireAuth();
     expect(guard.ok).toBe(false);
-    expect(guard.response.status).toBe(401);
+    expect(guard.response!.status).toBe(401);
   });
 
   it('returns success on forecast run', async () => {
@@ -84,10 +86,7 @@ describe('API: /api/decision validation', () => {
 
   it('requires authentication', async () => {
     const { requireAuth } = await import('@/lib/auth-guard');
-    vi.mocked(requireAuth).mockResolvedValueOnce({
-      ok: false,
-      response: new Response(null, { status: 401 }),
-    });
+    vi.mocked(requireAuth).mockResolvedValueOnce(mockDeniedGuard());
 
     const guard = await requireAuth();
     expect(guard.ok).toBe(false);
@@ -137,10 +136,7 @@ describe('API: /api/cost-matrix validation', () => {
 
   it('requires authentication', async () => {
     const { requireAuth } = await import('@/lib/auth-guard');
-    vi.mocked(requireAuth).mockResolvedValueOnce({
-      ok: false,
-      response: new Response(null, { status: 401 }),
-    });
+    vi.mocked(requireAuth).mockResolvedValueOnce(mockDeniedGuard());
 
     const guard = await requireAuth();
     expect(guard.ok).toBe(false);

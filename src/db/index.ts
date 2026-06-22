@@ -10,8 +10,5 @@ if (!DATABASE_URL) {
   );
 }
 
-// Neon HTTP config: enable full results for large queries
-neonConfig.fetchConnectionCache = true;
-
 const sql = neon(DATABASE_URL);
 export const db = drizzle(sql, { schema });

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuel Forecast · Rustic Bold</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:opsz@8..72&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #efe8de; --bg-card: #ffffff; --bg-tint: #e6ddd0; --bg-hover: #dcd0c0;
+  --clay: #c4581e; --clay-bright: #e86d28; --gold: #d4a02b; --gold-bright: #f0b830;
+  --emerald: #1a8a4a; --emerald-bright: #22c55e; --brick: #c22a2a; --brick-bright: #ef4444;
+  --teal: #2a7a6a; --teal-bright: #3bafa0; --slate: #5a6b7a; --slate-bright: #7a8fa0;
+  --ink: #1f1a15; --ink-muted: #6b5a48; --ink-dim: #a6927e;
+  --border: 2px solid #d4c8b8; --radius: 6px; --shadow: 0 2px 8px rgba(31,26,21,0.08);
+  --ff-d: 'DM Serif Display', Georgia, serif; --ff-b: 'Inter', sans-serif; --ff-m: 'JetBrains Mono', monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;-webkit-font-smoothing:antialiased}
+body{font-family:var(--ff-b);color:var(--ink);background:var(--bg);min-height:100vh;overflow-x:hidden}
+
+/* ═══ BOLD MARBLE ═══ */
+body::before{content:'';position:fixed;inset:0;
+  background:
+    /* Deep vein 1 - dark diagonal */
+    linear-gradient(105deg, transparent 0%, transparent 18%, rgba(160,142,120,0.12) 18.5%, transparent 19%, transparent 100%),
+    /* Deep vein 2 - cross grain */
+    linear-gradient(155deg, transparent 0%, transparent 35%, rgba(160,142,120,0.08) 35.5%, transparent 36%, transparent 100%),
+    /* Vein 3 - subtle horizontal */
+    linear-gradient(15deg, transparent 0%, transparent 62%, rgba(140,122,100,0.06) 62.5%, transparent 63.5%, transparent 100%),
+    /* Vein 4 - short accent */
+    linear-gradient(195deg, transparent 0%, transparent 75%, rgba(180,160,140,0.09) 75.5%, transparent 77%, transparent 100%),
+    /* Vein 5 - vertical accent */
+    linear-gradient(85deg, transparent 0%, transparent 48%, rgba(150,130,108,0.05) 48.5%, transparent 50%, transparent 100%),
+    /* Base marble glow 1 */
+    radial-gradient(ellipse 60% 45% at 18% 20%, rgba(200,185,165,0.35) 0%, transparent 55%),
+    /* Base marble glow 2 */
+    radial-gradient(ellipse 50% 35% at 82% 75%, rgba(180,162,140,0.25) 0%, transparent 50%),
+    /* Base marble glow 3 */
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(220,205,185,0.18) 0%, transparent 45%),
+    /* Subtle crystal shimmer */
+    radial-gradient(ellipse 25% 20% at 35% 65%, rgba(240,230,215,0.12) 0%, transparent 40%),
+    radial-gradient(ellipse 20% 15% at 70% 30%, rgba(240,230,215,0.08) 0%, transparent 35%),
+    /* Fine grain texture */
+    repeating-linear-gradient(90deg, transparent 0px, transparent 4px, rgba(160,142,120,0.015) 4px, rgba(160,142,120,0.015) 5px),
+    repeating-linear-gradient(0deg, transparent 0px, transparent 4px, rgba(160,142,120,0.01) 4px, rgba(160,142,120,0.01) 5px);
+  pointer-events:none;z-index:0
+}
+
+.app{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
+
+/* ═══ TOP NAV (from Bold) ═══ */
+.topbar{background:var(--bg-card);border-bottom:var(--border);padding:0 20px;display:flex;align-items:center;height:52px;flex-shrink:0;gap:6px;box-shadow:0 1px 4px rgba(31,26,21,0.05)}
+.topbar-logo{display:flex;align-items:center;gap:10px;margin-right:16px}
+.topbar-logo .mark{width:28px;height:28px;background:var(--clay);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--ff-d);font-size:16px;color:white}
+.topbar-logo span{font-family:var(--ff-d);font-size:17px;color:var(--ink);letter-spacing:-0.01em}
+.topbar-logo span em{font-style:italic;color:var(--clay)}
+.topbar-nav{display:flex;gap:2px;flex:1}
+.topbar-nav button{display:flex;align-items:center;gap:6px;padding:8px 12px;border:none;background:transparent;color:var(--ink-muted);font-size:12px;font-weight:500;cursor:pointer;border-radius:var(--radius);transition:all 0.15s;font-family:var(--ff-b);white-space:nowrap}
+.topbar-nav button svg{width:16px;height:16px;opacity:0.5}
+.topbar-nav button:hover{background:var(--bg-tint);color:var(--ink)}
+.topbar-nav button.active{background:var(--clay);color:white}
+.topbar-nav button.active svg{opacity:1;stroke:white}
+.topbar-right{display:flex;align-items:center;gap:12px;font-size:11px;color:var(--ink-dim)}
+.topbar-right .dot{width:7px;height:7px;border-radius:50%;background:var(--emerald);display:inline-block;box-shadow:0 0 5px rgba(26,138,74,0.3)}
+
+/* ═══ MAIN ═══ */
+.main{flex:1;overflow-y:auto;padding:24px 28px}
+.page{display:none}.page.active{display:block;animation:slideUp 0.2s}
+@keyframes slideUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.page-header{margin-bottom:18px}
+.page-header h1{font-family:var(--ff-d);font-size:24px;font-weight:400;color:var(--ink)}
+.page-header h1 span{color:var(--clay)}
+.page-header p{font-size:12px;color:var(--ink-muted);margin-top:2px}
+
+/* ═══ CARDS (from Bold: colored top strips)  ═══ */
+.card{background:var(--bg-card);border:var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.card-strip{border-top:4px solid;border-radius:var(--radius) var(--radius) var(--radius) var(--radius)}
+.card-strip.clay{border-top-color:var(--clay)}.card-strip.emerald{border-top-color:var(--emerald)}
+.card-strip.gold{border-top-color:var(--gold)}.card-strip.teal{border-top-color:var(--teal)}
+.card-strip.brick{border-top-color:var(--brick)}.card-strip.slate{border-top-color:var(--slate)}
+
+/* ═══ GRIDS ═══ */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.compact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+
+/* ═══ STATS (from Rustic: rounded cards + hover effect) ═══ */
+.stat{background:var(--bg-card);border:var(--border);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);transition:all 0.15s}
+.stat:hover{border-color:var(--clay)}
+.stat-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-dim);margin-bottom:6px}
+.stat-val{font-family:var(--ff-d);font-size:25px;font-weight:400;line-height:1;margin-bottom:2px;color:var(--ink)}
+.stat-val.emerald{color:var(--emerald)}.stat-val.clay{color:var(--clay)}
+.stat-val.brick{color:var(--brick)}.stat-val.gold{color:var(--gold)}
+.stat-meta{font-size:10px;color:var(--ink-dim);font-family:var(--ff-m)}
+
+/* ═══ BANNER ═══ */
+.banner{background:var(--bg-card);border:var(--border);border-radius:var(--radius);padding:18px 22px;margin-bottom:16px;box-shadow:var(--shadow);border-top:4px solid var(--clay)}
+.banner h2{font-family:var(--ff-d);font-size:20px;font-weight:400;color:var(--ink);margin-bottom:4px}
+.banner h2 .hl{color:var(--clay);font-style:italic}
+.banner p{font-size:12px;color:var(--ink-muted)}
+.tag{display:inline-block;font-size:10px;font-weight:600;padding:3px 12px;border-radius:3px;background:var(--clay);color:white;margin-left:8px}
+
+/* ═══ BUTTONS ═══ */
+.btn{padding:9px 22px;border:none;border-radius:var(--radius);font-family:var(--ff-b);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s}
+.btn-primary{background:var(--clay);color:white}.btn-primary:hover{background:#a04a18}
+.btn-outline{background:transparent;border:2px solid #d4c8b8;color:var(--ink)}.btn-outline:hover{border-color:var(--clay);color:var(--clay)}
+
+/* ═══ FUEL PILLS ═══ */
+.fuel-pills{display:flex;gap:4px;margin-bottom:16px}
+.fuel-pill{padding:7px 18px;border:2px solid #d4c8b8;border-radius:6px;font-family:var(--ff-b);font-size:12px;font-weight:600;background:transparent;color:var(--ink-muted);cursor:pointer;transition:all 0.15s}
+.fuel-pill:hover{border-color:var(--clay);color:var(--clay)}
+.fuel-pill.active{background:var(--clay);color:white;border-color:var(--clay)}
+
+/* ═══ POLICY TOGGLES ═══ */
+.policy-pills{display:flex;gap:3px;background:var(--bg-tint);padding:3px;border-radius:6px;width:fit-content}
+.policy-pill{padding:5px 14px;border:none;border-radius:4px;font-family:var(--ff-b);font-size:11px;font-weight:600;background:transparent;color:var(--ink-muted);cursor:pointer;transition:all 0.15s}
+.policy-pill.active{background:var(--bg-card);color:var(--clay);box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+
+/* ═══ HIGH-CONTRAST CHART COLORS ═══ */
+.chart-box{width:100%;height:180px;margin:8px 0}
+.chart-box svg{width:100%;height:100%}.chart-lg{height:220px}
+.chart-legend{display:flex;gap:16px;font-size:10px;font-family:var(--ff-m);color:var(--ink-dim);margin-top:4px}
+
+/* ═══ TABLE ═══ */
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-dim);padding:8px 10px;text-align:left;border-bottom:2px solid #d4c8b8;background:var(--bg-tint)}
+td{padding:8px 10px;border-bottom:1px solid #e6ddd0}
+td.m{font-family:var(--ff-m);font-weight:500}
+td.up{color:var(--emerald-bright);font-weight:600}
+td.dn{color:var(--brick-bright);font-weight:600}
+tr:hover{background:rgba(196,88,30,0.04)}
+
+/* ═══ FORMS ═══ */
+.form-group{margin-bottom:10px}
+.form-group label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-dim);margin-bottom:4px}
+.form-group input,.form-group select{width:100%;padding:9px 10px;background:var(--bg-card);border:2px solid #d4c8b8;border-radius:var(--radius);color:var(--ink);font-size:12px;font-family:var(--ff-b);font-weight:500}
+.form-group input:focus{outline:none;border-color:var(--clay)}
+
+/* ═══ BADGES (high contrast) ═══ */
+.bdg{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:3px 10px;border-radius:3px;font-weight:600}
+.bdg-green{background:rgba(34,197,94,0.15);color:var(--emerald-bright)}
+.bdg-red{background:rgba(239,68,68,0.12);color:var(--brick-bright)}
+.bdg-clay{background:rgba(196,88,30,0.1);color:var(--clay)}
+.bdg-gold{background:rgba(240,184,48,0.12);color:var(--gold-bright)}
+
+/* ═══ LOG LINES ═══ */
+.log-line{font-family:var(--ff-m);font-size:10px;padding:5px 0;border-bottom:1px solid #e6ddd0;color:var(--ink-muted)}
+.log-line .ts{color:var(--ink-dim);font-weight:500}.log-line.er{color:var(--brick-bright);font-weight:600}.log-line.wa{color:var(--gold)}.log-line.ok{color:var(--emerald-bright)}
+
+/* ═══ WEATHER ROW ═══ */
+.weather{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--ink-muted);font-weight:500}
+.weather span{display:flex;align-items:center;gap:4px}
+
+/* ═══ HR ═══ */
+hr{border:none;height:2px;margin:16px 0;background:linear-gradient(to right,transparent,rgba(196,88,30,0.15),transparent)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.topbar-nav button span{display:none}.topbar-nav{gap:0}.main{padding:16px}}
+@media(max-width:600px){.topbar-right{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ═══ TOP NAV ═══ -->
+<header class="topbar">
+  <div class="topbar-logo"><div class="mark">F</div><span>Fuel <em>Forecast</em></span></div>
+  <nav class="topbar-nav">
+    <button class="active" onclick="switchPage('today')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>Today</span></button>
+    <button onclick="switchPage('forecast')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>Forecast</span></button>
+    <button onclick="switchPage('orders')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span>Orders</span></button>
+    <button onclick="switchPage('perf')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Model</span></button>
+    <button onclick="switchPage('pnl')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>P&amp;L</span></button>
+    <button onclick="switchPage('health')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span>Health</span></button>
+    <button onclick="switchPage('settings')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg><span>Settings</span></button>
+    <button onclick="switchPage('account')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Account</span></button>
+  </nav>
+  <div class="topbar-right"><span class="dot"></span><span>Connected</span><span style="color:var(--ink-dim)">·</span><span>21 Jun 2026</span></div>
+</header>
+
+<main class="main">
+
+<!-- ═══════════════ TODAY ═══════════════ -->
+<div id="page-today" class="page active">
+  <div class="page-header"><h1><span>Today's</span> Decision</h1><p>Order recommendation · P&L estimate · Weather · Seasonal alerts</p></div>
+
+  <!-- Weather + Fuel Pills strip -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+    <div class="fuel-pills">
+      <button class="fuel-pill active" onclick="event.stopPropagation()">Combined</button>
+      <button class="fuel-pill" onclick="event.stopPropagation()">Petrol</button>
+      <button class="fuel-pill" onclick="event.stopPropagation()">HSD</button>
+    </div>
+    <div class="weather">
+      <span>☀ 31° / 18°C</span>
+      <span>☔ 2.4 mm</span>
+      <span style="color:var(--emerald-bright)">● Weather synced</span>
+    </div>
+  </div>
+
+  <!-- Decision Banner -->
+  <div class="banner">
+    <h2>Order <span class="hl">6,800 L</span> of Petrol — due tomorrow <span class="tag">Strong confidence</span></h2>
+    <p>q50 forecast: 6,200 L · Safety buffer: 600 L · Tanker in 3 days · Summer peak · Monsoon risk moderate</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid-4">
+    <div class="stat"><div class="stat-lbl">Expected Demand (q50)</div><div class="stat-val clay">6,200 L</div><div class="stat-meta">q05: 5,100 · q95: 7,400</div></div>
+    <div class="stat"><div class="stat-lbl">Current Stock</div><div class="stat-val">18,400 L</div><div class="stat-meta">61% of 30 KL tank</div></div>
+    <div class="stat"><div class="stat-lbl">Days to Stockout</div><div class="stat-val emerald">6 days</div><div class="stat-meta">@ q50 · Min stock: 13d</div></div>
+    <div class="stat"><div class="stat-lbl">Daily Commission</div><div class="stat-val emerald">₹19,840</div><div class="stat-meta">6,200 L × ₹3.20/L</div></div>
+  </div>
+
+  <!-- Order Rec + P&L Chart -->
+  <div class="grid-2">
+    <div class="card card-strip clay">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="font-family:var(--ff-d);font-size:18px;font-weight:400">Order Recommendation</h3>
+        <div class="policy-pills">
+          <button class="policy-pill" onclick="event.stopPropagation()">Conservative</button>
+          <button class="policy-pill active" onclick="event.stopPropagation()">Balanced</button>
+          <button class="policy-pill" onclick="event.stopPropagation()">Aggressive</button>
+        </div>
+      </div>
+      <div style="text-align:center;padding:16px 0">
+        <div style="font-size:44px;font-weight:700;font-family:var(--ff-m);color:var(--clay)">6,800 L</div>
+        <div style="font-size:12px;color:var(--ink-muted);margin-top:4px">at ₹94.50/L · total ₹6,42,600</div>
+      </div>
+      <div class="grid-3" style="margin-bottom:0;text-align:center">
+        <div><div class="stat-lbl">Stockout Risk</div><div style="font-family:var(--ff-m);font-size:18px;color:var(--emerald-bright);font-weight:600">8.4%</div></div>
+        <div><div class="stat-lbl">Reorder Point</div><div style="font-family:var(--ff-m);font-size:18px;font-weight:600">5,400 L</div></div>
+        <div><div class="stat-lbl">Safety Buffer</div><div style="font-family:var(--ff-m);font-size:18px;color:var(--gold);font-weight:600">600 L</div></div>
+      </div>
+    </div>
+
+    <!-- P&L Chart — HIGH CONTRAST BARS -->
+    <div class="card card-strip emerald">
+      <h3 style="font-family:var(--ff-d);font-size:18px;font-weight:400;margin-bottom:8px">P&L Estimate · This Week</h3>
+      <div class="chart-box chart-lg">
+        <svg viewBox="0 0 500 220" preserveAspectRatio="none">
+          <!-- Gridlines -->
+          <line x1="0" y1="44" x2="500" y2="44" stroke="#d4c8b8" stroke-width="1" opacity="0.5"/>
+          <line x1="0" y1="88" x2="500" y2="88" stroke="#d4c8b8" stroke-width="1" opacity="0.5"/>
+          <line x1="0" y1="132" x2="500" y2="132" stroke="#d4c8b8" stroke-width="1" opacity="0.5"/>
+          <line x1="0" y1="176" x2="500" y2="176" stroke="#d4c8b8" stroke-width="1" opacity="0.5"/>
+          <!-- Mon - bright emerald green (profit) -->
+          <rect x="10" y="52" width="50" height="133" fill="rgba(34,197,94,0.55)" rx="3"/>
+          <rect x="10" y="52" width="50" height="133" fill="none" stroke="#22c55e" stroke-width="1.5" rx="3"/>
+          <!-- Tue - bright clay (commission) -->
+          <rect x="75" y="68" width="50" height="117" fill="rgba(232,109,40,0.5)" rx="3"/>
+          <rect x="75" y="68" width="50" height="117" fill="none" stroke="#e86d28" stroke-width="1.5" rx="3"/>
+          <!-- Wed - bright gold (non-fuel) -->
+          <rect x="140" y="88" width="50" height="97" fill="rgba(240,184,48,0.45)" rx="3"/>
+          <rect x="140" y="88" width="50" height="97" fill="none" stroke="#f0b830" stroke-width="1.5" rx="3"/>
+          <!-- Thu - bright red (opex) -->
+          <rect x="205" y="112" width="50" height="73" fill="rgba(239,68,68,0.45)" rx="3"/>
+          <rect x="205" y="112" width="50" height="73" fill="none" stroke="#ef4444" stroke-width="1.5" rx="3"/>
+          <!-- Fri - bright teal -->
+          <rect x="270" y="78" width="50" height="107" fill="rgba(59,175,160,0.45)" rx="3"/>
+          <rect x="270" y="78" width="50" height="107" fill="none" stroke="#3bafa0" stroke-width="1.5" rx="3"/>
+          <!-- Sat - bright emerald -->
+          <rect x="335" y="58" width="50" height="127" fill="rgba(34,197,94,0.55)" rx="3"/>
+          <rect x="335" y="58" width="50" height="127" fill="none" stroke="#22c55e" stroke-width="1.5" rx="3"/>
+          <!-- Sun - bright slate -->
+          <rect x="400" y="95" width="50" height="90" fill="rgba(122,143,160,0.4)" rx="3"/>
+          <rect x="400" y="95" width="50" height="90" fill="none" stroke="#7a8fa0" stroke-width="1.5" rx="3"/>
+          <!-- Day labels -->
+          <text x="30" y="200" font-family="JetBrains Mono,monospace" font-size="7" fill="#a6927e" font-weight="600">Mon</text>
+          <text x="95" y="200" font-family="JetBrains Mono,monospace" font-size="7" fill="#a6927e" font-weight="600">Tue</text>
+          <text x="160" y="200" font-family="JetBrains Mono,monospace" font-size="7" fill="#a6927e" font-weight="600">Wed</text>
+          <text x="225" y="200" font-family="JetBrains Mono,monospace" font-size="7" fill="#a6927e" font-weight="600">Thu</text>
+          <text x="290" y="200" font-family="JetBrains Mono,monospace" font-size="7" fill="#c4581e" font-weight="700">Fri</text>
+          <text x="355" y="200" font-family="JetBrains Mono,monospace" font-size="7" fill="#a6927e" font-weight="600">Sat</text>
+          <text x="420" y="200" font-family="JetBrains Mono,monospace" font-size="7" fill="#a6927e" font-weight="600">Sun</text>
+          <!-- Y-axis labels -->
+          <text x="2" y="47" font-family="JetBrains Mono,monospace" font-size="6" fill="#a6927e">₹20K</text>
+          <text x="2" y="91" font-family="JetBrains Mono,monospace" font-size="6" fill="#a6927e">₹15K</text>
+          <text x="2" y="135" font-family="JetBrains Mono,monospace" font-size="6" fill="#a6927e">₹10K</text>
+          <text x="2" y="179" font-family="JetBrains Mono,monospace" font-size="6" fill="#a6927e">₹5K</text>
+        </svg>
+      </div>
+      <div class="chart-legend">
+        <span><span style="width:12px;height:12px;background:rgba(34,197,94,0.55);display:inline-block;border:1.5px solid #22c55e;border-radius:2px;margin-right:4px"></span> Profit</span>
+        <span><span style="width:12px;height:12px;background:rgba(232,109,40,0.5);display:inline-block;border:1.5px solid #e86d28;border-radius:2px;margin-right:4px"></span> Commission</span>
+        <span><span style="width:12px;height:12px;background:rgba(240,184,48,0.45);display:inline-block;border:1.5px solid #f0b830;border-radius:2px;margin-right:4px"></span> Non-fuel</span>
+        <span><span style="width:12px;height:12px;background:rgba(239,68,68,0.45);display:inline-block;border:1.5px solid #ef4444;border-radius:2px;margin-right:4px"></span> Opex</span>
+        <span style="margin-left:auto;font-weight:600">Today: <span style="color:var(--emerald-bright)">₹15,785</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seasonal Alerts + Action Summary -->
+  <div class="grid-2">
+    <div class="card card-strip gold">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:8px">Seasonal Alerts</h3>
+      <div style="padding:8px 12px;background:rgba(240,184,48,0.06);border-left:4px solid var(--gold-bright);border-radius:var(--radius);margin-bottom:6px">
+        <div style="font-size:12px;font-weight:600">Monsoon Period Active</div>
+        <div style="font-size:11px;color:var(--ink-muted)">Stockout costs 1.3× normal. Maintain higher safety stock.</div>
+      </div>
+      <div style="padding:8px 12px;background:rgba(196,88,30,0.05);border-left:4px solid var(--clay);border-radius:var(--radius)">
+        <div style="font-size:12px;font-weight:600">Summer Peak Season</div>
+        <div style="font-size:11px;color:var(--ink-muted)">Demand expected 1.2× normal. Tourist multiplier active.</div>
+      </div>
+    </div>
+    <div class="card card-strip emerald">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:8px">Action Summary</h3>
+      <div class="grid-3" style="margin-bottom:0">
+        <div><div class="stat-lbl">Recommended Action</div><div style="margin-top:4px"><span class="bdg bdg-clay">PLACE ORDER · 6,800 L</span></div><div class="stat-meta" style="margin-top:4px">Balanced policy minimizes expected cost</div></div>
+        <div><div class="stat-lbl">Risk Assessment</div><div style="margin-top:4px"><span class="bdg bdg-green">LOW · 8.4% stockout</span></div><div class="stat-meta" style="margin-top:4px">Safety buffer: 600 L</div></div>
+        <div><div class="stat-lbl">Delivery Window</div><div style="margin-top:4px"><span class="bdg bdg-clay">ORDER BY 22 JUN</span></div><div class="stat-meta" style="margin-top:4px">Estimated arrival: 25 Jun</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FORECAST ═══════════════ -->
+<div id="page-forecast" class="page">
+  <div class="page-header"><h1><span>Forecast</span> Engine</h1><p>Generate predictions · Quantile bands · Model parameters</p></div>
+  <div class="grid-2">
+    <div class="card card-strip clay">
+      <h3 style="font-family:var(--ff-d);font-size:18px;font-weight:400;margin-bottom:8px">30-Day Demand Forecast</h3>
+      <div class="chart-box chart-lg">
+        <svg viewBox="0 0 500 220" preserveAspectRatio="none">
+          <line x1="0" y1="44" x2="500" y2="44" stroke="#d4c8b8" opacity="0.5"/><line x1="0" y1="88" x2="500" y2="88" stroke="#d4c8b8" opacity="0.5"/>
+          <line x1="0" y1="132" x2="500" y2="132" stroke="#d4c8b8" opacity="0.5"/><line x1="0" y1="176" x2="500" y2="176" stroke="#d4c8b8" opacity="0.5"/>
+          <path d="M0,176 L40,170 L80,165 L120,158 L160,150 L200,145 L240,138 L280,132 L320,125 L360,118 L400,112 L440,106 L500,100 L500,60 L440,68 L400,75 L360,82 L320,88 L280,95 L240,102 L200,108 L160,115 L120,122 L80,130 L40,136 L0,142 Z" fill="rgba(196,88,30,0.08)"/>
+          <path d="M0,165 L40,158 L80,150 L120,142 L160,135 L200,128 L240,120 L280,114 L320,108 L360,102 L400,96 L440,90 L500,85 L500,68 L440,75 L400,82 L360,88 L320,95 L280,102 L240,108 L200,115 L160,122 L120,130 L80,138 L40,145 L0,150 Z" fill="rgba(196,88,30,0.12)"/>
+          <path d="M0,150 L40,142 L80,135 L120,128 L160,122 L200,115 L240,110 L280,105 L320,100 L360,95 L400,90 L440,85 L500,82 L500,74 L440,78 L400,83 L360,88 L320,93 L280,98 L240,103 L200,108 L160,114 L120,120 L80,126 L40,132 L0,138 Z" fill="rgba(196,88,30,0.18)"/>
+          <polyline fill="none" stroke="#c4581e" stroke-width="2.5" points="0,140 40,132 80,125 120,118 160,112 200,108 240,104 280,100 320,96 360,92 400,88 440,85 500,80"/>
+          <text x="10" y="47" font-family="JetBrains Mono,monospace" font-size="6" fill="#a6927e" font-weight="600">8K</text>
+          <text x="10" y="91" font-family="JetBrains Mono,monospace" font-size="6" fill="#a6927e" font-weight="600">7K</text>
+          <text x="10" y="135" font-family="JetBrains Mono,monospace" font-size="6" fill="#a6927e" font-weight="600">6K</text>
+          <text x="10" y="179" font-family="JetBrains Mono,monospace" font-size="6" fill="#a6927e" font-weight="600">5K</text>
+        </svg>
+      </div>
+      <div class="chart-legend" style="margin-top:4px">
+        <span><span style="width:14px;height:3px;background:var(--clay);display:inline-block;margin-right:4px;border-radius:2px"></span> q50 median</span>
+        <span><span style="width:14px;height:10px;background:rgba(196,88,30,0.18);display:inline-block;margin-right:4px;border-radius:2px;border:1px solid rgba(196,88,30,0.2)"></span> q25–q75</span>
+        <span><span style="width:14px;height:10px;background:rgba(196,88,30,0.08);display:inline-block;margin-right:4px;border-radius:2px;border:1px solid rgba(196,88,30,0.1)"></span> q05–q95</span>
+        <span style="margin-left:auto">Coverage: 87.3%</span>
+      </div>
+    </div>
+    <div class="card card-strip gold">
+      <h3 style="font-family:var(--ff-d);font-size:18px;font-weight:400;margin-bottom:12px">Run New Forecast</h3>
+      <div class="form-group"><label>Fuel Type</label><select><option>Combined</option><option>Petrol</option><option>High-Speed Diesel</option></select></div>
+      <div class="form-group"><label>Forecast Horizon</label><select><option>7 days</option><option selected>30 days</option><option>90 days</option></select></div>
+      <div class="form-group"><label>Model Version</label><select><option>CatBoost v3.0 (production)</option><option>CatBoost v2.9 (stable)</option></select></div>
+      <div style="display:flex;gap:8px;margin-top:14px"><button class="btn btn-primary">Generate Forecast</button><button class="btn btn-outline">Schedule Daily</button></div>
+      <hr>
+      <div class="stat-lbl">Last Run</div>
+      <div style="font-size:12px;font-family:var(--ff-m);color:var(--ink-muted)">21 Jun 2026, 06:30 IST · 30 days · 270 rows inserted</div>
+    </div>
+  </div>
+  <div class="card card-strip teal">
+    <h3 style="font-family:var(--ff-d);font-size:16px;font-weight:400;margin-bottom:8px">Forecast vs Actual · Last 7 Days</h3>
+    <table>
+      <thead><tr><th>Date</th><th>Actual</th><th>q50</th><th>q05–q95</th><th>Error</th><th>Error %</th><th>In Range?</th></tr></thead>
+      <tbody>
+        <tr><td>15 Jun</td><td class="m">5,920</td><td class="m">5,800</td><td>4,900–6,700</td><td class="m up">+120</td><td class="up">+2.1%</td><td style="color:var(--emerald-bright);font-weight:600">✓</td></tr>
+        <tr><td>16 Jun</td><td class="m">6,100</td><td class="m">5,950</td><td>5,000–7,000</td><td class="m up">+150</td><td class="up">+2.5%</td><td style="color:var(--emerald-bright);font-weight:600">✓</td></tr>
+        <tr><td>17 Jun</td><td class="m">5,740</td><td class="m">6,100</td><td>5,100–7,200</td><td class="m dn">−360</td><td class="dn">−5.9%</td><td style="color:var(--emerald-bright);font-weight:600">✓</td></tr>
+        <tr><td>18 Jun</td><td class="m">6,350</td><td class="m">6,200</td><td>5,200–7,300</td><td class="m up">+150</td><td class="up">+2.4%</td><td style="color:var(--emerald-bright);font-weight:600">✓</td></tr>
+        <tr><td>19 Jun</td><td class="m">5,880</td><td class="m">6,050</td><td>5,100–7,100</td><td class="m dn">−170</td><td class="dn">−2.8%</td><td style="color:var(--emerald-bright);font-weight:600">✓</td></tr>
+        <tr><td>20 Jun</td><td class="m">6,420</td><td class="m">6,150</td><td>5,150–7,250</td><td class="m up">+270</td><td class="up">+4.4%</td><td style="color:var(--emerald-bright);font-weight:600">✓</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:8px;display:flex;gap:24px;font-size:10px;color:var(--ink-dim)"><span><strong>MAPE:</strong> 3.35%</span><span><strong>Coverage:</strong> 100%</span><span><strong>Model:</strong> CatBoost · 28 features</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ORDERS ═══════════════ -->
+<div id="page-orders" class="page">
+  <div class="page-header"><h1><span>Orders</span> &amp; Logistics</h1><p>Current recommendation · Lead time calculation · Order history</p></div>
+  <div class="grid-2">
+    <div class="card card-strip clay">
+      <h3 style="font-family:var(--ff-d);font-size:18px;font-weight:400;margin-bottom:12px">Current Recommendation</h3>
+      <div style="text-align:center;padding:14px 0"><div style="font-size:40px;font-weight:700;font-family:var(--ff-m);color:var(--clay)">6,800 L</div><div style="font-size:12px;color:var(--ink-muted);margin-top:2px">Petrol · Balanced policy</div></div>
+      <div style="border-top:2px solid #d4c8b8;padding-top:12px"><div class="grid-2" style="margin-bottom:0">
+        <div><div class="stat-lbl">Order Cost</div><div style="font-family:var(--ff-m);font-size:16px;font-weight:600">₹6,42,600</div></div>
+        <div><div class="stat-lbl">Per-Liter Cost</div><div style="font-family:var(--ff-m);font-size:16px;font-weight:600">₹94.50/L</div></div>
+        <div><div class="stat-lbl">Delivery Lead</div><div style="font-family:var(--ff-m);font-size:16px;color:var(--clay);font-weight:600">3 days</div></div>
+        <div><div class="stat-lbl">Stockout Risk</div><div style="font-family:var(--ff-m);font-size:16px;color:var(--emerald-bright);font-weight:600">8.4%</div></div>
+      </div></div>
+    </div>
+    <div class="card card-strip emerald">
+      <h3 style="font-family:var(--ff-d);font-size:18px;font-weight:400;margin-bottom:12px">Lead Time Calculator</h3>
+      <div class="grid-2" style="margin-bottom:6px"><div class="form-group"><label>Order Date</label><input type="date" value="2026-06-22"></div><div class="form-group"><label>Supplier</label><select><option>Jio-BP Kandaghat</option><option>IOCL Express</option></select></div></div>
+      <div style="background:var(--bg-tint);padding:12px;border-radius:var(--radius);margin-bottom:8px">
+        <div style="display:flex;justify-content:space-between;font-size:11px"><span>Processing:</span><span class="stat-meta">1 day</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-top:4px"><span>Transit:</span><span class="stat-meta">2 days</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-top:6px;padding-top:6px;border-top:2px solid #d4c8b8"><span>Estimated Delivery:</span><span style="color:var(--clay)">25 Jun 2026</span></div>
+      </div>
+      <button class="btn btn-primary" style="width:100%">Confirm Order</button>
+    </div>
+  </div>
+  <div class="card card-strip gold">
+    <h3 style="font-family:var(--ff-d);font-size:16px;font-weight:400;margin-bottom:8px">Order History</h3>
+    <table><thead><tr><th>Date</th><th>Product</th><th>Qty</th><th>Supplier</th><th>Delivery</th><th>Status</th></tr></thead>
+    <tbody><tr><td>15 Jun</td><td>Petrol</td><td class="m">12,000 L</td><td>Jio-BP</td><td>18 Jun</td><td><span class="bdg bdg-green">Delivered</span></td></tr>
+    <tr><td>08 Jun</td><td>HSD</td><td class="m">8,000 L</td><td>IOCL</td><td>11 Jun</td><td><span class="bdg bdg-green">Delivered</span></td></tr>
+    <tr><td>01 Jun</td><td>Petrol</td><td class="m">10,000 L</td><td>Jio-BP</td><td>05 Jun</td><td><span class="bdg bdg-green">Delivered</span></td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<!-- ═══════════════ MODEL ═══════════════ -->
+<div id="page-perf" class="page">
+  <div class="page-header"><h1><span>Model</span> Performance</h1><p>CatBoost quantile regression · Public metrics · Feature transparency</p></div>
+  <div class="compact-grid">
+    <div class="stat"><div class="stat-lbl">Architecture</div><div class="stat-val" style="font-family:var(--ff-b);font-size:18px;font-weight:700">CatBoost</div><div class="stat-meta">v3.0 · Quantile Regression</div></div>
+    <div class="stat"><div class="stat-lbl">Mean Absolute % Error</div><div class="stat-val emerald">3.35%</div><div class="stat-meta">7-day rolling average</div></div>
+    <div class="stat"><div class="stat-lbl">Prediction Coverage</div><div class="stat-val clay">100%</div><div class="stat-meta">q05–q95 interval (7 days)</div></div>
+    <div class="stat"><div class="stat-lbl">Feature Count</div><div class="stat-val" style="font-family:var(--ff-b);font-size:18px;font-weight:700">28</div><div class="stat-meta">Fourier harmonics + engineered</div></div>
+    <div class="stat"><div class="stat-lbl">Calibration</div><div class="stat-val" style="font-family:var(--ff-b);font-size:18px;font-weight:700;color:var(--teal)">Conformal</div><div class="stat-meta">Prediction interval calibration</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card card-strip clay">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:10px">Feature Importance (Top 5)</h3>
+      <div style="font-size:11px;font-family:var(--ff-m)">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>1. Day-of-week (Fourier transform)</span><span style="color:var(--clay);font-weight:700">0.184</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>2. 14-day rolling moving average</span><span style="color:var(--clay);font-weight:700">0.152</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>3. Maximum daily temperature</span><span style="color:var(--emerald-bright);font-weight:700">0.118</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>4. Daily rainfall (mm)</span><span style="color:var(--teal-bright);font-weight:700">0.096</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><span>5. Holiday proximity (days)</span><span style="color:var(--gold-bright);font-weight:700">0.072</span></div>
+      </div>
+    </div>
+    <div class="card card-strip gold">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:10px">Training Configuration</h3>
+      <div style="font-size:11px;font-family:var(--ff-m)">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Algorithm</span><span style="font-weight:600">CatBoost Quantile Regressor</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Target Quantiles</span><span style="font-weight:600">q05 · q25 · q50 · q75 · q95</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Train / Validation Split</span><span style="font-weight:600">60% / 20% / 20% temporal</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Interval Calibration</span><span style="font-weight:600">Conformal prediction</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><span>Training Window</span><span style="font-weight:600">90 days rolling</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ P&L ═══════════════ -->
+<div id="page-pnl" class="page">
+  <div class="page-header"><h1><span>Profit &amp;</span> Loss</h1><p>Financial analysis · Cost attribution · Risk metrics</p></div>
+  <div class="compact-grid">
+    <div class="stat"><div class="stat-lbl">Daily Net Profit</div><div class="stat-val emerald">₹15,785</div><div class="stat-meta">After all operating costs</div></div>
+    <div class="stat"><div class="stat-lbl">Monthly Run-Rate</div><div class="stat-val emerald">₹4.73 L</div><div class="stat-meta">30-day forward projection</div></div>
+    <div class="stat"><div class="stat-lbl">Probability of Loss</div><div class="stat-val gold">8.2%</div><div class="stat-meta">Chance of negative daily P&amp;L</div></div>
+    <div class="stat"><div class="stat-lbl">VaR (5%)</div><div class="stat-val brick">−₹5,525</div><div class="stat-meta">Worst 5% of trading days</div></div>
+    <div class="stat"><div class="stat-lbl">CVaR (5%)</div><div class="stat-val brick">−₹7,182</div><div class="stat-meta">Expected shortfall beyond VaR</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card card-strip emerald">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:8px">Revenue Breakdown</h3>
+      <div style="font-size:11px;font-family:var(--ff-m)">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Petrol Commission</span><span class="up">₹19,840</span><span style="color:var(--ink-dim)">6,200 L × ₹3.20</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>HSD Commission</span><span class="up">₹3,920</span><span style="color:var(--ink-dim)">1,400 L × ₹2.80</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Non-Fuel Income</span><span class="up">₹1,667</span><span style="color:var(--ink-dim)">Shop, air, services</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-weight:700">Gross Revenue</span><span style="font-weight:700;color:var(--ink)">₹25,427</span></div>
+      </div>
+    </div>
+    <div class="card card-strip brick">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:8px">Cost Attribution</h3>
+      <div style="font-size:11px;font-family:var(--ff-m)">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Staff &amp; Operations</span><span class="dn">−₹2,833</span><span style="color:var(--ink-dim)">73.9% of opex</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Electricity (Pumps + HVAC)</span><span class="dn">−₹750</span><span style="color:var(--ink-dim)">19.6% of opex</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Maintenance &amp; Equipment</span><span class="dn">−₹250</span><span style="color:var(--ink-dim)">6.5% of opex</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-weight:700">Total Daily Opex</span><span style="font-weight:700;color:var(--brick-bright)">−₹3,833</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ HEALTH ═══════════════ -->
+<div id="page-health" class="page">
+  <div class="page-header"><h1><span>System</span> Health</h1><p>Anomaly detection · Error logs · Pipeline monitoring</p></div>
+  <div class="compact-grid">
+    <div class="stat"><div class="stat-lbl">Neon Database</div><div style="display:flex;align-items:center;gap:8px;margin-top:4px"><span style="width:9px;height:9px;border-radius:50%;background:var(--emerald-bright);box-shadow:0 0 6px rgba(34,197,94,0.4)"></span><span style="font-size:14px;font-weight:600">Connected</span></div><div class="stat-meta">PostgreSQL · 15ms average latency</div></div>
+    <div class="stat"><div class="stat-lbl">ML Pipeline</div><div style="display:flex;align-items:center;gap:8px;margin-top:4px"><span style="width:9px;height:9px;border-radius:50%;background:var(--emerald-bright);box-shadow:0 0 6px rgba(34,197,94,0.4)"></span><span style="font-size:14px;font-weight:600">Available</span></div><div class="stat-meta">CatBoost inference · 1.2s avg</div></div>
+    <div class="stat"><div class="stat-lbl">Weather API</div><div style="display:flex;align-items:center;gap:8px;margin-top:4px"><span style="width:9px;height:9px;border-radius:50%;background:var(--emerald-bright);box-shadow:0 0 6px rgba(34,197,94,0.4)"></span><span style="font-size:14px;font-weight:600">Synced</span></div><div class="stat-meta">OpenWeatherMap · 30 days cached</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card card-strip gold">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:8px">Anomaly Detection</h3>
+      <div style="font-size:11px;font-family:var(--ff-m)">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>20 Jun · Demand spike detected</span><span class="bdg bdg-clay">+4.4%</span><span style="color:var(--ink-dim)">6,420 vs 6,150 q50</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>17 Jun · Demand dip detected</span><span class="bdg bdg-gold">−5.9%</span><span style="color:var(--ink-dim)">5,740 vs 6,100 q50</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><span>10 Jun · Temperature anomaly</span><span class="bdg bdg-clay">+4.2°C</span><span style="color:var(--ink-dim)">36.8°C vs seasonal norm</span></div>
+      </div>
+    </div>
+    <div class="card card-strip brick">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:8px">Error Logs (Last 24h)</h3>
+      <div style="max-height:200px;overflow-y:auto">
+        <div class="log-line ok"><span class="ts">[06:30:01]</span> Forecast pipeline completed · 270 rows inserted</div>
+        <div class="log-line ok"><span class="ts">[06:30:05]</span> Weather data sync OK · 30 days updated</div>
+        <div class="log-line wa"><span class="ts">[04:15:22]</span> Database connection retry #1 — reconnected successfully</div>
+        <div class="log-line ok"><span class="ts">[00:00:00]</span> Daily scheduled forecast started</div>
+        <div class="log-line er"><span class="ts">[22:10:45]</span> Backend inference timeout · Served cached forecast</div>
+        <div class="log-line ok"><span class="ts">[22:11:03]</span> Backend service recovered · Retry succeeded</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SETTINGS ═══════════════ -->
+<div id="page-settings" class="page">
+  <div class="page-header"><h1><span>Settings</span></h1><p>Station configuration · Cost matrix · Financial parameters · Seasonal adjustments</p></div>
+  <div class="grid-2">
+    <div class="card card-strip clay">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:12px">Station Identity</h3>
+      <div class="form-group"><label>Pump/Station Name</label><input type="text" value="Kandaghat-Chail Jio-BP"></div>
+      <div class="grid-2" style="margin-bottom:0"><div class="form-group"><label>Latitude</label><input type="text" value="31.022"></div><div class="form-group"><label>Longitude</label><input type="text" value="77.137"></div></div>
+    </div>
+    <div class="card card-strip gold">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:12px">Fuel Grade Configuration</h3>
+      <div class="grid-2" style="margin-bottom:0">
+        <div class="form-group"><label>Petrol Commission (₹/L)</label><input type="text" value="3.20"></div>
+        <div class="form-group"><label>HSD Commission (₹/L)</label><input type="text" value="2.80"></div>
+        <div class="form-group"><label>Petrol Tank Capacity (L)</label><input type="text" value="30,000"></div>
+        <div class="form-group"><label>HSD Tank Capacity (L)</label><input type="text" value="24,000"></div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card card-strip teal">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:12px">Cost Parameters</h3>
+      <div class="grid-2" style="margin-bottom:0">
+        <div class="form-group"><label>Stockout Cost (₹/L)</label><input type="text" value="8.20"></div>
+        <div class="form-group"><label>Overstock Cost (₹/L/day)</label><input type="text" value="0.50"></div>
+        <div class="form-group"><label>Cost Per Order (₹)</label><input type="text" value="500"></div>
+        <div class="form-group"><label>Order Lead Time (days)</label><input type="text" value="3"></div>
+      </div>
+    </div>
+    <div class="card card-strip gold">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:12px">Seasonal Adjustments</h3>
+      <div style="font-size:11px;font-family:var(--ff-m)">
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Summer Peak (Mar–Jun)</span><span style="color:var(--clay);font-weight:600">Stockout ×1.5 · Overstock ×1.1</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #e6ddd0"><span>Monsoon Period (Jul–Sep)</span><span style="color:var(--gold);font-weight:600">Stockout ×1.3 · Overstock ×0.9</span></div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0"><span>Winter Shoulder (Oct–Feb)</span><span style="font-weight:600">Baseline multipliers (1.0×)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card card-strip emerald">
+    <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:12px">Decision Policies</h3>
+    <div class="grid-3" style="margin-bottom:0">
+      <div style="background:var(--bg-tint);border-radius:var(--radius);padding:14px;text-align:center"><div class="stat-lbl">Conservative</div><div style="font-size:14px;font-weight:600;margin-top:4px">Q95 · Buffer: 500 L</div><div class="stat-meta" style="margin-top:4px">Minimises stockout risk</div></div>
+      <div style="background:rgba(196,88,30,0.06);border-radius:var(--radius);padding:14px;text-align:center;border:2px solid var(--clay)"><div class="stat-lbl" style="color:var(--clay)">Balanced (active)</div><div style="font-size:14px;font-weight:700;margin-top:4px;color:var(--clay)">Q75 · Buffer: 200 L</div><div class="stat-meta" style="margin-top:4px">Minimises expected total cost</div></div>
+      <div style="background:var(--bg-tint);border-radius:var(--radius);padding:14px;text-align:center"><div class="stat-lbl">Aggressive</div><div style="font-size:14px;font-weight:600;margin-top:4px">Q50 · Buffer: −100 L</div><div class="stat-meta" style="margin-top:4px">Maximises free cash flow</div></div>
+    </div>
+  </div>
+  <div class="card" style="border:2px solid #d4c8b8;background:var(--bg-card)">
+    <div style="display:flex;justify-content:flex-end;gap:8px"><button class="btn btn-outline">Reset to Defaults</button><button class="btn btn-primary">Save All Changes</button></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ACCOUNT ═══════════════ -->
+<div id="page-account" class="page">
+  <div class="page-header"><h1><span>My</span> Account</h1><p>Profile · Notifications · Preferences</p></div>
+  <div class="grid-2">
+    <div class="card card-strip clay">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:12px">Profile</h3>
+      <div class="form-group"><label>Full Name</label><input type="text" value="Vinayak Bhatnagar"></div>
+      <div class="form-group"><label>Email Address</label><input type="email" value="vinayakbhatnagar3516@gmail.com"></div>
+      <div class="form-group"><label>Account Role</label><input type="text" value="Admin · Pump Operator" disabled style="opacity:0.6"></div>
+    </div>
+    <div class="card card-strip emerald">
+      <h3 style="font-family:var(--ff-d);font-size:17px;font-weight:400;margin-bottom:12px">Notification Preferences</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #e6ddd0"><span style="font-size:12px;font-weight:500">Daily forecast ready</span><span class="bdg bdg-green">ON</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #e6ddd0"><span style="font-size:12px;font-weight:500">Stockout alert (≤3 days remaining)</span><span class="bdg bdg-green">ON</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #e6ddd0"><span style="font-size:12px;font-weight:500">Weekly P&amp;L summary</span><span class="bdg bdg-clay">OFF</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0"><span style="font-size:12px;font-weight:500">System health alerts</span><span class="bdg bdg-green">ON</span></div>
+    </div>
+  </div>
+  <div class="card" style="border:2px solid #d4c8b8">
+    <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary">Save Preferences</button></div>
+  </div>
+</div>
+
+</main>
+</div>
+<script>
+function switchPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.topbar-nav button').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelector(`.topbar-nav button[onclick*="'${id}'"]`).classList.add('active');
+}
+</script>
+</body>
+</html>

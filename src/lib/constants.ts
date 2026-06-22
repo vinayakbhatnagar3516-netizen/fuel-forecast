@@ -25,6 +25,7 @@ export const ROUTES = {
   HOME: "/",
   SIGN_IN: "/sign-in",
   SIGN_UP: "/sign-up",
+  WAITLIST: "/waitlist",
   DASHBOARD: "/dashboard",
   TRENDS: "/dashboard/trends",
   ORDERS: "/dashboard/orders",

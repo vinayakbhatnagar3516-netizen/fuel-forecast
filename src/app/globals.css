@@ -5,33 +5,37 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ═══════════════════════════════════════════════════════════
-   FUEL FORECAST DESIGN SYSTEM
-   heap.design.md tokens adapted for Fuel Forecast.
-   Palette: warm canvas, deep ink, saffron border voltage,
-   Inter (structure) + Source Serif 4 (prose).
+   FUEL FORECAST — SLATE DESIGN SYSTEM
+   Palette: cool grey background, white cards, blue accent.
+   Typography: Inter (sans) everywhere. Monospace for data.
+   No patterns, no decorative imagery, no serif fonts.
    ═══════════════════════════════════════════════════════════ */
 
 @theme inline {
   --font-sans: var(--font-inter);
-  --font-heading: var(--font-instrument-serif);
-  --font-prose: var(--font-source-serif);
   --font-mono: var(--font-geist-mono);
 
-  /* Heap/Fuel Forecast tokens — saffron is border & highlight only */
-  --color-saffron:         #C47335;
-  --color-saffron-deep:    #A85F2A;
-  --color-saffron-dark:    #8B4513;
-  --color-ink:             #1A1F2E;
-  --color-canvas:          #FAFAF8;
-  --color-hairline:        #E5E7EB;
-  --color-hairline-dim:    #D1D5DB;
-  --color-ink-muted:       #64748B;
-  --color-ink-dim:         #94A3B8;
-  --color-sage:            #4A7C59;
-  --color-burgundy:        #8B3A3A;
-  --color-amber:           #946C00;
-  --color-gold:            #DAA520;
-  --color-indigo:          #4A5568;
+  /* Slate tokens — cool, neutral, precise */
+  --color-slate-50:  #f5f6f8;
+  --color-slate-100: #eef1f4;
+  --color-slate-200: #e4e8ed;
+  --color-slate-300: #d0d5db;
+  --color-slate-400: #b0b8c2;
+  --color-slate-500: #8a94a0;
+  --color-slate-600: #5a626d;
+  --color-slate-700: #3a4149;
+  --color-slate-800: #1a1d21;
+  --color-slate-900: #0d0f12;
+
+  --color-blue:     #2563eb;
+  --color-blue-hover: #1d4ed8;
+  --color-blue-soft:  rgba(37,99,235,0.08);
+  --color-green:    #059669;
+  --color-green-soft: rgba(5,150,105,0.08);
+  --color-red:      #dc2626;
+  --color-red-soft:   rgba(220,38,38,0.06);
+  --color-amber:    #d97706;
+  --color-amber-soft: rgba(217,119,6,0.08);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -64,332 +68,254 @@
   --color-sidebar: var(--sidebar);
 
   --radius-xs: 0.25rem; --radius-sm: 0.375rem;
-  --radius-md: 0.625rem; --radius-lg: 1rem;
+  --radius-md: 0.5rem; --radius-lg: 0.75rem;
   --radius: var(--radius-md);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   CSS CUSTOM PROPERTIES
-   ═══════════════════════════════════════════════════════════ */
+/* ═══════════════ CSS CUSTOM PROPERTIES ═══════════════ */
 :root {
-  --background:        #FAFAF8;
-  --foreground:        #1A1F2E;
-  --card:              #FFFFFF;
-  --card-foreground:   #1A1F2E;
-  --popover:           #FFFFFF;
-  --popover-foreground:#1A1F2E;
-  --primary:           #1A1F2E;
-  --primary-foreground:#FAFAF8;
-  --secondary:         #F3F4F6;
-  --secondary-foreground: #1A1F2E;
-  --muted:             #F3F4F6;
-  --muted-foreground:  #64748B;
-  --accent:            #F3F4F6;
-  --accent-foreground: #1A1F2E;
-  --destructive:       #8B3A3A;
-  --border:            #E5E7EB;
-  --input:             #E5E7EB;
-  --ring:              #C47335;
-  --chart-1: #C47335; --chart-2: #4A5568; --chart-3: #DAA520;
-  --chart-4: #4A7C59; --chart-5: #8B3A3A;
-  --sidebar:               #FAFAF8;
-  --sidebar-foreground:    #1A1F2E;
-  --sidebar-primary:       #1A1F2E;
-  --sidebar-primary-foreground: #FAFAF8;
-  --sidebar-accent:        #F3F4F6;
-  --sidebar-accent-foreground: #1A1F2E;
-  --sidebar-border:        #E5E7EB;
-  --sidebar-ring:          #C47335;
+  --background:        #eef1f4;
+  --foreground:        #1a1d21;
+  --card:              #ffffff;
+  --card-foreground:   #1a1d21;
+  --popover:           #ffffff;
+  --popover-foreground:#1a1d21;
+  --primary:           #1a1d21;
+  --primary-foreground:#ffffff;
+  --secondary:         #eef1f4;
+  --secondary-foreground: #1a1d21;
+  --muted:             #f5f6f8;
+  --muted-foreground:  #5a626d;
+  --accent:            #eef1f4;
+  --accent-foreground: #1a1d21;
+  --destructive:       #dc2626;
+  --border:            #d0d5db;
+  --input:             #d0d5db;
+  --ring:              #2563eb;
+  --chart-1: #2563eb; --chart-2: #059669; --chart-3: #d97706;
+  --chart-4: #8a94a0; --chart-5: #dc2626;
+  --sidebar:               #ffffff;
+  --sidebar-foreground:    #1a1d21;
+  --sidebar-primary:       #2563eb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent:        #eef1f4;
+  --sidebar-accent-foreground: #1a1d21;
+  --sidebar-border:        #d0d5db;
+  --sidebar-ring:          #2563eb;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   BASE LAYER
-   ═══════════════════════════════════════════════════════════ */
+/* ═══════════════ BASE LAYER ═══════════════ */
 @layer base {
   * { @apply border-border outline-ring/50; }
   body {
     @apply antialiased;
-    background-color: #FAFAF8;
-    /* Parchment grain — extremely faint so the canvas stays clean */
-    background-image:
-      radial-gradient(circle at 15% 30%, rgba(26, 31, 46, 0.03) 0.6px, transparent 0.6px),
-      radial-gradient(circle at 75% 15%, rgba(26, 31, 46, 0.025) 0.8px, transparent 0.8px),
-      radial-gradient(circle at 35% 70%, rgba(26, 31, 46, 0.02) 1px, transparent 1px),
-      radial-gradient(circle at 90% 60%, rgba(196, 115, 53, 0.018) 0.8px, transparent 0.8px),
-      linear-gradient(180deg, transparent 0%, rgba(26, 31, 46, 0.012) 40%, transparent 70%);
-    background-size: 55px 55px, 80px 80px, 45px 45px, 60px 60px, 100% 100%;
-    color: #1A1F2E;
+    background-color: #eef1f4;
+    color: #1a1d21;
   }
   html { @apply font-sans; }
 
-  .design-card { overflow: visible; }
-
-  /* ═══════════════ PATTERN BACKGROUNDS (toned down) ═══════════════ */
-
-  /* Mandala — vintage hand-drawn, shifted to warm ink. Very quiet. */
-  .mandala-bg {
-    background-image: url('/patterns/mandala.jpg');
-    background-size: 400px 400px;
-    background-repeat: repeat;
-    background-position: center;
-    filter: sepia(0.25) saturate(0.35) brightness(1.05);
-    opacity: 0.08;
-  }
-
-  /* Mandala light — subtle accent on white cards */
-  .mandala-light {
-    background-image: url('/patterns/mandala.jpg');
-    background-size: 300px 300px;
-    background-repeat: repeat;
-    background-position: center;
-    filter: sepia(0.2) saturate(0.25) brightness(1.1);
-    opacity: 0.06;
-  }
-
-  /* Paisley ornament — decorative background, dusty blue-green */
-  .paisley-accent-bg {
-    background-image: url('/patterns/paisley-ornament.jpg');
-    background-size: 400px 400px;
-    background-repeat: repeat;
-    background-position: center;
-    filter: sepia(0.15) hue-rotate(120deg) saturate(0.35) brightness(1.1);
-    opacity: 0.06;
-  }
-
-  /* Paisley banner header */
-  .paisley-header {
-    background-image: url('/patterns/paisley-banner.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    filter: sepia(0.15) saturate(0.4) brightness(1.05);
-    opacity: 0.65;
-  }
-
-  /* ═══════════════ BORDER / DIVIDER PATTERNS ═══════════════ */
-
-  /* Toran border — mango leaves + marigold, full width */
-  .toran-top {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='20' viewBox='0 0 480 20' preserveAspectRatio='none'%3E%3Cdefs%3E%3Cpattern id='tor' width='36' height='20' patternUnits='userSpaceOnUse'%3E%3Cpath d='M4 16 Q8 6 14 10 Q8 14 4 16 Z' fill='%23C47335' opacity='0.5'/%3E%3Cpath d='M32 16 Q28 6 22 10 Q28 14 32 16 Z' fill='%23C47335' opacity='0.5'/%3E%3Ccircle cx='18' cy='10' r='3' fill='%23C47335' opacity='0.6'/%3E%3Ccircle cx='18' cy='10' r='1.2' fill='white' opacity='0.4'/%3E%3Cline x1='0' y1='14' x2='36' y2='14' stroke='%23C47335' stroke-width='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='20' fill='url(%23tor)'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-    background-size: 36px 20px;
-    height: 20px;
-    opacity: 0.28;
-  }
-
-  /* Mehndi card scroll — vine border on top of cards */
-  .card-mehndi {
-    border: 1px solid #E5E7EB;
-    border-radius: var(--radius-md);
-    background: #FFFFFF;
-    box-shadow: none;
-    padding: 24px;
-    position: relative;
-  }
-  .card-mehndi::before {
-    content: '';
-    display: block;
-    height: 6px;
-    margin: -4px -4px 14px -4px;
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-    background: #C47335;
-    opacity: 0.18;
-  }
-
-  /* Lotus heading accent — saffron on canvas */
-  .heading-lotus {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='14' viewBox='0 0 36 14'%3E%3Cdefs%3E%3Cpattern id='lp' width='36' height='14' patternUnits='userSpaceOnUse'%3E%3Cpath d='M8 12 Q18 0 28 12' fill='none' stroke='%23C47335' stroke-width='1.2'/%3E%3Cpath d='M12 12 Q18 3 24 12' fill='none' stroke='%23C47335' stroke-width='0.6'/%3E%3Ccircle cx='18' cy='12' r='1.5' fill='%23C47335'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='14' fill='url(%23lp)'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-    background-position: left bottom;
-    background-size: 36px 14px;
-    padding-bottom: 10px;
-  }
-
   /* ═══════════════ COMPONENT CLASSES ═══════════════ */
 
-  /* Flat design card — white with hairline border */
-  .design-card {
-    background: #FFFFFF;
-    border: 1px solid #E5E7EB;
+  /* Flat design card — white with hairline border, no shadow */
+  .card-slate {
+    background: #ffffff;
+    border: 1px solid #d0d5db;
     border-radius: var(--radius-md);
-    padding: 24px;
-    box-shadow: none;
+    padding: 20px;
     position: relative;
   }
 
-  /* Carved stone tablet — slightly recessed card */
-  .card-carved {
-    background: #F8F7F4;
-    border: 1px solid #E5E7EB;
+  /* Card with colored top accent strip */
+  .card-accent {
+    border: 1px solid #d0d5db;
     border-radius: var(--radius-md);
-    padding: 24px;
-    box-shadow: inset 0 1px 2px rgba(26, 31, 46, 0.04);
+    background: #ffffff;
+    padding: 20px;
     position: relative;
   }
-
-  /* Top pattern-accented card */
-  .card-accented {
-    border: 1px solid var(--color-hairline);
-    border-radius: var(--radius-md);
-    background: #FFFFFF;
-    box-shadow: none;
-    padding: 24px;
-    position: relative;
-  }
-  .card-accented::before {
+  .card-accent::before {
     content: '';
     display: block;
-    height: 6px;
-    margin: -24px -24px 18px -24px;
+    height: 3px;
+    margin: -20px -20px 16px -20px;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
-    background: var(--color-saffron);
-    opacity: 0.12;
   }
+  .card-accent.accent-blue::before { background: #2563eb; }
+  .card-accent.accent-green::before { background: #059669; }
+  .card-accent.accent-amber::before { background: #d97706; }
+  .card-accent.accent-red::before { background: #dc2626; }
+  .card-accent.accent-slate::before { background: #8a94a0; }
 
-  /* ═══════════════ TYPOGRAPHY ═══════════════ */
-  .eyebrow {
+  /* Stat metric */
+  .stat-value {
     font-family: var(--font-inter);
-    font-size: 13px; font-weight: 600; line-height: 18px;
-    letter-spacing: 1.3px; text-transform: uppercase;
-    color: var(--color-ink-muted);
+    font-size: 24px; font-weight: 500; line-height: 28px;
+    letter-spacing: -0.3px; font-variant-numeric: tabular-nums;
   }
-  .stat-metric {
+
+  /* Stat label — uppercase, tiny, muted */
+  .stat-label {
     font-family: var(--font-inter);
-    font-size: 40px; font-weight: 400; line-height: 44px;
-    letter-spacing: -1.2px; font-variant-numeric: tabular-nums;
-  }
-  .body-prose {
-    font-family: var(--font-source-serif);
-    font-size: 15px; font-weight: 400; line-height: 24px;
-  }
-  .section-heading {
-    font-family: var(--font-instrument-serif);
-    font-size: 22px; font-weight: 400; font-style: italic;
-    line-height: 30px; letter-spacing: -0.3px;
+    font-size: 10px; font-weight: 600; line-height: 14px;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    color: #5a626d;
   }
 
-  /* ═══════════════ BUTTONS ═══════════════ */
-  .btn-pill {
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    background: #1A1F2E; color: #FAFAF8;
-    border: 1.5px solid #C47335;
-    border-radius: 9999px; padding: 8px 20px;
-    font-family: var(--font-inter); font-size: 13px; font-weight: 500; line-height: 18px;
-    transition: all 0.2s ease; box-shadow: none; cursor: pointer;
-  }
-  .btn-pill:hover { background: #2D3348; border-color: #1A1F2E; }
-  .btn-pill-secondary { background: transparent; color: #1A1F2E; }
-  .btn-pill-secondary:hover { background: #1A1F2E; color: #FAFAF8; border-color: #1A1F2E; }
-
-  .fuel-tab-active { background: #C47335; color: #FAFAF8; border-radius: 9999px; box-shadow: none; }
-  .fuel-tab-inactive { background: transparent; color: #64748B; border: 1px solid #E5E7EB; border-radius: 9999px; }
-  .design-input { border-radius: var(--radius-xs); border: 1px solid #E5E7EB; padding: 6px 12px; height: 38px; font-size: 14px; font-family: var(--font-inter); box-shadow: none; background: #FFFFFF; }
-  .saffron-mark { background: rgba(196, 115, 53, 0.12); color: #A85F2A; padding: 1px 4px; border-radius: 2px; }
-
-  /* ═══════════════ REFINED INDIC MOTIFS ═══════════════
-     Ancient geometry modernised: quiet, structural, single-purpose.
-     ═══════════════════════════════════════════════════════ */
-
-  /* Kolam dot grid — faint mathematical floor pattern */
-  .motif-kolam-bg {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      radial-gradient(circle, #1A1F2E 0.8px, transparent 0.9px),
-      linear-gradient(to right, rgba(196, 115, 53, 0.08) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(196, 115, 53, 0.08) 1px, transparent 1px);
-    background-size: 40px 40px, 40px 40px, 40px 40px;
-    opacity: 0.12;
-    mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+  /* Stat meta — smaller, secondary */
+  .stat-meta {
+    font-family: var(--font-inter);
+    font-size: 11px; font-weight: 400; line-height: 16px;
+    font-variant-numeric: tabular-nums;
+    color: #8a94a0;
   }
 
-  /* Jaali corner — Mughal pierced-screen as a corner watermark */
-  .motif-jaali-corner {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    pointer-events: none;
-    opacity: 0.08;
-    color: #1A1F2E;
+  /* Section heading */
+  .heading-lg {
+    font-family: var(--font-inter);
+    font-size: 18px; font-weight: 600; line-height: 24px;
+    letter-spacing: -0.2px; color: #1a1d21;
   }
 
-  /* Lotus rule — horizontal divider */
-  .motif-lotus-rule {
-    height: 12px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='12' viewBox='0 0 48 12'%3E%3Cdefs%3E%3Cpattern id='lr' width='48' height='12' patternUnits='userSpaceOnUse'%3E%3Cpath d='M12 11 Q24 -2 36 11' fill='none' stroke='%23C47335' stroke-width='0.8'/%3E%3Cpath d='M18 11 Q24 2 30 11' fill='none' stroke='%23C47335' stroke-width='0.4'/%3E%3Ccircle cx='24' cy='11' r='1' fill='%23C47335'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='12' fill='url(%23lr)'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-    background-size: 48px 12px;
-    opacity: 0.35;
+  .heading-sm {
+    font-family: var(--font-inter);
+    font-size: 14px; font-weight: 600; line-height: 20px;
+    color: #1a1d21;
   }
 
-  /* Saffron diamond stitch — micro border rhythm */
-  .motif-diamond-stitch {
-    height: 6px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='6' viewBox='0 0 24 6'%3E%3Cdefs%3E%3Cpattern id='ds' width='24' height='6' patternUnits='userSpaceOnUse'%3E%3Cpath d='M12 0 L14 3 L12 6 L10 3 Z' fill='%23C47335' opacity='0.5'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='6' fill='url(%23ds)'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-    background-size: 24px 6px;
-    opacity: 0.45;
+  /* Page heading */
+  .page-heading {
+    font-family: var(--font-inter);
+    font-size: 22px; font-weight: 600; line-height: 28px;
+    letter-spacing: -0.3px; color: #1a1d21;
+  }
+  .page-heading .accent { color: #2563eb; }
+  .page-sub {
+    font-size: 12px; color: #5a626d; margin-top: 2px;
   }
 
-  /* Yantra mark — geometric emblem, currentColor driven */
-  .motif-yantra {
-    color: #1A1F2E;
+  /* Badge */
+  .badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 11px; font-weight: 600; padding: 2px 10px;
+    border-radius: 3px;
+  }
+  .badge-green { background: rgba(5,150,105,0.1); color: #059669; }
+  .badge-red { background: rgba(220,38,38,0.08); color: #dc2626; }
+  .badge-blue { background: rgba(37,99,235,0.08); color: #2563eb; }
+  .badge-amber { background: rgba(217,119,6,0.08); color: #d97706; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 6px; padding: 8px 20px; border: none; border-radius: var(--radius-sm);
+    font-family: var(--font-inter); font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.12s;
+  }
+  .btn-primary { background: #2563eb; color: white; }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-outline { background: transparent; border: 1px solid #d0d5db; color: #1a1d21; }
+  .btn-outline:hover { border-color: #2563eb; color: #2563eb; }
+  .btn-sm { padding: 6px 14px; font-size: 11px; }
+
+  /* Fuel pills */
+  .fuel-pill {
+    padding: 6px 16px; border: 1px solid #d0d5db; border-radius: 4px;
+    font-family: var(--font-inter); font-size: 11px; font-weight: 600;
+    background: transparent; color: #5a626d; cursor: pointer; transition: all 0.1s;
+  }
+  .fuel-pill:hover { border-color: #2563eb; color: #2563eb; }
+  .fuel-pill.active { background: #2563eb; color: white; border-color: #2563eb; }
+
+  /* Policy pills (segmented control) */
+  .policy-pills {
+    display: inline-flex; gap: 2px; background: #eef1f4; padding: 2px; border-radius: 4px;
+  }
+  .policy-pill {
+    padding: 4px 12px; border: none; border-radius: 3px;
+    font-family: var(--font-inter); font-size: 10px; font-weight: 600;
+    background: transparent; color: #5a626d; cursor: pointer;
+  }
+  .policy-pill.active { background: #ffffff; color: #2563eb; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+
+  /* Decision banner */
+  .banner {
+    background: #ffffff; border: 1px solid #d0d5db;
+    border-radius: var(--radius-md); padding: 16px 20px;
+    border-left: 3px solid #2563eb;
+  }
+  .banner h2 { font-size: 16px; font-weight: 600; margin-bottom: 2px; color: #1a1d21; }
+  .banner h2 .hl { color: #2563eb; }
+  .banner p { font-size: 12px; color: #5a626d; }
+  .banner .tag {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 3px;
+    background: #2563eb; color: white; margin-left: 6px;
   }
 
-  /* Sparse / offset patterns */
-  .pattern-sparse-br {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 55%;
-    height: 50%;
-    opacity: 0.06;
-    pointer-events: none;
-    mask-image: linear-gradient(to top left, black 30%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to top left, black 30%, transparent 100%);
+  /* Form elements */
+  .form-group { margin-bottom: 12px; }
+  .form-group label {
+    display: block; font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    color: #5a626d; margin-bottom: 4px;
   }
-  .pattern-sparse-tr {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 45%;
-    height: 45%;
-    opacity: 0.08;
-    pointer-events: none;
-    mask-image: linear-gradient(to bottom left, black 35%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom left, black 35%, transparent 100%);
+  .form-input, .form-select {
+    width: 100%; padding: 8px 10px; background: #ffffff;
+    border: 1px solid #d0d5db; border-radius: var(--radius-sm);
+    color: #1a1d21; font-size: 13px; font-family: var(--font-inter);
   }
-  .pattern-fade-edge {
-    position: absolute;
-    inset: 0;
-    opacity: 0.10;
-    pointer-events: none;
-    mask-image: radial-gradient(ellipse at center, transparent 30%, black 80%);
-    -webkit-mask-image: radial-gradient(ellipse at center, transparent 30%, black 80%);
+  .form-input:focus, .form-select:focus {
+    outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
   }
-}
 
-/* ═══════════════════════════════════════════════════════════
-   DARK MODE
-   ═══════════════════════════════════════════════════════════ */
-.dark {
-  --background: oklch(0.145 0 0); --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0); --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0); --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0); --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0); --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0); --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0); --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%); --input: oklch(1 0 0 / 15%); --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0); --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0); --chart-4: oklch(0.371 0 0); --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0); --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%); --sidebar-ring: oklch(0.556 0 0);
+  /* Data table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.5px; color: #5a626d;
+    padding: 8px 10px; text-align: left;
+    border-bottom: 1px solid #d0d5db; background: #eef1f4;
+  }
+  .data-table td { padding: 8px 10px; border-bottom: 1px solid #e4e8ed; }
+  .data-table td.mono { font-family: var(--font-mono); font-weight: 500; }
+  .data-table td.up { color: #059669; font-weight: 600; }
+  .data-table td.dn { color: #dc2626; font-weight: 600; }
+  .data-table tr:hover { background: rgba(37,99,235,0.04); }
+
+  /* Tooltip */
+  [data-tip] { position: relative; cursor: default; }
+  [data-tip]:hover::after {
+    content: attr(data-tip); position: absolute;
+    bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
+    background: #1a1d21; color: white; padding: 4px 8px;
+    border-radius: 4px; font-size: 10px; white-space: nowrap;
+    z-index: 100; font-family: var(--font-inter); pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  [data-tip]:hover::before {
+    content: ''; position: absolute;
+    bottom: calc(100% + 2px); left: 50%; transform: translateX(-50%);
+    border: 3px solid transparent; border-top-color: #1a1d21;
+    z-index: 100; pointer-events: none;
+  }
+
+  /* Anomaly log line */
+  .log-line {
+    font-family: var(--font-mono); font-size: 11px;
+    padding: 4px 0; border-bottom: 1px solid #e4e8ed; color: #3a4149;
+  }
+  .log-line .ts { color: #8a94a0; }
+  .log-line.error { color: #dc2626; font-weight: 600; }
+  .log-line.warn { color: #d97706; }
+  .log-line.ok { color: #059669; }
+
+  /* Grid helpers */
+  .grid-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+
+  @media (max-width: 768px) {
+    .grid-stats, .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
 }
