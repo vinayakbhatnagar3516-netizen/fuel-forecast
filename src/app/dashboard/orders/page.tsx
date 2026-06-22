@@ -1,66 +1,216 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+const FUEL_TYPES = [
+  { value: "Petrol", label: "Petrol" },
+  { value: "High-Speed Diesel", label: "High-Speed Diesel" },
+];
+
+type OrderPolicy = {
+  policy: "conservative" | "balanced" | "aggressive";
+  recommendedOrder: number;
+  reorderPoint: number;
+  orderQuantity: number;
+  expectedCost: number;
+  pStockout: number;
+  safetyBuffer: number;
+};
+
+type OrdersData = {
+  fuelType: string;
+  hasData: boolean;
+  forecastDate: string | null;
+  forecastPoint: number;
+  recommendation: { policy: string; recommendedOrder: number; pStockout: number } | null;
+  policies: Record<string, OrderPolicy | null>;
+  financial: {
+    expectedDailyProfit: number;
+    expectedMonthlyProfit: number;
+    pLoss: number;
+    var5: number;
+  } | null;
+};
+
+function formatNumber(n: number) {
+  return Math.round(n).toLocaleString("en-IN");
+}
+
+function formatInr(n: number) {
+  return `₹${Math.round(n).toLocaleString("en-IN")}`;
+}
+
+function policyColor(policy: string) {
+  switch (policy) {
+    case "conservative":
+      return "text-[#2563eb]";
+    case "balanced":
+      return "text-[#059669]";
+    case "aggressive":
+      return "text-[#d97706]";
+    default:
+      return "text-[#1a1d21]";
+  }
+}
+
 export default function OrdersPage() {
+  const [fuelType, setFuelType] = useState("Petrol");
+  const [data, setData] = useState<OrdersData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+    fetch(`/api/orders?fuelType=${encodeURIComponent(fuelType)}`)
+      .then(async (res) => {
+        if (!res.ok) throw new Error(await res.text());
+        return res.json();
+      })
+      .then((json) => {
+        if (!cancelled) setData(json);
+      })
+      .catch((e) => {
+        if (!cancelled) setError(e.message);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [fuelType]);
+
+  const recommendation = data?.recommendation;
+  const balanced = data?.policies?.balanced;
+  const perLiterPrice = 94.5; // TODO: fetch from cost matrix
+
   return (
     <div className="space-y-6">
       <div>
         <div className="page-heading"><span className="accent">Orders</span> &amp; Logistics</div>
-        <div className="page-sub">Current recommendation · Lead time calculation · Order history</div>
+        <div className="page-sub">Current recommendation · Lead time calculation · Policy comparison</div>
       </div>
 
       <div className="grid-2">
-        {/* Current Recommendation */}
         <div className="card-slate">
           <h3 className="heading-sm mb-4">Current Recommendation</h3>
-          <div className="text-center py-4">
-            <div className="text-[40px] font-[600] font-mono text-[#2563eb]" data-tip="Recommended order: Balanced policy">6,800 L</div>
-            <div className="text-[12px] text-[#5a626d] mt-1">Petrol · Balanced policy</div>
-          </div>
-          <div className="grid-2 pt-4 border-t border-[#d0d5db]">
-            <div data-tip="6,800 L × ₹94.50/L"><div className="stat-label">Order Cost</div><div className="text-[16px] font-mono font-semibold mt-1">₹6,42,600</div></div>
-            <div data-tip="Purchase price per liter"><div className="stat-label">Per-Liter</div><div className="text-[16px] font-mono font-semibold mt-1">₹94.50</div></div>
-            <div data-tip="Days from order to delivery"><div className="stat-label">Lead Time</div><div className="text-[16px] font-mono font-semibold text-[#2563eb] mt-1">3 days</div></div>
-            <div data-tip="Probability of stockout before next delivery"><div className="stat-label">Stockout Risk</div><div className="text-[16px] font-mono font-semibold text-[#059669] mt-1">8.4%</div></div>
-          </div>
+          {loading && <p className="text-sm text-[#5a626d]">Loading recommendation…</p>}
+          {error && <p className="text-sm text-[#dc2626]">{error}</p>}
+          {!loading && !error && recommendation && balanced && (
+            <>
+              <div className="text-center py-4">
+                <div className="text-[40px] font-[600] font-mono text-[#2563eb]">
+                  {formatNumber(balanced.recommendedOrder)} L
+                </div>
+                <div className="text-[12px] text-[#5a626d] mt-1">
+                  {fuelType} · Balanced policy
+                </div>
+              </div>
+              <div className="grid-2 pt-4 border-t border-[#d0d5db]">
+                <div>
+                  <div className="stat-label">Order Cost</div>
+                  <div className="text-[16px] font-mono font-semibold mt-1">
+                    {formatInr(balanced.recommendedOrder * perLiterPrice)}
+                  </div>
+                </div>
+                <div>
+                  <div className="stat-label">Per-Liter</div>
+                  <div className="text-[16px] font-mono font-semibold mt-1">
+                    {formatInr(perLiterPrice)}
+                  </div>
+                </div>
+                <div>
+                  <div className="stat-label">Lead Time</div>
+                  <div className="text-[16px] font-mono font-semibold text-[#2563eb] mt-1">3 days</div>
+                </div>
+                <div>
+                  <div className="stat-label">Stockout Risk</div>
+                  <div className={`text-[16px] font-mono font-semibold mt-1 ${balanced.pStockout > 0.2 ? "text-[#dc2626]" : "text-[#059669]"}`}>
+                    {(balanced.pStockout * 100).toFixed(1)}%
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+          {!loading && !error && !recommendation && (
+            <p className="text-sm text-[#5a626d]">No recommendation yet. Run a forecast from Diagnostics.</p>
+          )}
         </div>
 
-        {/* Lead Time Calculator */}
         <div className="card-accent accent-green">
-          <h3 className="heading-sm mb-4">Lead Time Calculator</h3>
-          <div className="grid-2">
-            <div className="form-group">
-              <label>Order Date</label>
-              <input type="date" className="form-input" defaultValue="2026-06-22" />
-            </div>
-            <div className="form-group">
-              <label>Supplier</label>
-              <select className="form-select" defaultValue="jiobp">
-                <option value="jiobp">Jio-BP Kandaghat</option>
-                <option value="iocl">IOCL Express</option>
-              </select>
-            </div>
+          <h3 className="heading-sm mb-4">Fuel Type</h3>
+          <div className="form-group">
+            <label>Product</label>
+            <select className="form-select" value={fuelType} onChange={(e) => setFuelType(e.target.value)}>
+              {FUEL_TYPES.map((ft) => (
+                <option key={ft.value} value={ft.value}>{ft.label}</option>
+              ))}
+            </select>
           </div>
-          <div className="bg-[#eef1f4] rounded-sm p-3 mb-3">
-            <div className="flex justify-between text-[12px]"><span>Processing:</span><span className="text-[#8a94a0] font-mono">1 day</span></div>
-            <div className="flex justify-between text-[12px] mt-1"><span>Transit:</span><span className="text-[#8a94a0] font-mono">2 days</span></div>
-            <div className="flex justify-between text-[14px] font-semibold mt-2 pt-2 border-t border-[#d0d5db]"><span>Estimated Delivery:</span><span className="text-[#2563eb]">25 Jun 2026</span></div>
+          <div className="bg-[#eef1f4] rounded-sm p-3 mb-3 mt-3">
+            <div className="flex justify-between text-[12px]"><span>Forecast date:</span><span className="text-[#8a94a0] font-mono">{data?.forecastDate ?? "—"}</span></div>
+            <div className="flex justify-between text-[12px] mt-1"><span>Expected demand:</span><span className="text-[#8a94a0] font-mono">{data ? formatNumber(data.forecastPoint) : "—"} L</span></div>
+            <div className="flex justify-between text-[12px] mt-1"><span>Daily P&L:</span><span className="text-[#8a94a0] font-mono">{data?.financial ? formatInr(data.financial.expectedDailyProfit) : "—"}</span></div>
+            <div className="flex justify-between text-[14px] font-semibold mt-2 pt-2 border-t border-[#d0d5db]"><span>Loss probability:</span><span className={data?.financial && data.financial.pLoss > 0.15 ? "text-[#dc2626]" : "text-[#059669]"}>{data?.financial ? `${(data.financial.pLoss * 100).toFixed(1)}%` : "—"}</span></div>
           </div>
-          <button className="btn btn-primary w-full" data-tip="Confirm order of 6,800 L Petrol">Confirm Order</button>
+          <button
+            className="btn btn-primary w-full"
+            onClick={() => alert("Order confirmation will be implemented when supplier integration is available.")}
+          >
+            Confirm Order
+          </button>
         </div>
       </div>
 
-      {/* Order History */}
       <div className="card-accent accent-amber">
+        <h3 className="heading-sm mb-3">Policy Comparison</h3>
+        <div className="overflow-x-auto">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Policy</th>
+                <th>Recommended Order</th>
+                <th>Reorder Point</th>
+                <th>Safety Buffer</th>
+                <th>Expected Cost</th>
+                <th>Stockout Risk</th>
+              </tr>
+            </thead>
+            <tbody>
+              {["conservative", "balanced", "aggressive"].map((key) => {
+                const p = data?.policies?.[key];
+                return (
+                  <tr key={key}>
+                    <td className={`font-semibold capitalize ${p ? policyColor(key) : ""}`}>{key}</td>
+                    <td className="mono">{p ? `${formatNumber(p.recommendedOrder)} L` : "—"}</td>
+                    <td className="mono">{p ? `${formatNumber(p.reorderPoint)} L` : "—"}</td>
+                    <td className="mono">{p ? `${formatNumber(p.safetyBuffer)} L` : "—"}</td>
+                    <td className="mono">{p ? formatInr(p.expectedCost) : "—"}</td>
+                    <td className="mono">{p ? `${(p.pStockout * 100).toFixed(1)}%` : "—"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="card-accent accent-slate">
         <h3 className="heading-sm mb-3">Order History</h3>
+        <p className="text-[11px] text-[#5a626d] mb-3">
+          Order tracking will be enabled after the first confirmed order.
+        </p>
         <div className="overflow-x-auto">
           <table className="data-table">
             <thead>
               <tr><th>Date</th><th>Product</th><th>Qty</th><th>Supplier</th><th>Delivery</th><th>Status</th></tr>
             </thead>
             <tbody>
-              <tr><td>15 Jun</td><td className="mono">Petrol</td><td className="mono">12,000 L</td><td>Jio-BP</td><td>18 Jun</td><td><span className="badge badge-green">Delivered</span></td></tr>
-              <tr><td>08 Jun</td><td className="mono">HSD</td><td className="mono">8,000 L</td><td>IOCL</td><td>11 Jun</td><td><span className="badge badge-green">Delivered</span></td></tr>
-              <tr><td>01 Jun</td><td className="mono">Petrol</td><td className="mono">10,000 L</td><td>Jio-BP</td><td>05 Jun</td><td><span className="badge badge-green">Delivered</span></td></tr>
+              <tr>
+                <td colSpan={6} className="text-center text-[#8a94a0]">No confirmed orders yet.</td>
+              </tr>
             </tbody>
           </table>
         </div>
