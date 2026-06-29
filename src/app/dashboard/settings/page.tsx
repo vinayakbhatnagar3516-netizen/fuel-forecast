@@ -8,11 +8,11 @@ import type { CostMatrixData } from "@/db/schema";
 function SectionSkeleton() {
   return (
     <div className="card-slate">
-      <Skeleton className="h-4 w-48 bg-[#e4e8ed] mb-2" />
-      <Skeleton className="h-3 w-64 bg-[#e4e8ed] mb-4" />
+      <Skeleton className="h-4 w-48 bg-[#E0D6CC] mb-2" />
+      <Skeleton className="h-3 w-64 bg-[#E0D6CC] mb-4" />
       <div className="grid-2">
-        <div><Skeleton className="h-3 w-20 bg-[#e4e8ed] mb-1" /><Skeleton className="h-9 w-full bg-[#e4e8ed]" /></div>
-        <div><Skeleton className="h-3 w-20 bg-[#e4e8ed] mb-1" /><Skeleton className="h-9 w-full bg-[#e4e8ed]" /></div>
+        <div><Skeleton className="h-3 w-20 bg-[#E0D6CC] mb-1" /><Skeleton className="h-9 w-full bg-[#E0D6CC]" /></div>
+        <div><Skeleton className="h-3 w-20 bg-[#E0D6CC] mb-1" /><Skeleton className="h-9 w-full bg-[#E0D6CC]" /></div>
       </div>
     </div>
   );
@@ -27,7 +27,7 @@ function NumberField({ label, value, onChange, suffix, disabled }: {
       <div className="relative">
         <input type="number" value={value ?? ""} onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
           className="form-input pr-8" disabled={disabled} step="any" />
-        {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-[#8a94a0]">{suffix}</span>}
+        {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] text-[#A0988C]">{suffix}</span>}
       </div>
     </div>
   );
@@ -44,9 +44,9 @@ function TextField({ label, value, onChange }: { label: string; value: string | 
 
 function MetricRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-1.5 border-b border-[#e4e8ed] last:border-0">
-      <span className="text-[12px] text-[#5a626d]">{label}</span>
-      <span className="text-[12px] font-semibold text-[#1a1d21]">{value}</span>
+    <div className="flex items-center justify-between py-1.5 border-b border-[#E0D6CC] last:border-0">
+      <span className="text-[12px] text-[#7A6F65]">{label}</span>
+      <span className="text-[12px] font-semibold text-[#2D2A26]">{value}</span>
     </div>
   );
 }
@@ -55,7 +55,7 @@ function SettingsSection({ title, description, children }: { title: string; desc
   return (
     <div className="card-accent accent-blue">
       <h3 className="heading-sm mb-1">{title}</h3>
-      <p className="text-[12px] text-[#5a626d] mb-4">{description}</p>
+      <p className="text-[12px] text-[#7A6F65] mb-4">{description}</p>
       {children}
     </div>
   );
@@ -106,7 +106,7 @@ export default function SettingsPage() {
       <div className="space-y-6">
         <div><div className="page-heading"><span className="accent">Settings</span></div><div className="page-sub">Station configuration and financial parameters.</div></div>
         <div className="card-slate text-center py-12">
-          <p className="text-[#5a626d]">No configuration found.</p>
+          <p className="text-[#7A6F65]">No configuration found.</p>
           <button onClick={saveAll} className="btn btn-primary mt-4">Create default config</button>
         </div>
       </div>
@@ -179,7 +179,7 @@ export default function SettingsPage() {
       <SettingsSection title="Financial Overview" description="Monthly opex, debt, and equity position">
         <div className="grid-2">
           <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-wider text-[#5a626d] mb-2">Monthly Operating Expenses</h4>
+            <h4 className="text-[11px] font-semibold uppercase tracking-wider text-[#7A6F65] mb-2">Monthly Operating Expenses</h4>
             {draft.financial?.monthly_opex && typeof draft.financial.monthly_opex === "object" && !Array.isArray(draft.financial.monthly_opex) && (
               Object.entries(draft.financial.monthly_opex as Record<string, unknown>)
                 .filter(([k]) => k !== "total")
@@ -190,7 +190,7 @@ export default function SettingsPage() {
             <MetricRow label="Total monthly opex" value={"₹" + ((draft.financial?.monthly_opex as Record<string, number>)?.total ?? 0).toLocaleString("en-IN")} />
           </div>
           <div>
-            <h4 className="text-[11px] font-semibold uppercase tracking-wider text-[#5a626d] mb-2">Debt &amp; Interest</h4>
+            <h4 className="text-[11px] font-semibold uppercase tracking-wider text-[#7A6F65] mb-2">Debt &amp; Interest</h4>
             <MetricRow label="Term loan (monthly interest)" value={"₹" + (draft.financial?.debt?.term_loan?.monthly_interest ?? 0).toLocaleString("en-IN")} />
             <MetricRow label="EDFS MCLR rate" value={`${draft.financial?.debt?.edfs_working_capital?.edfs_mclr_rate_pct ?? 0}%`} />
             <MetricRow label="EDFS credit days" value={`${draft.financial?.debt?.edfs_working_capital?.edfs_credit_days ?? 0} days`} />
@@ -205,8 +205,8 @@ export default function SettingsPage() {
             const monthNames = season.months.map(m => ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][m-1]).join(", ");
             return (
               <div key={seasonName} className="card-slate">
-                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-[#5a626d] mb-1">{seasonName.replace(/_/g, " ")}</h4>
-                <p className="text-[11px] text-[#8a94a0] mb-2">{monthNames}</p>
+                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-[#7A6F65] mb-1">{seasonName.replace(/_/g, " ")}</h4>
+                <p className="text-[11px] text-[#A0988C] mb-2">{monthNames}</p>
                 <div className="space-y-2">
                   <NumberField label="Stockout multiplier" value={season.stockout_multiplier}
                     onChange={(v) => updateDraft((d) => ({ ...d, seasonal_adjustments: { ...d.seasonal_adjustments, [seasonName]: { ...season, stockout_multiplier: v } } }))} />
@@ -222,12 +222,12 @@ export default function SettingsPage() {
       <SettingsSection title="Decision Policies" description="Order recommendation parameters (conservative, balanced, aggressive)">
         <div className="grid-3">
           {draft.decision_parameters?.policies && Object.entries(draft.decision_parameters.policies).map(([policyName, policy]) => (
-            <div key={policyName} className={`card-slate ${policyName === "balanced" ? "border-[#2563eb] bg-[rgba(37,99,235,0.04)]" : ""}`}>
+            <div key={policyName} className={`card-slate ${policyName === "balanced" ? "border-[#D4834A] bg-[rgba(212,131,74,0.04)]" : ""}`}>
               <div className="flex items-center justify-between mb-2">
-                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-[#5a626d]">{policyName}</h4>
-                {policyName === "balanced" && <span className="text-[10px] bg-[#2563eb] text-white px-1.5 py-0.5 rounded-sm font-medium">Default</span>}
+                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-[#7A6F65]">{policyName}</h4>
+                {policyName === "balanced" && <span className="text-[10px] bg-[#D4834A] text-white px-1.5 py-0.5 rounded-sm font-medium">Default</span>}
               </div>
-              {policy.description && <p className="text-[11px] text-[#8a94a0] mb-2 italic">{policy.description}</p>}
+              {policy.description && <p className="text-[11px] text-[#A0988C] mb-2 italic">{policy.description}</p>}
               <div className="space-y-2">
                 <NumberField label="Quantile target" value={policy.quantile_target}
                   onChange={(v) => updateDraft((d) => ({ ...d, decision_parameters: { ...d.decision_parameters, policies: { ...d.decision_parameters!.policies, [policyName]: { ...policy, quantile_target: v } } } }))} />

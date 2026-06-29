@@ -5,37 +5,39 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ═══════════════════════════════════════════════════════════
-   FUEL FORECAST — SLATE DESIGN SYSTEM
-   Palette: cool grey background, white cards, blue accent.
-   Typography: Inter (sans) everywhere. Monospace for data.
-   No patterns, no decorative imagery, no serif fonts.
+   FUEL FORECAST — PAHADI BOLD
+   Deep forest sidebar, warm glowing core, visible deodar.
    ═══════════════════════════════════════════════════════════ */
 
 @theme inline {
   --font-sans: var(--font-inter);
+  --font-serif: var(--font-source-serif);
+  --font-display: var(--font-instrument-serif);
   --font-mono: var(--font-geist-mono);
 
-  /* Slate tokens — cool, neutral, precise */
-  --color-slate-50:  #f5f6f8;
-  --color-slate-100: #eef1f4;
-  --color-slate-200: #e4e8ed;
-  --color-slate-300: #d0d5db;
-  --color-slate-400: #b0b8c2;
-  --color-slate-500: #8a94a0;
-  --color-slate-600: #5a626d;
-  --color-slate-700: #3a4149;
-  --color-slate-800: #1a1d21;
-  --color-slate-900: #0d0f12;
+  --color-stone-50:  #F5F0EB;
+  --color-stone-100: #EDE6DF;
+  --color-stone-200: #E0D6CC;
+  --color-stone-300: #C9BCAE;
+  --color-stone-400: #B09F8E;
+  --color-stone-500: #9A8B7A;
+  --color-stone-600: #7A6F65;
+  --color-stone-700: #5A5149;
+  --color-stone-800: #2D2A26;
+  --color-stone-900: #1A1815;
 
-  --color-blue:     #2563eb;
-  --color-blue-hover: #1d4ed8;
-  --color-blue-soft:  rgba(37,99,235,0.08);
-  --color-green:    #059669;
-  --color-green-soft: rgba(5,150,105,0.08);
-  --color-red:      #dc2626;
-  --color-red-soft:   rgba(220,38,38,0.06);
-  --color-amber:    #d97706;
-  --color-amber-soft: rgba(217,119,6,0.08);
+  --color-terracotta:     #D4834A;
+  --color-terracotta-hover: #B86A34;
+  --color-terracotta-soft:  rgba(212,131,74,0.15);
+  --color-pine:           #2D6A4F;
+  --color-pine-bright:    #3D8B6A;
+  --color-pine-soft:      rgba(45,106,79,0.12);
+  --color-brick:          #B84A4A;
+  --color-brick-soft:     rgba(184,74,74,0.08);
+  --color-amber:          #D4A04A;
+  --color-amber-soft:     rgba(212,160,74,0.12);
+  --color-slate-blue:     #4A6FA5;
+  --color-slate-blue-soft: rgba(74,111,165,0.1);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -74,34 +76,96 @@
 
 /* ═══════════════ CSS CUSTOM PROPERTIES ═══════════════ */
 :root {
-  --background:        #eef1f4;
-  --foreground:        #1a1d21;
-  --card:              #ffffff;
-  --card-foreground:   #1a1d21;
-  --popover:           #ffffff;
-  --popover-foreground:#1a1d21;
-  --primary:           #1a1d21;
-  --primary-foreground:#ffffff;
-  --secondary:         #eef1f4;
-  --secondary-foreground: #1a1d21;
-  --muted:             #f5f6f8;
-  --muted-foreground:  #5a626d;
-  --accent:            #eef1f4;
-  --accent-foreground: #1a1d21;
-  --destructive:       #dc2626;
-  --border:            #d0d5db;
-  --input:             #d0d5db;
-  --ring:              #2563eb;
-  --chart-1: #2563eb; --chart-2: #059669; --chart-3: #d97706;
-  --chart-4: #8a94a0; --chart-5: #dc2626;
-  --sidebar:               #ffffff;
-  --sidebar-foreground:    #1a1d21;
-  --sidebar-primary:       #2563eb;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent:        #eef1f4;
-  --sidebar-accent-foreground: #1a1d21;
-  --sidebar-border:        #d0d5db;
-  --sidebar-ring:          #2563eb;
+  --background:        #F5F0EB;
+  --foreground:        #2D2A26;
+  --card:              #FFFAF5;
+  --card-foreground:   #2D2A26;
+  --popover:           #FFFAF5;
+  --popover-foreground:#2D2A26;
+  --primary:           #D4834A;
+  --primary-foreground:#FFFFFF;
+  --secondary:         #EDE6DF;
+  --secondary-foreground: #2D2A26;
+  --muted:             #F5F0EB;
+  --muted-foreground:  #7A6F65;
+  --accent:            #EDE6DF;
+  --accent-foreground: #2D2A26;
+  --destructive:       #B84A4A;
+  --border:            #E0D6CC;
+  --input:             #E0D6CC;
+  --ring:              #D4834A;
+  --chart-1: #D4834A; --chart-2: #2D6A4F; --chart-3: #D4A04A;
+  --chart-4: #4A6FA5; --chart-5: #B84A4A;
+  --sidebar:               #0F2117;
+  --sidebar-foreground:    #D6D0C8;
+  --sidebar-primary:       #D4834A;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent:        #1A3327;
+  --sidebar-accent-foreground: #E8E2DA;
+  --sidebar-border:        #1A3327;
+  --sidebar-ring:          #D4834A;
+}
+
+/* ═══════════════ DEODAR FOREST PATTERNS ═══════════════ */
+@layer utilities {
+  /* Sidebar: deep forest with bold deodar silhouettes */
+  .bg-deodar-sidebar {
+    background-color: #0F2117;
+    background-image:
+      /* Layer 1: distant misty trees (tall, thin, faint) */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='500' viewBox='0 0 320 500'%3E%3Cg fill='%234CAF7A' opacity='0.08'%3E%3Cpath d='M10 450 L15 390 L20 420 L25 360 L30 400 L35 340 L40 380 L45 320 L50 360 L55 300 L60 340 L65 280 L70 320 L75 260 L80 300 L85 240 L90 280 L95 220 L100 260 L105 200 L110 240 L115 180 L120 220 L125 160 L130 200 L135 140 L140 180 L145 120 L150 160 L155 100 L160 140 L165 80 L170 120 L175 60 L180 100 L185 40 L190 80 L195 20 L200 60 L205 0 L205 450 Z'/%3E%3Cpath d='M160 480 L165 420 L170 450 L175 390 L180 430 L185 370 L190 410 L195 350 L200 390 L205 330 L210 370 L215 310 L220 350 L225 290 L230 330 L235 270 L240 310 L245 250 L250 290 L255 230 L260 270 L265 210 L270 250 L275 190 L280 230 L285 170 L290 210 L295 150 L300 190 L305 130 L310 170 L315 110 L320 150 L320 480 Z' opacity='0.6'/%3E%3C/g%3E%3C/svg%3E"),
+      /* Layer 2: mid trees (brighter green, more pop) */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='450' viewBox='0 0 300 450'%3E%3Cg fill='%235B9E7A' opacity='0.18'%3E%3Cpath d='M25 400 L32 320 L38 360 L44 290 L50 335 L56 265 L60 310 L66 240 L70 285 L76 215 L80 260 L86 190 L90 235 L96 165 L100 210 L106 140 L110 185 L116 115 L120 160 L126 90 L130 135 L136 65 L140 110 L146 40 L150 85 L156 15 L160 60 L166 0 L166 400 Z'/%3E%3Cpath d='M155 420 L162 345 L168 385 L174 315 L180 360 L186 290 L190 335 L196 265 L200 310 L206 240 L210 285 L216 215 L220 260 L226 190 L230 235 L236 165 L240 210 L246 140 L250 185 L256 115 L260 160 L266 90 L270 135 L276 65 L280 110 L286 40 L290 85 L296 15 L300 60 L300 420 Z' opacity='0.65'/%3E%3C/g%3E%3C/svg%3E"),
+      /* Layer 3: close bold trees (larger silhouettes, darker green) */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='380' viewBox='0 0 280 380'%3E%3Cg fill='%233D8B6A' opacity='0.22'%3E%3Cpath d='M0 350 L8 280 L14 315 L20 250 L26 290 L32 225 L36 265 L42 200 L46 240 L52 175 L56 215 L62 150 L66 190 L72 125 L76 165 L82 100 L86 140 L92 75 L96 115 L102 50 L106 90 L112 25 L116 65 L122 0 L122 350 Z'/%3E%3Cpath d='M130 360 L138 295 L144 330 L150 270 L156 310 L162 250 L166 290 L172 230 L176 270 L182 210 L186 250 L192 190 L196 230 L202 170 L206 210 L212 150 L216 190 L222 130 L226 170 L232 110 L236 150 L242 90 L246 130 L252 70 L256 110 L262 50 L266 90 L272 30 L276 70 L280 10 L280 360 Z' opacity='0.7'/%3E%3C/g%3E%3C/svg%3E"),
+      /* Fade at top and bottom */
+      linear-gradient(to bottom, #0F2117 0%, transparent 12%, transparent 82%, #0F2117 100%);
+    background-repeat: repeat-y, repeat-y, repeat-y, no-repeat;
+    background-position: bottom left, bottom left, bottom left, bottom;
+    background-size: 320px 500px, 300px 450px, 280px 380px, 100% 100%;
+  }
+
+  /* Main area: warm radial glow from center */
+  .bg-warm-glow {
+    background: radial-gradient(ellipse at 50% 30%, #FFF8F0 0%, #F5F0EB 60%, #EDE6DF 100%);
+  }
+
+  /* Deodar tree silhouette — bottom-right accent for auth/error pages */
+  .deodar-accent {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='240' viewBox='0 0 140 240'%3E%3Cg fill='%232D6A4F'%3E%3Cpath d='M20 220 L28 160 L34 190 L40 135 L46 175 L52 120 L56 160 L62 105 L66 145 L72 90 L76 130 L82 75 L86 115 L92 60 L96 100 L102 45 L106 85 L112 30 L116 70 L122 15 L126 55 L132 0 L132 220 Z' opacity='0.35'/%3E%3Cpath d='M70 230 L76 175 L82 205 L88 155 L94 190 L100 140 L104 175 L110 125 L114 160 L120 110 L124 145 L130 95 L134 130 L140 80 L140 230 Z' opacity='0.25'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: 140px 240px;
+  }
+
+  /* Deodar forest — landing page hero accent */
+  .deodar-hero {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='360' viewBox='0 0 240 360'%3E%3Cg fill='%232D6A4F'%3E%3Cpath d='M20 310 L28 240 L34 275 L40 215 L46 255 L52 195 L56 235 L62 175 L66 215 L72 155 L76 195 L82 135 L86 175 L92 115 L96 155 L102 95 L106 135 L112 75 L116 115 L122 55 L126 95 L132 35 L136 75 L142 15 L146 55 L152 0 L152 310 Z' opacity='0.4'/%3E%3Cpath d='M100 340 L108 275 L114 310 L120 250 L126 290 L132 230 L136 270 L142 210 L146 250 L152 190 L156 230 L162 170 L166 210 L172 150 L176 190 L182 130 L186 170 L192 110 L196 150 L202 90 L206 130 L212 70 L216 110 L222 50 L226 90 L232 30 L236 70 L240 10 L240 340 Z' opacity='0.3'/%3E%3C/g%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: 240px 360px;
+  }
+
+  /* Strata accent — visible geological line */
+  .strata-accent {
+    height: 3px;
+    background: repeating-linear-gradient(
+      90deg,
+      #D4834A 0px,
+      #D4834A 3px,
+      transparent 3px,
+      transparent 8px,
+      #3D8B6A 8px,
+      #3D8B6A 11px,
+      transparent 11px,
+      transparent 18px,
+      #4A6FA5 18px,
+      #4A6FA5 21px,
+      transparent 21px,
+      transparent 26px
+    );
+    opacity: 0.2;
+  }
 }
 
 /* ═══════════════ BASE LAYER ═══════════════ */
@@ -109,27 +173,30 @@
   * { @apply border-border outline-ring/50; }
   body {
     @apply antialiased;
-    background-color: #eef1f4;
-    color: #1a1d21;
+    background-color: #F5F0EB;
+    color: #2D2A26;
   }
   html { @apply font-sans; }
 
   /* ═══════════════ COMPONENT CLASSES ═══════════════ */
 
-  /* Flat design card — white with hairline border, no shadow */
+  /* Flat design card — warm cream with hairline border */
   .card-slate {
-    background: #ffffff;
-    border: 1px solid #d0d5db;
+    background: #FFFAF5;
+    border: 1px solid #E0D6CC;
     border-radius: var(--radius-md);
     padding: 20px;
     position: relative;
   }
+  .card-slate:hover {
+    border-color: #C9BCAE;
+  }
 
   /* Card with colored top accent strip */
   .card-accent {
-    border: 1px solid #d0d5db;
+    border: 1px solid #E0D6CC;
     border-radius: var(--radius-md);
-    background: #ffffff;
+    background: #FFFAF5;
     padding: 20px;
     position: relative;
   }
@@ -140,11 +207,11 @@
     margin: -20px -20px 16px -20px;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
   }
-  .card-accent.accent-blue::before { background: #2563eb; }
-  .card-accent.accent-green::before { background: #059669; }
-  .card-accent.accent-amber::before { background: #d97706; }
-  .card-accent.accent-red::before { background: #dc2626; }
-  .card-accent.accent-slate::before { background: #8a94a0; }
+  .card-accent.accent-blue::before { background: #4A6FA5; }
+  .card-accent.accent-green::before { background: #2D6A4F; }
+  .card-accent.accent-amber::before { background: #D4A04A; }
+  .card-accent.accent-red::before { background: #B84A4A; }
+  .card-accent.accent-slate::before { background: #9A8B7A; }
 
   /* Stat metric */
   .stat-value {
@@ -153,44 +220,48 @@
     letter-spacing: -0.3px; font-variant-numeric: tabular-nums;
   }
 
-  /* Stat label — uppercase, tiny, muted */
+  /* Stat label */
   .stat-label {
     font-family: var(--font-inter);
     font-size: 10px; font-weight: 600; line-height: 14px;
     letter-spacing: 0.5px; text-transform: uppercase;
-    color: #5a626d;
+    color: #7A6F65;
   }
 
-  /* Stat meta — smaller, secondary */
+  /* Stat meta */
   .stat-meta {
     font-family: var(--font-inter);
     font-size: 11px; font-weight: 400; line-height: 16px;
     font-variant-numeric: tabular-nums;
-    color: #8a94a0;
+    color: #9A8B7A;
   }
 
   /* Section heading */
   .heading-lg {
-    font-family: var(--font-inter);
-    font-size: 18px; font-weight: 600; line-height: 24px;
-    letter-spacing: -0.2px; color: #1a1d21;
+    font-family: var(--font-instrument-serif);
+    font-size: 20px; font-weight: 400; line-height: 26px;
+    font-style: italic;
+    letter-spacing: -0.2px; color: #2D2A26;
   }
 
   .heading-sm {
-    font-family: var(--font-inter);
-    font-size: 14px; font-weight: 600; line-height: 20px;
-    color: #1a1d21;
+    font-family: var(--font-instrument-serif);
+    font-size: 15px; font-weight: 400; line-height: 22px;
+    font-style: italic;
+    color: #2D2A26;
   }
 
   /* Page heading */
   .page-heading {
     font-family: var(--font-inter);
     font-size: 22px; font-weight: 600; line-height: 28px;
-    letter-spacing: -0.3px; color: #1a1d21;
+    letter-spacing: -0.3px; color: #2D2A26;
   }
-  .page-heading .accent { color: #2563eb; }
+  .page-heading .accent { color: #D4834A; font-family: var(--font-instrument-serif); font-weight: 400; font-style: italic; }
   .page-sub {
-    font-size: 12px; color: #5a626d; margin-top: 2px;
+    font-family: var(--font-source-serif);
+    font-size: 13px; color: #7A6F65; margin-top: 2px;
+    font-style: italic;
   }
 
   /* Badge */
@@ -199,10 +270,10 @@
     font-size: 11px; font-weight: 600; padding: 2px 10px;
     border-radius: 3px;
   }
-  .badge-green { background: rgba(5,150,105,0.1); color: #059669; }
-  .badge-red { background: rgba(220,38,38,0.08); color: #dc2626; }
-  .badge-blue { background: rgba(37,99,235,0.08); color: #2563eb; }
-  .badge-amber { background: rgba(217,119,6,0.08); color: #d97706; }
+  .badge-green { background: rgba(45,106,79,0.12); color: #2D6A4F; }
+  .badge-red { background: rgba(184,74,74,0.1); color: #B84A4A; }
+  .badge-blue { background: rgba(74,111,165,0.1); color: #4A6FA5; }
+  .badge-amber { background: rgba(212,160,74,0.12); color: #D4A04A; }
 
   /* Buttons */
   .btn {
@@ -211,45 +282,45 @@
     font-family: var(--font-inter); font-size: 12px; font-weight: 600;
     cursor: pointer; transition: all 0.12s;
   }
-  .btn-primary { background: #2563eb; color: white; }
-  .btn-primary:hover { background: #1d4ed8; }
-  .btn-outline { background: transparent; border: 1px solid #d0d5db; color: #1a1d21; }
-  .btn-outline:hover { border-color: #2563eb; color: #2563eb; }
+  .btn-primary { background: #D4834A; color: white; }
+  .btn-primary:hover { background: #B86A34; }
+  .btn-outline { background: transparent; border: 1px solid #E0D6CC; color: #2D2A26; }
+  .btn-outline:hover { border-color: #D4834A; color: #D4834A; }
   .btn-sm { padding: 6px 14px; font-size: 11px; }
 
   /* Fuel pills */
   .fuel-pill {
-    padding: 6px 16px; border: 1px solid #d0d5db; border-radius: 4px;
+    padding: 6px 16px; border: 1px solid #E0D6CC; border-radius: 4px;
     font-family: var(--font-inter); font-size: 11px; font-weight: 600;
-    background: transparent; color: #5a626d; cursor: pointer; transition: all 0.1s;
+    background: transparent; color: #7A6F65; cursor: pointer; transition: all 0.1s;
   }
-  .fuel-pill:hover { border-color: #2563eb; color: #2563eb; }
-  .fuel-pill.active { background: #2563eb; color: white; border-color: #2563eb; }
+  .fuel-pill:hover { border-color: #D4834A; color: #D4834A; }
+  .fuel-pill.active { background: #D4834A; color: white; border-color: #D4834A; }
 
-  /* Policy pills (segmented control) */
+  /* Policy pills */
   .policy-pills {
-    display: inline-flex; gap: 2px; background: #eef1f4; padding: 2px; border-radius: 4px;
+    display: inline-flex; gap: 2px; background: #EDE6DF; padding: 2px; border-radius: 4px;
   }
   .policy-pill {
     padding: 4px 12px; border: none; border-radius: 3px;
     font-family: var(--font-inter); font-size: 10px; font-weight: 600;
-    background: transparent; color: #5a626d; cursor: pointer;
+    background: transparent; color: #7A6F65; cursor: pointer;
   }
-  .policy-pill.active { background: #ffffff; color: #2563eb; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .policy-pill.active { background: #FFFAF5; color: #D4834A; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
 
   /* Decision banner */
   .banner {
-    background: #ffffff; border: 1px solid #d0d5db;
+    background: #FFFAF5; border: 1px solid #E0D6CC;
     border-radius: var(--radius-md); padding: 16px 20px;
-    border-left: 3px solid #2563eb;
+    border-left: 3px solid #4A6FA5;
   }
-  .banner h2 { font-size: 16px; font-weight: 600; margin-bottom: 2px; color: #1a1d21; }
-  .banner h2 .hl { color: #2563eb; }
-  .banner p { font-size: 12px; color: #5a626d; }
+  .banner h2 { font-family: var(--font-instrument-serif); font-size: 16px; font-weight: 400; font-style: italic; margin-bottom: 2px; color: #2D2A26; }
+  .banner h2 .hl { color: #2D6A4F; }
+  .banner p { font-family: var(--font-source-serif); font-size: 12px; color: #7A6F65; }
   .banner .tag {
     display: inline-block; font-size: 10px; font-weight: 600;
     padding: 2px 8px; border-radius: 3px;
-    background: #2563eb; color: white; margin-left: 6px;
+    background: #D4834A; color: white; margin-left: 6px;
   }
 
   /* Form elements */
@@ -257,57 +328,57 @@
   .form-group label {
     display: block; font-size: 10px; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.5px;
-    color: #5a626d; margin-bottom: 4px;
+    color: #7A6F65; margin-bottom: 4px;
   }
   .form-input, .form-select {
-    width: 100%; padding: 8px 10px; background: #ffffff;
-    border: 1px solid #d0d5db; border-radius: var(--radius-sm);
-    color: #1a1d21; font-size: 13px; font-family: var(--font-inter);
+    width: 100%; padding: 8px 10px; background: #FFFAF5;
+    border: 1px solid #E0D6CC; border-radius: var(--radius-sm);
+    color: #2D2A26; font-size: 13px; font-family: var(--font-inter);
   }
   .form-input:focus, .form-select:focus {
-    outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+    outline: none; border-color: #D4834A; box-shadow: 0 0 0 2px rgba(212,131,74,0.12);
   }
 
   /* Data table */
   .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
   .data-table th {
     font-size: 10px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.5px; color: #5a626d;
+    letter-spacing: 0.5px; color: #7A6F65;
     padding: 8px 10px; text-align: left;
-    border-bottom: 1px solid #d0d5db; background: #eef1f4;
+    border-bottom: 1px solid #E0D6CC; background: #EDE6DF;
   }
-  .data-table td { padding: 8px 10px; border-bottom: 1px solid #e4e8ed; }
+  .data-table td { padding: 8px 10px; border-bottom: 1px solid #E0D6CC; }
   .data-table td.mono { font-family: var(--font-mono); font-weight: 500; }
-  .data-table td.up { color: #059669; font-weight: 600; }
-  .data-table td.dn { color: #dc2626; font-weight: 600; }
-  .data-table tr:hover { background: rgba(37,99,235,0.04); }
+  .data-table td.up { color: #2D6A4F; font-weight: 600; }
+  .data-table td.dn { color: #B84A4A; font-weight: 600; }
+  .data-table tr:hover { background: rgba(212,131,74,0.04); }
 
   /* Tooltip */
   [data-tip] { position: relative; cursor: default; }
   [data-tip]:hover::after {
     content: attr(data-tip); position: absolute;
     bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
-    background: #1a1d21; color: white; padding: 4px 8px;
+    background: #2D2A26; color: white; padding: 4px 8px;
     border-radius: 4px; font-size: 10px; white-space: nowrap;
     z-index: 100; font-family: var(--font-inter); pointer-events: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
   [data-tip]:hover::before {
     content: ''; position: absolute;
     bottom: calc(100% + 2px); left: 50%; transform: translateX(-50%);
-    border: 3px solid transparent; border-top-color: #1a1d21;
+    border: 3px solid transparent; border-top-color: #2D2A26;
     z-index: 100; pointer-events: none;
   }
 
   /* Anomaly log line */
   .log-line {
     font-family: var(--font-mono); font-size: 11px;
-    padding: 4px 0; border-bottom: 1px solid #e4e8ed; color: #3a4149;
+    padding: 4px 0; border-bottom: 1px solid #E0D6CC; color: #5A5149;
   }
-  .log-line .ts { color: #8a94a0; }
-  .log-line.error { color: #dc2626; font-weight: 600; }
-  .log-line.warn { color: #d97706; }
-  .log-line.ok { color: #059669; }
+  .log-line .ts { color: #9A8B7A; }
+  .log-line.error { color: #B84A4A; font-weight: 600; }
+  .log-line.warn { color: #D4A04A; }
+  .log-line.ok { color: #2D6A4F; }
 
   /* Grid helpers */
   .grid-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }

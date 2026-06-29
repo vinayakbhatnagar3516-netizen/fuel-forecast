@@ -171,12 +171,12 @@ export default function TrendsPage() {
       <div className="grid-2">
         <div className="card-slate">
           <h3 className="heading-sm mb-3">{horizon}-Day Demand Forecast</h3>
-          <p className="text-[11px] text-[#5a626d] mb-3">
+          <p className="text-[11px] text-[#7A6F65] mb-3">
             CatBoost quantile model · q05–q95 bands
             {data?.actualSales && data.actualSales.length > 0 && " · actual sales dots"}
           </p>
-          {loading && <p className="text-sm text-[#5a626d]">Loading forecast…</p>}
-          {error && <p className="text-sm text-[#dc2626]">{error}</p>}
+          {loading && <p className="text-sm text-[#7A6F65]">Loading forecast…</p>}
+          {error && <p className="text-sm text-[#A04040]">{error}</p>}
           {!loading && !error && chartData && (
             <div className="w-full h-[220px]">
               <svg viewBox={`0 0 ${chartData.width} ${chartData.height}`} preserveAspectRatio="none" className="w-full h-full">
@@ -187,16 +187,16 @@ export default function TrendsPage() {
                     y1={chartData.yTicks.indexOf(t) === -1 ? 0 : t}
                     x2={chartData.width}
                     y2={((chartData.height - 32) * (1 - t / chartData.maxY)) + 8}
-                    stroke="#e4e8ed"
+                    stroke="#E0D6CC"
                     strokeWidth="0.5"
                   />
                 ))}
-                <path d={chartData.q05q95Path} fill="rgba(37,99,235,0.06)" />
-                <path d={chartData.q25q75Path} fill="rgba(37,99,235,0.12)" />
-                <path d={chartData.medianPath} fill="none" stroke="#2563eb" strokeWidth="1.5" strokeDasharray="4 2" />
-                <path d={chartData.pointPath} fill="none" stroke="#2563eb" strokeWidth="2" />
+                <path d={chartData.q05q95Path} fill="rgba(212,131,74,0.08)" />
+                <path d={chartData.q25q75Path} fill="rgba(212,131,74,0.18)" />
+                <path d={chartData.medianPath} fill="none" stroke="#D4834A" strokeWidth="1.5" strokeDasharray="4 2" />
+                <path d={chartData.pointPath} fill="none" stroke="#D4834A" strokeWidth="2" />
                 {chartData.actualPoints.map(([x, y], i) => (
-                  <circle key={i} cx={x} cy={y} r="3" fill="#059669" />
+                  <circle key={i} cx={x} cy={y} r="3" fill="#2D6A4F" />
                 ))}
                 {chartData.yTicks.map((t, i) => (
                   <text
@@ -205,7 +205,7 @@ export default function TrendsPage() {
                     y={((chartData.height - 32) * (1 - t / chartData.maxY)) + 12}
                     fontFamily="monospace"
                     fontSize="6"
-                    fill="#8a94a0"
+                    fill="#A0988C"
                   >
                     {formatNumber(t)}
                   </text>
@@ -217,7 +217,7 @@ export default function TrendsPage() {
                     y={chartData.height - 6}
                     fontFamily="monospace"
                     fontSize="6"
-                    fill="#8a94a0"
+                    fill="#A0988C"
                     textAnchor="middle"
                   >
                     {chartData.labels[i]}
@@ -227,15 +227,15 @@ export default function TrendsPage() {
             </div>
           )}
           {!loading && !error && !chartData && (
-            <p className="text-sm text-[#5a626d]">No forecast data yet. Run a forecast from Diagnostics.</p>
+            <p className="text-sm text-[#7A6F65]">No forecast data yet. Run a forecast from Diagnostics.</p>
           )}
-          <div className="flex gap-4 text-[11px] font-mono text-[#8a94a0] mt-2 flex-wrap">
-            <span><span className="inline-block w-3 h-0.5 bg-[#2563eb] mr-1"></span>point forecast</span>
-            <span><span className="inline-block w-3 h-0.5 bg-[#2563eb] mr-1" style={{ background: "none", borderTop: "2px dashed #2563eb", height: 0 }}></span>q50 median</span>
-            <span><span className="inline-block w-3 h-2 bg-[rgba(37,99,235,0.12)] border border-[rgba(37,99,235,0.1)] mr-1"></span>q25–q75</span>
-            <span><span className="inline-block w-3 h-2 bg-[rgba(37,99,235,0.06)] border border-[rgba(37,99,235,0.05)] mr-1"></span>q05–q95</span>
+          <div className="flex gap-4 text-[11px] font-mono text-[#A0988C] mt-2 flex-wrap">
+            <span><span className="inline-block w-3 h-0.5 bg-[#D4834A] mr-1"></span>point forecast</span>
+            <span><span className="inline-block w-3 h-0.5 bg-[#D4834A] mr-1" style={{ background: "none", borderTop: "2px dashed #D4834A", height: 0 }}></span>q50 median</span>
+            <span><span className="inline-block w-3 h-2 bg-[rgba(212,131,74,0.18)] border border-[rgba(212,131,74,0.1)] mr-1"></span>q25–q75</span>
+            <span><span className="inline-block w-3 h-2 bg-[rgba(212,131,74,0.08)] border border-[rgba(212,131,74,0.05)] mr-1"></span>q05–q95</span>
             {data && data.actualSales.length > 0 && (
-              <span><span className="inline-block w-2 h-2 rounded-full bg-[#059669] mr-1"></span>actual</span>
+              <span><span className="inline-block w-2 h-2 rounded-full bg-[#2D6A4F] mr-1"></span>actual</span>
             )}
             <span className="ml-auto">
               {data?.accuracy.coverage
@@ -269,9 +269,9 @@ export default function TrendsPage() {
               <option>CatBoost v3.0 (production)</option>
             </select>
           </div>
-          <hr className="my-4 border-[#d0d5db]" />
+          <hr className="my-4 border-[#E0D6CC]" />
           <div className="stat-label">Accuracy (last {data?.accuracy.comparisons ?? 0} days with actuals)</div>
-          <div className="text-[12px] font-mono text-[#5a626d] mt-1">
+          <div className="text-[12px] font-mono text-[#7A6F65] mt-1">
             MAPE: {data?.accuracy.mape != null ? `${data.accuracy.mape}%` : "—"} · Coverage: {data?.accuracy.coverage != null ? `${data.accuracy.coverage}%` : "—"}
           </div>
         </div>
@@ -279,7 +279,7 @@ export default function TrendsPage() {
 
       <div className="card-accent accent-slate">
         <h3 className="heading-sm mb-3">Forecast vs Actual · Last {horizon} Days</h3>
-        <p className="text-[11px] text-[#5a626d] mb-3">
+        <p className="text-[11px] text-[#7A6F65] mb-3">
           {fuelType} · CatBoost quantile model · Conformal calibration
         </p>
         <div className="overflow-x-auto">
@@ -305,14 +305,14 @@ export default function TrendsPage() {
                     <td className={`mono ${pct && pct > 0 ? "up" : pct && pct < 0 ? "dn" : ""}`}>
                       {pct ? `${pct > 0 ? "+" : ""}${pct.toFixed(1)}%` : "—"}
                     </td>
-                    <td className={covered === true ? "text-[#059669] font-semibold" : covered === false ? "text-[#dc2626] font-semibold" : "text-[#8a94a0]"}>
+                    <td className={covered === true ? "text-[#2D6A4F] font-semibold" : covered === false ? "text-[#A04040] font-semibold" : "text-[#A0988C]"}>
                       {covered === true ? "✓" : covered === false ? "✗" : "—"}
                     </td>
                   </tr>
                 );
               })}
               {(!data || data.forecastHistory.length === 0) && (
-                <tr><td colSpan={7} className="text-center text-[#8a94a0]">No forecast history yet.</td></tr>
+                <tr><td colSpan={7} className="text-center text-[#A0988C]">No forecast history yet.</td></tr>
               )}
             </tbody>
           </table>

@@ -43,13 +43,13 @@ function formatInr(n: number) {
 function policyColor(policy: string) {
   switch (policy) {
     case "conservative":
-      return "text-[#2563eb]";
+      return "text-[#4A6FA5]";
     case "balanced":
-      return "text-[#059669]";
+      return "text-[#2D6A4F]";
     case "aggressive":
-      return "text-[#d97706]";
+      return "text-[#C8913A]";
     default:
-      return "text-[#1a1d21]";
+      return "text-[#2D2A26]";
   }
 }
 
@@ -84,7 +84,7 @@ export default function OrdersPage() {
 
   const recommendation = data?.recommendation;
   const balanced = data?.policies?.balanced;
-  const perLiterPrice = 94.5; // TODO: fetch from cost matrix
+  const perLiterPrice = 94.5;
 
   return (
     <div className="space-y-6">
@@ -96,38 +96,38 @@ export default function OrdersPage() {
       <div className="grid-2">
         <div className="card-slate">
           <h3 className="heading-sm mb-4">Current Recommendation</h3>
-          {loading && <p className="text-sm text-[#5a626d]">Loading recommendation…</p>}
-          {error && <p className="text-sm text-[#dc2626]">{error}</p>}
+          {loading && <p className="text-sm text-[#7A6F65]">Loading recommendation…</p>}
+          {error && <p className="text-sm text-[#A04040]">{error}</p>}
           {!loading && !error && recommendation && balanced && (
             <>
               <div className="text-center py-4">
-                <div className="text-[40px] font-[600] font-mono text-[#2563eb]">
+                <div className="text-[40px] font-[family-name:var(--font-instrument-serif)] font-[400] italic text-[#D4834A]">
                   {formatNumber(balanced.recommendedOrder)} L
                 </div>
-                <div className="text-[12px] text-[#5a626d] mt-1">
+                <div className="text-[12px] text-[#7A6F65] mt-1">
                   {fuelType} · Balanced policy
                 </div>
               </div>
-              <div className="grid-2 pt-4 border-t border-[#d0d5db]">
+              <div className="grid-2 pt-4 border-t border-[#E0D6CC]">
                 <div>
                   <div className="stat-label">Order Cost</div>
-                  <div className="text-[16px] font-mono font-semibold mt-1">
+                  <div className="text-[16px] font-mono font-semibold mt-1 text-[#2D2A26]">
                     {formatInr(balanced.recommendedOrder * perLiterPrice)}
                   </div>
                 </div>
                 <div>
                   <div className="stat-label">Per-Liter</div>
-                  <div className="text-[16px] font-mono font-semibold mt-1">
+                  <div className="text-[16px] font-mono font-semibold mt-1 text-[#2D2A26]">
                     {formatInr(perLiterPrice)}
                   </div>
                 </div>
                 <div>
                   <div className="stat-label">Lead Time</div>
-                  <div className="text-[16px] font-mono font-semibold text-[#2563eb] mt-1">3 days</div>
+                  <div className="text-[16px] font-mono font-semibold text-[#4A6FA5] mt-1">3 days</div>
                 </div>
                 <div>
                   <div className="stat-label">Stockout Risk</div>
-                  <div className={`text-[16px] font-mono font-semibold mt-1 ${balanced.pStockout > 0.2 ? "text-[#dc2626]" : "text-[#059669]"}`}>
+                  <div className={`text-[16px] font-mono font-semibold mt-1 ${balanced.pStockout > 0.2 ? "text-[#A04040]" : "text-[#2D6A4F]"}`}>
                     {(balanced.pStockout * 100).toFixed(1)}%
                   </div>
                 </div>
@@ -135,7 +135,7 @@ export default function OrdersPage() {
             </>
           )}
           {!loading && !error && !recommendation && (
-            <p className="text-sm text-[#5a626d]">No recommendation yet. Run a forecast from Diagnostics.</p>
+            <p className="text-sm text-[#7A6F65]">No recommendation yet. Run a forecast from Diagnostics.</p>
           )}
         </div>
 
@@ -149,11 +149,11 @@ export default function OrdersPage() {
               ))}
             </select>
           </div>
-          <div className="bg-[#eef1f4] rounded-sm p-3 mb-3 mt-3">
-            <div className="flex justify-between text-[12px]"><span>Forecast date:</span><span className="text-[#8a94a0] font-mono">{data?.forecastDate ?? "—"}</span></div>
-            <div className="flex justify-between text-[12px] mt-1"><span>Expected demand:</span><span className="text-[#8a94a0] font-mono">{data ? formatNumber(data.forecastPoint) : "—"} L</span></div>
-            <div className="flex justify-between text-[12px] mt-1"><span>Daily P&L:</span><span className="text-[#8a94a0] font-mono">{data?.financial ? formatInr(data.financial.expectedDailyProfit) : "—"}</span></div>
-            <div className="flex justify-between text-[14px] font-semibold mt-2 pt-2 border-t border-[#d0d5db]"><span>Loss probability:</span><span className={data?.financial && data.financial.pLoss > 0.15 ? "text-[#dc2626]" : "text-[#059669]"}>{data?.financial ? `${(data.financial.pLoss * 100).toFixed(1)}%` : "—"}</span></div>
+          <div className="bg-[#F0EDE6] rounded-sm p-3 mb-3 mt-3">
+            <div className="flex justify-between text-[12px]"><span className="text-[#7A6F65]">Forecast date:</span><span className="text-[#A0988C] font-mono">{data?.forecastDate ?? "—"}</span></div>
+            <div className="flex justify-between text-[12px] mt-1"><span className="text-[#7A6F65]">Expected demand:</span><span className="text-[#A0988C] font-mono">{data ? formatNumber(data.forecastPoint) : "—"} L</span></div>
+            <div className="flex justify-between text-[12px] mt-1"><span className="text-[#7A6F65]">Daily P&L:</span><span className="text-[#A0988C] font-mono">{data?.financial ? formatInr(data.financial.expectedDailyProfit) : "—"}</span></div>
+            <div className="flex justify-between text-[14px] font-semibold mt-2 pt-2 border-t border-[#E0D6CC]"><span className="text-[#2D2A26]">Loss probability:</span><span className={data?.financial && data.financial.pLoss > 0.15 ? "text-[#A04040]" : "text-[#2D6A4F]"}>{data?.financial ? `${(data.financial.pLoss * 100).toFixed(1)}%` : "—"}</span></div>
           </div>
           <button
             className="btn btn-primary w-full"
@@ -199,7 +199,7 @@ export default function OrdersPage() {
 
       <div className="card-accent accent-slate">
         <h3 className="heading-sm mb-3">Order History</h3>
-        <p className="text-[11px] text-[#5a626d] mb-3">
+        <p className="text-[11px] text-[#7A6F65] mb-3">
           Order tracking will be enabled after the first confirmed order.
         </p>
         <div className="overflow-x-auto">
@@ -209,7 +209,7 @@ export default function OrdersPage() {
             </thead>
             <tbody>
               <tr>
-                <td colSpan={6} className="text-center text-[#8a94a0]">No confirmed orders yet.</td>
+                <td colSpan={6} className="text-center text-[#A0988C]">No confirmed orders yet.</td>
               </tr>
             </tbody>
           </table>

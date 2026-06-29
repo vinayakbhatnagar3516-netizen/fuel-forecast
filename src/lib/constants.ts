@@ -9,7 +9,7 @@
  */
 
 export const PALETTE = {
-  primary: "#C47335",       // Saffron terracotta
+  primary: "#D4834A",       // Warm terracotta
   secondary: "#5B7B9A",     // Muted slate
   gold: "#B8860B",          // Warm amber
   sage: "#4A7C59",          // Forest green

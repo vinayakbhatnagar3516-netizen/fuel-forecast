@@ -45,11 +45,11 @@ export function DashboardAuthGuard({ children }: { children: React.ReactNode }) 
 
   if (authState === "loading") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-canvas">
+      <div className="flex min-h-screen items-center justify-center bg-[#F5F0EB]">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-saffron border-t-transparent" />
-          <p className="font-[family-name:var(--font-inter)] text-sm text-ink-muted">
-            Checking access...
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#D4834A] border-t-transparent" />
+          <p className="font-[family-name:var(--font-inter)] text-sm text-[#7A6F65]">
+            <span className="font-[family-name:var(--font-instrument-serif)] italic">Checking</span> access...
           </p>
         </div>
       </div>

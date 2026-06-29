@@ -25,10 +25,10 @@ function StatCard({ value, unit, label, description, accent }: {
 }) {
   const isReal = value !== "—";
   const display = isReal ? `${unit === "₹" ? "₹" : ""}${value}${unit === "%" ? "%" : unit === "L" ? " L" : ""}` : "—";
-  const color = !accent || accent === "neutral" || !isReal ? "text-[#1a1d21]"
-    : accent === "green" ? "text-[#059669]" : accent === "amber" ? "text-[#d97706]" : "text-[#dc2626]";
+  const color = !accent || accent === "neutral" || !isReal ? "text-[#2D2A26]"
+    : accent === "green" ? "text-[#2D6A4F]" : accent === "amber" ? "text-[#C8913A]" : "text-[#A04040]";
   return (
-    <div className="card-slate hover:border-[#2563eb] transition-colors" data-tip={description}>
+    <div className="card-slate hover:border-[#D4834A] transition-colors" data-tip={description}>
       <div className="stat-label">{label}</div>
       <div className={`stat-value ${color} mt-1`}>{display}</div>
       <div className="stat-meta mt-1">{description}</div>
@@ -38,22 +38,22 @@ function StatCard({ value, unit, label, description, accent }: {
 
 function ActionBadge({ action }: { action: string }) {
   const styles: Record<string, { bg: string; text: string; label: string }> = {
-    BUY: { bg: "bg-[#059669]", text: "text-white", label: "PLACE ORDER" },
-    HOLD: { bg: "bg-[#d97706]", text: "text-white", label: "HOLD" },
-    SELL: { bg: "bg-[#dc2626]", text: "text-white", label: "REDUCE" },
-    NO_DATA: { bg: "bg-[#8a94a0]", text: "text-white", label: "NO DATA" },
+    BUY: { bg: "bg-[#2D6A4F]", text: "text-white", label: "PLACE ORDER" },
+    HOLD: { bg: "bg-[#C8913A]", text: "text-white", label: "HOLD" },
+    SELL: { bg: "bg-[#A04040]", text: "text-white", label: "REDUCE" },
+    NO_DATA: { bg: "bg-[#A0988C]", text: "text-white", label: "NO DATA" },
   };
   const s = styles[action] ?? styles.NO_DATA;
   return <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-semibold uppercase tracking-wider ${s.bg} ${s.text}`}>{s.label}</span>;
 }
 
 function AlertCard({ alert }: { alert: DecisionData["alerts"][number] }) {
-  const border = alert.severity === "warning" ? "border-l-[#d97706]" : "border-l-[#2563eb]";
-  const bg = alert.severity === "warning" ? "bg-[#fefce8]" : "bg-[#eef1f4]";
+  const border = alert.severity === "warning" ? "border-l-[#C8913A]" : "border-l-[#4A6FA5]";
+  const bg = alert.severity === "warning" ? "bg-[#FAF3E8]" : "bg-[#F0EDE6]";
   return (
     <div className={`${bg} border-l-3 ${border} rounded-sm p-4`}>
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 text-[#8a94a0]">
+        <div className="mt-0.5 text-[#A0988C]">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             {alert.severity === "warning" ? (
               <><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></>
@@ -63,8 +63,8 @@ function AlertCard({ alert }: { alert: DecisionData["alerts"][number] }) {
           </svg>
         </div>
         <div>
-          <p className="text-sm font-semibold text-[#1a1d21]">{alert.title}</p>
-          <p className="text-[13px] text-[#5a626d] mt-0.5">{alert.description}</p>
+          <p className="text-sm font-semibold text-[#2D2A26]">{alert.title}</p>
+          <p className="text-[13px] text-[#7A6F65] mt-0.5">{alert.description}</p>
         </div>
       </div>
     </div>
@@ -81,23 +81,23 @@ function WeatherWidget() {
   return (
     <div className="card-slate flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-[#eef1f4] flex items-center justify-center">
+        <div className="w-9 h-9 rounded-full bg-[#F0EDE6] flex items-center justify-center">
           {isRainy ? (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5a626d" strokeWidth="2"><path d="M8 13h.01M16 13h.01M12 13h.01M12 17h.01M8 21h8"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A6F65" strokeWidth="2"><path d="M8 13h.01M16 13h.01M12 13h.01M12 17h.01M8 21h8"/></svg>
           ) : isCloudy ? (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5a626d" strokeWidth="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A6F65" strokeWidth="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
           ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D4834A" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>
           )}
         </div>
         <div>
-          <p className="text-sm font-semibold text-[#1a1d21]">{weather.temperatureHigh || "—"}° / {weather.temperatureLow || "—"}°</p>
-          <p className="text-[12px] text-[#5a626d] capitalize">{weather.weatherCondition || "Unknown"} · {weather.recordedDate}</p>
+          <p className="text-sm font-semibold text-[#2D2A26]">{weather.temperatureHigh || "—"}° / {weather.temperatureLow || "—"}°</p>
+          <p className="text-[12px] text-[#7A6F65] capitalize">{weather.weatherCondition || "Unknown"} · {weather.recordedDate}</p>
         </div>
       </div>
       <div className="text-right">
-        <p className="text-[11px] uppercase tracking-wider text-[#5a626d] font-semibold">Rain</p>
-        <p className="text-sm font-semibold text-[#1a1d21]">{weather.rainfallMm ? `${parseFloat(weather.rainfallMm).toFixed(1)} mm` : "0 mm"}</p>
+        <p className="text-[11px] uppercase tracking-wider text-[#7A6F65] font-semibold">Rain</p>
+        <p className="text-sm font-semibold text-[#2D2A26]">{weather.rainfallMm ? `${parseFloat(weather.rainfallMm).toFixed(1)} mm` : "0 mm"}</p>
       </div>
     </div>
   );
@@ -121,10 +121,10 @@ export default function DashboardHome() {
   const header = (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
       <div>
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-[#5a626d]">Today</p>
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-[#7A6F65]">Today</p>
         <div className="flex items-center gap-2 mt-1">
-          <p className="text-[14px] text-[#5a626d]">{todayDisplay()}</p>
-          {data?.lastUpdated && <span className="text-[11px] text-[#8a94a0]">· Updated {formatTime(data.lastUpdated)}</span>}
+          <p className="text-[14px] text-[#7A6F65] font-[family-name:var(--font-source-serif)] italic">{todayDisplay()}</p>
+          {data?.lastUpdated && <span className="text-[11px] text-[#A0988C]">· Updated {formatTime(data.lastUpdated)}</span>}
         </div>
       </div>
       <div className="flex gap-2">
@@ -145,12 +145,12 @@ export default function DashboardHome() {
         {header}
         <div className="grid-stats">
           {[1,2,3,4].map(i => (
-            <div key={i} className="card-slate"><Skeleton className="h-3 w-24 bg-[#e4e8ed] mb-2" /><Skeleton className="h-6 w-32 bg-[#e4e8ed]" /><Skeleton className="h-3 w-40 bg-[#e4e8ed] mt-2" /></div>
+            <div key={i} className="card-slate"><Skeleton className="h-3 w-24 bg-[#E0D6CC] mb-2" /><Skeleton className="h-6 w-32 bg-[#E0D6CC]" /><Skeleton className="h-3 w-40 bg-[#E0D6CC] mt-2" /></div>
           ))}
         </div>
         <div className="grid-2">
-          <div className="card-slate"><Skeleton className="h-40 w-full bg-[#e4e8ed]" /></div>
-          <div className="card-slate"><Skeleton className="h-40 w-full bg-[#e4e8ed]" /></div>
+          <div className="card-slate"><Skeleton className="h-40 w-full bg-[#E0D6CC]" /></div>
+          <div className="card-slate"><Skeleton className="h-40 w-full bg-[#E0D6CC]" /></div>
         </div>
       </div>
     );
@@ -162,13 +162,13 @@ export default function DashboardHome() {
         {header}
         <div className="card-slate text-center py-12">
           <p className="heading-lg">No forecast data yet</p>
-          <p className="text-[#5a626d] mt-2">Run the forecast engine to generate predictions and order recommendations.</p>
+          <p className="text-[#7A6F65] mt-2">Run the forecast engine to generate predictions and order recommendations.</p>
         </div>
         <div>
           <p className="stat-label mb-3">Key Metrics</p>
           <div className="grid-stats">
             {["Expected demand", "Stockout risk", "Forecast confidence", "Daily commission"].map(l => (
-              <div key={l} className="card-slate"><div className="stat-label">{l}</div><div className="stat-value text-[#8a94a0] mt-1">—</div></div>
+              <div key={l} className="card-slate"><div className="stat-label">{l}</div><div className="stat-value text-[#A0988C] mt-1">—</div></div>
             ))}
           </div>
         </div>
@@ -176,7 +176,7 @@ export default function DashboardHome() {
           <p className="stat-label mb-3">Profit &amp; Loss</p>
           <div className="grid-2">
             {["Expected daily profit", "Expected monthly profit", "Chance of loss", "Worst case (5% VaR)"].map(l => (
-              <div key={l} className="card-slate"><div className="stat-label">{l}</div><div className="stat-value text-[#8a94a0] mt-1">—</div></div>
+              <div key={l} className="card-slate"><div className="stat-label">{l}</div><div className="stat-value text-[#A0988C] mt-1">—</div></div>
             ))}
           </div>
         </div>
@@ -186,7 +186,7 @@ export default function DashboardHome() {
 
   const { decision, metrics, pnl, alerts, orderRecommendation } = data;
   const activeOrder = orderRecommendation.policies[orderRecommendation.defaultPolicy];
-  const bannerColor = decision.action === "BUY" ? "border-l-[#059669]" : decision.action === "HOLD" ? "border-l-[#d97706]" : "border-l-[#2563eb]";
+  const bannerColor = decision.action === "BUY" ? "border-l-[#2D6A4F]" : decision.action === "HOLD" ? "border-l-[#C8913A]" : "border-l-[#4A6FA5]";
 
   return (
     <div className="space-y-6">
@@ -226,13 +226,13 @@ export default function DashboardHome() {
             </div>
           </div>
           <div className="text-center py-4">
-            <div className="text-[42px] font-[600] font-mono text-[#2563eb] tracking-tight" data-tip="Recommended order volume">{activeOrder ? `${activeOrder.recommendedOrder} L` : "— L"}</div>
-            <div className="text-[12px] text-[#5a626d] mt-1">{activeOrder ? `at ₹${orderRecommendation.perLiterPrice}/L · total ₹${orderRecommendation.totalCost}` : "No recommendation data"}</div>
+            <div className="text-[42px] font-[family-name:var(--font-instrument-serif)] font-[400] italic text-[#D4834A] tracking-tight" data-tip="Recommended order volume">{activeOrder ? `${activeOrder.recommendedOrder} L` : "— L"}</div>
+            <div className="text-[12px] text-[#7A6F65] mt-1">{activeOrder ? `at ₹${orderRecommendation.perLiterPrice}/L · total ₹${orderRecommendation.totalCost}` : "No recommendation data"}</div>
           </div>
-          <div className="grid-3 text-center mt-2 pt-3 border-t border-[#d0d5db]">
-            <div data-tip="Probability of stockout before next delivery"><div className="stat-label">Stockout Risk</div><div className={`text-[18px] font-mono font-semibold ${activeOrder ? parseFloat(activeOrder.pStockout) > 20 ? "text-[#dc2626]" : parseFloat(activeOrder.pStockout) > 10 ? "text-[#d97706]" : "text-[#059669]" : "text-[#8a94a0]"}`}>{activeOrder ? `${activeOrder.pStockout}%` : "—"}</div></div>
-            <div data-tip="Demand level triggering reorder"><div className="stat-label">Reorder Point</div><div className="text-[18px] font-mono font-semibold">{activeOrder ? `${activeOrder.reorderPoint} L` : "—"}</div></div>
-            <div data-tip="Extra stock above reorder point"><div className="stat-label">Safety Buffer</div><div className="text-[18px] font-mono font-semibold text-[#d97706]">{activeOrder ? `${activeOrder.safetyBuffer} L` : "—"}</div></div>
+          <div className="grid-3 text-center mt-2 pt-3 border-t border-[#E0D6CC]">
+            <div data-tip="Probability of stockout before next delivery"><div className="stat-label">Stockout Risk</div><div className={`text-[18px] font-mono font-semibold ${activeOrder ? parseFloat(activeOrder.pStockout) > 20 ? "text-[#A04040]" : parseFloat(activeOrder.pStockout) > 10 ? "text-[#C8913A]" : "text-[#2D6A4F]" : "text-[#A0988C]"}`}>{activeOrder ? `${activeOrder.pStockout}%` : "—"}</div></div>
+            <div data-tip="Demand level triggering reorder"><div className="stat-label">Reorder Point</div><div className="text-[18px] font-mono font-semibold text-[#2D2A26]">{activeOrder ? `${activeOrder.reorderPoint} L` : "—"}</div></div>
+            <div data-tip="Extra stock above reorder point"><div className="stat-label">Safety Buffer</div><div className="text-[18px] font-mono font-semibold text-[#C8913A]">{activeOrder ? `${activeOrder.safetyBuffer} L` : "—"}</div></div>
           </div>
         </div>
 
@@ -240,36 +240,33 @@ export default function DashboardHome() {
           <h3 className="heading-sm mb-3">P&amp;L · This Week</h3>
           <div className="w-full h-[200px]">
             <svg viewBox="0 0 560 200" preserveAspectRatio="none" className="w-full h-full">
-              <line x1="0" y1="40" x2="560" y2="40" stroke="#e4e8ed" strokeWidth="0.5"/>
-              <line x1="0" y1="80" x2="560" y2="80" stroke="#e4e8ed" strokeWidth="0.5"/>
-              <line x1="0" y1="120" x2="560" y2="120" stroke="#e4e8ed" strokeWidth="0.5"/>
-              <line x1="0" y1="160" x2="560" y2="160" stroke="#e4e8ed" strokeWidth="0.5"/>
+              <line x1="0" y1="40" x2="560" y2="40" stroke="#E0D6CC" strokeWidth="0.5"/>
+              <line x1="0" y1="80" x2="560" y2="80" stroke="#E0D6CC" strokeWidth="0.5"/>
+              <line x1="0" y1="120" x2="560" y2="120" stroke="#E0D6CC" strokeWidth="0.5"/>
+              <line x1="0" y1="160" x2="560" y2="160" stroke="#E0D6CC" strokeWidth="0.5"/>
               {data.pnlHistory.map((d, i) => {
                 const barW = 56; const gap = 12; const x = 14 + i * (barW + gap);
                 const maxProfit = Math.max(...data.pnlHistory.map(h => h.dailyProfit), 1);
                 const hScale = (val: number) => Math.max((val / (maxProfit * 1.3)) * 120, 4);
                 const profitH = hScale(d.dailyProfit);
-                const commH = hScale(d.commission);
-                const opexH = hScale(d.opex);
                 const yBase = 165;
                 return (
                   <g key={i}>
-                    <rect x={x} y={yBase - profitH} width={barW} height={profitH} fill="rgba(5,150,105,0.45)" rx="2"/>
-                    <rect x={x} y={yBase - profitH} width={barW} height={profitH} fill="none" stroke="#059669" strokeWidth="1" rx="2"/>
-                    {d.dailyProfit > 0 && <text x={x + barW/2} y={yBase - profitH - 4} fontFamily="monospace" fontSize="6.5" fill="#059669" textAnchor="middle" fontWeight="600">{(d.dailyProfit/1000).toFixed(1)}K</text>}
-                    <text x={x + barW/2} y={yBase + 14} fontFamily="monospace" fontSize="7.5" fill="#8a94a0" textAnchor="middle">{d.date}</text>
+                    <rect x={x} y={yBase - profitH} width={barW} height={profitH} fill="rgba(45,106,79,0.35)" stroke="#2D6A4F" strokeWidth="1" rx="2"/>
+                    {d.dailyProfit > 0 && <text x={x + barW/2} y={yBase - profitH - 4} fontFamily="monospace" fontSize="6.5" fill="#2D6A4F" textAnchor="middle" fontWeight="600">{(d.dailyProfit/1000).toFixed(1)}K</text>}
+                    <text x={x + barW/2} y={yBase + 14} fontFamily="monospace" fontSize="7.5" fill="#A0988C" textAnchor="middle">{d.date}</text>
                   </g>
                 );
               })}
-              <text x="4" y="43" fontFamily="monospace" fontSize="6" fill="#8a94a0">₹{(Math.max(...data.pnlHistory.map(h=>h.dailyProfit),1)*1.3/1000).toFixed(0)}K</text>
-              <text x="4" y="83" fontFamily="monospace" fontSize="6" fill="#8a94a0">₹{(Math.max(...data.pnlHistory.map(h=>h.dailyProfit),1)*0.87/1000).toFixed(0)}K</text>
-              <text x="4" y="123" fontFamily="monospace" fontSize="6" fill="#8a94a0">₹{(Math.max(...data.pnlHistory.map(h=>h.dailyProfit),1)*0.43/1000).toFixed(0)}K</text>
-              <text x="4" y="163" fontFamily="monospace" fontSize="6" fill="#8a94a0">₹0</text>
+              <text x="4" y="43" fontFamily="monospace" fontSize="6" fill="#A0988C">₹{(Math.max(...data.pnlHistory.map(h=>h.dailyProfit),1)*1.3/1000).toFixed(0)}K</text>
+              <text x="4" y="83" fontFamily="monospace" fontSize="6" fill="#A0988C">₹{(Math.max(...data.pnlHistory.map(h=>h.dailyProfit),1)*0.87/1000).toFixed(0)}K</text>
+              <text x="4" y="123" fontFamily="monospace" fontSize="6" fill="#A0988C">₹{(Math.max(...data.pnlHistory.map(h=>h.dailyProfit),1)*0.43/1000).toFixed(0)}K</text>
+              <text x="4" y="163" fontFamily="monospace" fontSize="6" fill="#A0988C">₹0</text>
             </svg>
           </div>
-          <div className="flex gap-3 text-[11px] font-mono text-[#8a94a0] mt-2">
-            <span><span className="inline-block w-2.5 h-2.5 bg-[rgba(5,150,105,0.45)] border border-[#059669] rounded-sm mr-1"></span>Daily Profit</span>
-            <span className="ml-auto font-semibold text-[#1a1d21]">Today: <span className="text-[#059669]">₹{parseInt(data.pnl.expectedDailyProfit.value).toLocaleString("en-IN")}</span></span>
+          <div className="flex gap-3 text-[11px] font-mono text-[#A0988C] mt-2">
+            <span><span className="inline-block w-2.5 h-2.5 bg-[rgba(45,106,79,0.35)] border border-[#2D6A4F] rounded-sm mr-1"></span>Daily Profit</span>
+            <span className="ml-auto font-semibold text-[#2D2A26]">Today: <span className="text-[#2D6A4F]">₹{parseInt(data.pnl.expectedDailyProfit.value).toLocaleString("en-IN")}</span></span>
           </div>
         </div>
       </div>
@@ -277,7 +274,7 @@ export default function DashboardHome() {
       {/* Alerts + Action Summary */}
       <div className="grid-2">
         <div className="card-accent accent-amber">
-          <h3 className="heading-sm mb-3">What's Coming</h3>
+          <h3 className="heading-sm mb-3">What&apos;s Coming</h3>
           <div className="space-y-2">
             {alerts.map((a) => <AlertCard key={a.title} alert={a} />)}
           </div>

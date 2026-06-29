@@ -216,7 +216,7 @@ export function BandhaniDots({
   LOTUS DIVIDER — row of blooming lotus petals
   ════════════════════════════════════════════════════════════════════════*/
 export function LotusDivider({
-  color = "#C47335", opacity = 0.3,
+  color = "#D4834A", opacity = 0.3,
 }: {
   color?: string; opacity?: number;
 }) {
@@ -245,7 +245,7 @@ export function LotusDivider({
   MEHNDI VINE — flowing henna scroll with leaves and buds
   ════════════════════════════════════════════════════════════════════════*/
 export function MehndiScrollBorder({
-  color = "#C47335", opacity = 0.35,
+  color = "#D4834A", opacity = 0.35,
 }: {
   color?: string; opacity?: number;
 }) {
@@ -286,7 +286,7 @@ export function MehndiScrollBorder({
 /*════════════════════════════════════════════════════════════════════════
   BORDER DIAMOND STRIPE
   ════════════════════════════════════════════════════════════════════════*/
-export function DiamondStripe({ color = "#C47335", opacity = 0.3 }: { color?: string; opacity?: number }) {
+export function DiamondStripe({ color = "#D4834A", opacity = 0.3 }: { color?: string; opacity?: number }) {
   return (
     <svg width="100%" height="8" viewBox="0 0 480 8" preserveAspectRatio="none" fill="none"
       style={{ opacity, display: "block" }} aria-hidden="true" xmlns="http://www.w3.org/2000/svg">

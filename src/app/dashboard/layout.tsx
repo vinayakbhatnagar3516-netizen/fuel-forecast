@@ -12,6 +12,7 @@ import {
   ChevronDown,
   LogOut,
   User,
+  Mountain,
 } from "lucide-react";
 import { useClerk, useUser } from "@clerk/nextjs";
 
@@ -67,48 +68,48 @@ function UserNav() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-sidebar-foreground hover:bg-sidebar-accent transition-colors cursor-pointer">
+      <DropdownMenuTrigger className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-[#B0A89C] hover:bg-[#2A3E32] transition-colors cursor-pointer">
         <Avatar className="size-7">
           <AvatarImage src={user?.imageUrl} />
-          <AvatarFallback className="text-xs bg-[#2563eb] text-white">
+          <AvatarFallback className="text-xs bg-[#D4834A] text-white">
             {initials || "U"}
           </AvatarFallback>
         </Avatar>
         <div className="flex-1 truncate text-left">
-          <p className="truncate text-sm font-medium leading-tight">{name}</p>
-          <p className="truncate text-xs text-muted-foreground leading-tight">
+          <p className="truncate text-sm font-medium leading-tight text-[#E8E2DA]">{name}</p>
+          <p className="truncate text-xs text-[#9A8B7A] leading-tight">
             {email || "No email"}
           </p>
         </div>
-        <ChevronDown className="size-3.5 shrink-0 text-muted-foreground" />
+        <ChevronDown className="size-3.5 shrink-0 text-[#6A5D50]" />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         side="right"
         align="start"
-        className="w-56 rounded-sm border-border"
+        className="w-56 rounded-sm border border-[#2A3E32] bg-[#1A2E22]"
       >
-        <DropdownMenuLabel className="font-[family-name:var(--font-inter)] text-sm text-[#1a1d21]">
+        <DropdownMenuLabel className="font-[family-name:var(--font-inter)] text-sm text-[#E8E2DA]">
           {name}
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-[#2A3E32]" />
         <DropdownMenuItem
           onClick={() => router.push(ROUTES.ACCOUNT)}
-          className="cursor-pointer"
+          className="cursor-pointer text-[#D6D0C8] hover:bg-[#2A3E32]"
         >
           <User className="mr-2 size-4" />
           Account
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => router.push(ROUTES.SETTINGS)}
-          className="cursor-pointer"
+          className="cursor-pointer text-[#D6D0C8] hover:bg-[#2A3E32]"
         >
           <Settings className="mr-2 size-4" />
           Settings
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-[#2A3E32]" />
         <DropdownMenuItem
           onClick={() => signOut({ redirectUrl: "/" })}
-          className="text-[#dc2626] cursor-pointer"
+          className="text-[#B84A4A] cursor-pointer hover:bg-[#2A3E32]"
         >
           <LogOut className="mr-2 size-4" />
           Sign out
@@ -120,18 +121,29 @@ function UserNav() {
 
 function SidebarLogo() {
   return (
-    <div className="flex flex-col px-3 py-3">
-      <a href={ROUTES.DASHBOARD} className="flex items-center gap-2">
-        <div className="flex size-8 items-center justify-center rounded-sm bg-[#2563eb] text-white text-sm font-semibold font-[family-name:var(--font-inter)]">
-          F
+    <div className="flex flex-col px-3 pt-4 pb-3">
+      <a href={ROUTES.DASHBOARD} className="flex items-center gap-2.5">
+        <div className="flex size-9 items-center justify-center rounded-sm bg-[#D4834A] text-white text-base font-[family-name:var(--font-instrument-serif)] font-[400] italic relative overflow-hidden">
+          <span className="relative z-10">F</span>
+          <svg className="absolute inset-0 w-full h-full opacity-25" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M16 2 L19 10 L16 7 L13 10 Z" fill="white"/>
+            <path d="M16 7 L19 15 L16 12 L13 15 Z" fill="white"/>
+            <path d="M16 12 L18 18 L16 16 L14 18 Z" fill="white"/>
+          </svg>
         </div>
-        <span className="font-[family-name:var(--font-inter)] text-base font-semibold tracking-tight text-[#1a1d21]">
-          Fuel Cast
-        </span>
+        <div className="flex flex-col">
+          <span className="font-[family-name:var(--font-instrument-serif)] text-lg font-[400] italic tracking-tight text-[#E8E2DA]">
+            Fuel Cast
+          </span>
+          <span className="text-[9px] font-[600] uppercase tracking-[0.12em] text-[#7A6F65] font-[family-name:var(--font-inter)]">
+            {SITE.tagline}
+          </span>
+        </div>
       </a>
-      <p className="mt-0.5 text-xs text-[#5a626d] font-[family-name:var(--font-inter)]">
-        {SITE.tagline}
-      </p>
+      <svg className="mt-3 h-[1px] w-full" viewBox="0 0 240 1" fill="none" aria-hidden="true">
+        <line x1="0" y1="0" x2="240" y2="0" stroke="#3D8B6A" strokeWidth="0.5" opacity="0.3"/>
+        <line x1="0" y1="0.5" x2="240" y2="0.5" stroke="#D4834A" strokeWidth="0.3" opacity="0.15"/>
+      </svg>
     </div>
   );
 }
@@ -146,16 +158,16 @@ export default function DashboardLayout({
 
   return (
     <SidebarProvider defaultOpen={true}>
-      <Sidebar variant="sidebar" collapsible="icon">
+      <Sidebar variant="sidebar" collapsible="icon" className="bg-deodar-sidebar border-r border-[#2A3E32]">
         <SidebarHeader>
           <SidebarLogo />
         </SidebarHeader>
 
-        <SidebarSeparator />
+        <SidebarSeparator className="bg-[#2A3E32]" />
 
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel className="text-[11px] font-extrabold text-[#5a626d] uppercase tracking-widest font-[family-name:var(--font-inter)]">
+            <SidebarGroupLabel className="text-[11px] font-extrabold text-[#6A5D50] uppercase tracking-widest font-[family-name:var(--font-inter)]">
               Navigation
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -170,8 +182,8 @@ export default function DashboardLayout({
                         onClick={() => router.push(item.href)}
                         className={`flex items-center gap-3 text-[15px] font-bold font-[family-name:var(--font-inter)] ${
                           isActive
-                            ? "text-[#2563eb] font-extrabold"
-                            : "text-[#1a1d21]"
+                            ? "text-[#D4834A] font-extrabold bg-[rgba(212,131,74,0.12)]"
+                            : "text-[#D6D0C8] hover:text-[#E8E2DA] hover:bg-[#2A3E32]"
                         }`}
                       >
                         <item.icon className="size-4 shrink-0" />
@@ -185,19 +197,20 @@ export default function DashboardLayout({
           </SidebarGroup>
         </SidebarContent>
 
-        <SidebarSeparator />
+        <SidebarSeparator className="bg-[#2A3E32]" />
 
         <SidebarFooter>
           <UserNav />
         </SidebarFooter>
       </Sidebar>
 
-      <SidebarInset>
+      <SidebarInset className="bg-warm-glow">
         <DashboardAuthGuard>
-        <header className="flex h-14 items-center gap-3 border-b border-[#d0d5db] bg-[#ffffff] px-4">
-          <SidebarTrigger className="text-[#5a626d] hover:text-[#1a1d21]" />
+        <header className="flex h-14 items-center gap-3 border-b border-[#E0D6CC] bg-[#FFFAF5]/90 backdrop-blur-sm px-4">
+          <SidebarTrigger className="text-[#7A6F65] hover:text-[#2D2A26]" />
+          <Mountain className="size-4 text-[#D4834A] opacity-60" />
           <div className="flex-1" />
-          <span className="text-xs text-[#8a94a0] hidden sm:block font-[family-name:var(--font-inter)]">
+          <span className="text-xs text-[#9A8B7A] hidden sm:block font-[family-name:var(--font-source-serif)] italic">
             {SITE.location}
           </span>
         </header>
@@ -206,8 +219,9 @@ export default function DashboardLayout({
           {children}
         </main>
 
-        <footer className="border-t border-[#d0d5db] px-6 py-4">
-          <p className="text-center font-[family-name:var(--font-inter)] text-xs text-[#8a94a0]">
+        <div className="strata-accent" />
+        <footer className="border-t border-[#E0D6CC] px-6 py-3 bg-[#FFFAF5]/80">
+          <p className="text-center font-[family-name:var(--font-source-serif)] text-xs italic text-[#9A8B7A]">
             {SITE.location} · {SITE.tagline}
           </p>
         </footer>

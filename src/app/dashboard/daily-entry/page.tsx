@@ -163,12 +163,12 @@ export default function DailyEntryPage() {
           </button>
 
           {status === "success" && (
-            <div className="text-sm text-[#059669] bg-[rgba(5,150,105,0.08)] p-3 rounded-sm">
+            <div className="text-sm text-[#2D6A4F] bg-[rgba(45,106,79,0.08)] p-3 rounded-sm">
               {message}
             </div>
           )}
           {status === "error" && (
-            <div className="text-sm text-[#dc2626] bg-[rgba(220,38,38,0.06)] p-3 rounded-sm">
+            <div className="text-sm text-[#A04040] bg-[rgba(160,64,64,0.06)] p-3 rounded-sm">
               {message}
             </div>
           )}
@@ -176,21 +176,21 @@ export default function DailyEntryPage() {
 
         <div className="card-accent accent-blue">
           <h3 className="heading-sm mb-3">Why enter daily sales?</h3>
-          <ul className="space-y-3 text-[13px] text-[#5a626d]">
+          <ul className="space-y-3 text-[13px] text-[#7A6F65]">
             <li className="flex gap-2">
-              <span className="text-[#2563eb]">•</span>
+              <span className="text-[#D4834A]">•</span>
               <span>Trains the CatBoost model on real demand patterns instead of synthetic data.</span>
             </li>
             <li className="flex gap-2">
-              <span className="text-[#2563eb]">•</span>
+              <span className="text-[#D4834A]">•</span>
               <span>Lets you compare forecast vs actual on the Trends page.</span>
             </li>
             <li className="flex gap-2">
-              <span className="text-[#2563eb]">•</span>
+              <span className="text-[#D4834A]">•</span>
               <span>Improves order recommendations as seasonal and weekly patterns emerge.</span>
             </li>
             <li className="flex gap-2">
-              <span className="text-[#2563eb]">•</span>
+              <span className="text-[#D4834A]">•</span>
               <span>Before the pump opens, use this form to backfill test/pilot data.</span>
             </li>
           </ul>

@@ -13,7 +13,7 @@ export const colors = {
   /* Core palette */
   blue:        "#2563eb",
   blueHover:   "#1d4ed8",
-  blueSoft:    "rgba(37,99,235,0.08)",
+  blueSoft:    "rgba(74,111,165,0.08)",
   green:       "#059669",
   greenSoft:   "rgba(5,150,105,0.08)",
   red:         "#dc2626",
