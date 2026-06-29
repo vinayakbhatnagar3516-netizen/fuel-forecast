@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { db } from "@/db";
 import { userRoles } from "@/db/user-roles-schema";
 import { eq } from "drizzle-orm";
@@ -59,16 +59,26 @@ export async function getAccessLevel(): Promise<{
       };
     }
 
-    // Not found — insert as waitlisted (first visit, before Clerk webhook)
-    // We don't have the email yet, so this is a placeholder
-    // The email will be filled in by the first successful API call or webhook
+    // Not found — fetch email from Clerk before inserting
+    let userEmail: string | null = null;
+    try {
+      const clerkUser = await (await clerkClient()).users.getUser(userId);
+      userEmail = clerkUser.emailAddresses?.[0]?.emailAddress ?? null;
+    } catch {
+      // Clerk API might fail (network, rate limit) — fall through gracefully
+    }
+
+    const isAdmin = userEmail === ADMIN_EMAIL;
+    const role = isAdmin ? "admin" : "waitlisted";
+
     await db.insert(userRoles).values({
       clerkUserId: userId,
-      email: `pending-${userId.slice(0, 8)}`,
-      role: "waitlisted",
+      email: userEmail ?? `pending-${userId.slice(0, 8)}`,
+      role,
+      ...(isAdmin ? { approvedAt: new Date() } : {}),
     });
 
-    return { level: "waitlisted", userId, email: null };
+    return { level: role as AccessLevel, userId, email: userEmail };
   } catch (err) {
     console.error("Access control check failed:", err);
     // Fail closed on DB errors. During an outage we cannot verify role;
