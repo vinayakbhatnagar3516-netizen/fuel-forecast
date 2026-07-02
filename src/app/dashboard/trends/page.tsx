@@ -66,12 +66,39 @@ function buildPath(points: [number, number][]) {
   return `M${points.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" L")}`;
 }
 
+type JobStatus = "pending" | "running" | "succeeded" | "failed";
+type LatestJob = {
+  jobId: string | null;
+  status: JobStatus | null;
+  error?: string;
+  createdAt?: number;
+  updatedAt?: number;
+};
+
 export default function TrendsPage() {
   const [fuelType, setFuelType] = useState("combined");
   const [horizon, setHorizon] = useState("30");
   const [data, setData] = useState<TrendsData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [latestJob, setLatestJob] = useState<LatestJob | null>(null);
+
+  useEffect(() => {
+    fetch("/api/forecast/latest")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && d.jobId) {
+          setLatestJob({
+            jobId: d.jobId,
+            status: d.status,
+            error: d.error,
+            createdAt: d.createdAt,
+            updatedAt: d.updatedAt,
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -276,6 +303,38 @@ export default function TrendsPage() {
           </div>
         </div>
       </div>
+
+      {latestJob && (
+        <div className="card-slate">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="heading-sm">Last Forecast Run</h3>
+            <span className="text-[11px] text-[#A0988C]">
+              {latestJob.createdAt && new Date(latestJob.createdAt * 1000).toLocaleString()}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-4 text-[12px] font-mono">
+            <div>
+              <span className="text-[#7A6F65]">Job ID: </span>
+              <span className="text-[#A0988C]">{latestJob.jobId?.slice(0, 8)}...</span>
+            </div>
+            <div>
+              <span className="text-[#7A6F65]">Status: </span>
+              <span className={`font-semibold ${
+                latestJob.status === "succeeded" ? "text-[#2D6A4F]" :
+                latestJob.status === "failed" ? "text-[#A04040]" :
+                latestJob.status === "running" ? "text-[#C8913A]" :
+                "text-[#2D2A26]"
+              }`}>{latestJob.status}</span>
+            </div>
+          </div>
+          {latestJob.error && (
+            <div className="mt-2 text-[12px] font-mono">
+              <span className="text-[#7A6F65]">Error: </span>
+              <span className="text-[#A04040]">{latestJob.error}</span>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="card-accent accent-slate">
         <h3 className="heading-sm mb-3">Forecast vs Actual · Last {horizon} Days</h3>
