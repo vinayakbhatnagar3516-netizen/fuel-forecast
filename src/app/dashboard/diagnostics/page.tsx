@@ -7,6 +7,13 @@ interface JobResult {
   jobId: string; status: JobStatus; forecastDate?: string;
   error?: string; result?: { fuel_types_completed?: string[]; errors?: string[] };
 }
+interface LatestJob {
+  jobId: string | null;
+  status: JobStatus | null;
+  error?: string;
+  createdAt?: number;
+  updatedAt?: number;
+}
 
 const MAX_POLL_ATTEMPTS = 150;
 const POLL_INTERVAL_MS = 2000;
@@ -15,6 +22,7 @@ const MAX_CONSECUTIVE_FAILURES = 5;
 export default function DiagnosticsPage() {
   const [running, setRunning] = useState(false);
   const [job, setJob] = useState<JobResult | null>(null);
+  const [latestJob, setLatestJob] = useState<LatestJob | null>(null);
   const [backendStatus, setBackendStatus] = useState<"checking" | "connected" | "disconnected">("checking");
   const [pollTimeout, setPollTimeout] = useState(false);
   const pollRef = useRef<NodeJS.Timeout | null>(null);
@@ -27,6 +35,25 @@ export default function DiagnosticsPage() {
       .then((d) => setBackendStatus(d.backend?.ok ? "connected" : "disconnected"))
       .catch(() => setBackendStatus("disconnected"));
   }, []);
+
+  // Fetch the latest job on page load
+  useEffect(() => {
+    fetch("/api/forecast/latest")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && d.jobId) {
+          setLatestJob({
+            jobId: d.jobId,
+            status: d.status,
+            error: d.error,
+            createdAt: d.createdAt,
+            updatedAt: d.updatedAt,
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   useEffect(() => { return () => { if (pollRef.current) clearInterval(pollRef.current); }; }, []);
 
   const stopPolling = useCallback(() => {
@@ -193,6 +220,27 @@ export default function DiagnosticsPage() {
             <div className="flex justify-between mt-1"><span className="text-[#7A6F65]">Status:</span><span className="font-semibold text-[#2D2A26]">{job.status}</span></div>
             {job.forecastDate && <div className="flex justify-between mt-1"><span className="text-[#7A6F65]">Date:</span><span className="text-[#2D2A26]">{job.forecastDate}</span></div>}
             {job.error && <div className="flex justify-between mt-1"><span className="text-[#7A6F65]">Error:</span><span className="text-[#A04040]">{job.error}</span></div>}
+          </div>
+        )}
+        {latestJob && !job && (
+          <div className="mt-3 p-3 bg-[#F0EDE6] rounded-sm text-[12px] font-mono">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-[#7A6F65] font-semibold">Last Forecast</span>
+              <span className="text-[#A0988C] text-[11px]">
+                {latestJob.createdAt && new Date(latestJob.createdAt * 1000).toLocaleString()}
+              </span>
+            </div>
+            <div className="flex justify-between"><span className="text-[#7A6F65]">Job ID:</span><span className="text-[#A0988C]">{latestJob.jobId?.slice(0, 8)}...</span></div>
+            <div className="flex justify-between mt-1">
+              <span className="text-[#7A6F65]">Status:</span>
+              <span className={`font-semibold ${
+                latestJob.status === "succeeded" ? "text-[#2D6A4F]" :
+                latestJob.status === "failed" ? "text-[#A04040]" :
+                latestJob.status === "running" ? "text-[#C8913A]" :
+                "text-[#2D2A26]"
+              }`}>{latestJob.status}</span>
+            </div>
+            {latestJob.error && <div className="flex justify-between mt-1"><span className="text-[#7A6F65]">Error:</span><span className="text-[#A04040]">{latestJob.error}</span></div>}
           </div>
         )}
       </div>
