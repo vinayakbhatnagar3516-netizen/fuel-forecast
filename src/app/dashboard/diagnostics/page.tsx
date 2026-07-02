@@ -10,6 +10,7 @@ interface JobResult {
 
 const MAX_POLL_ATTEMPTS = 150;
 const POLL_INTERVAL_MS = 2000;
+const MAX_CONSECUTIVE_FAILURES = 5;
 
 export default function DiagnosticsPage() {
   const [running, setRunning] = useState(false);
@@ -18,6 +19,7 @@ export default function DiagnosticsPage() {
   const [pollTimeout, setPollTimeout] = useState(false);
   const pollRef = useRef<NodeJS.Timeout | null>(null);
   const pollCountRef = useRef(0);
+  const pollFailCountRef = useRef(0);
 
   useEffect(() => {
     fetch("/api/health")
@@ -27,27 +29,67 @@ export default function DiagnosticsPage() {
   }, []);
   useEffect(() => { return () => { if (pollRef.current) clearInterval(pollRef.current); }; }, []);
 
+  const stopPolling = useCallback(() => {
+    if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
+    setRunning(false);
+  }, []);
+
+  const failJob = useCallback((error: string) => {
+    stopPolling();
+    setJob((prev) => prev ? { ...prev, status: "failed", error } : null);
+  }, [stopPolling]);
+
   const pollJobStatus = useCallback(async (jobId: string) => {
     if (pollCountRef.current >= MAX_POLL_ATTEMPTS) {
-      if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
-      setRunning(false); setPollTimeout(true); return;
+      stopPolling(); setPollTimeout(true); return;
     }
     pollCountRef.current += 1;
     try {
       const res = await fetch(`/api/forecast/status/${jobId}`);
-      if (!res.ok) { if (res.status >= 500) return; throw new Error(`Server returned ${res.status}`); }
+      if (!res.ok) {
+        if (res.status >= 500) {
+          pollFailCountRef.current += 1;
+          if (pollFailCountRef.current >= MAX_CONSECUTIVE_FAILURES) {
+            failJob(`Backend unavailable (5xx after ${pollFailCountRef.current} retries)`);
+          }
+          return;
+        }
+        const errData = await res.json().catch(() => ({}));
+        const errMsg = errData.error || `Server returned ${res.status}`;
+        if (res.status === 404) {
+          failJob("Job not found or expired");
+          return;
+        }
+        if (res.status === 401 || res.status === 403) {
+          failJob("Authentication failed — please refresh and try again");
+          return;
+        }
+        pollFailCountRef.current += 1;
+        if (pollFailCountRef.current >= MAX_CONSECUTIVE_FAILURES) {
+          failJob(errMsg);
+        }
+        return;
+      }
+      pollFailCountRef.current = 0;
       const data = await res.json();
-      if (!data.success) throw new Error(data.error || "Failed");
+      if (!data.success) {
+        failJob(data.error || "Request failed");
+        return;
+      }
       setJob((prev) => prev ? { ...prev, status: data.status, result: data.result, error: data.error } : null);
       if (data.status === "succeeded" || data.status === "failed") {
-        if (pollRef.current) { clearInterval(pollRef.current); pollRef.current = null; }
-        setRunning(false);
+        stopPolling();
       }
-    } catch { /* transient */ }
-  }, []);
+    } catch (e) {
+      pollFailCountRef.current += 1;
+      if (pollFailCountRef.current >= MAX_CONSECUTIVE_FAILURES) {
+        failJob(e instanceof Error ? e.message : "Network error");
+      }
+    }
+  }, [stopPolling, failJob]);
 
   const runForecast = useCallback(async () => {
-    setRunning(true); setJob(null); setPollTimeout(false); pollCountRef.current = 0;
+    setRunning(true); setJob(null); setPollTimeout(false); pollCountRef.current = 0; pollFailCountRef.current = 0;
     try {
       const res = await fetch("/api/forecast/run-backend", { method: "POST" });
       const data = await res.json();
