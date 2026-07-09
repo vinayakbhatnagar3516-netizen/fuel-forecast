@@ -9,6 +9,7 @@ import {
   integer,
   date,
   serial,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 /**
@@ -89,8 +90,21 @@ export const dailyForecastQuantiles = pgTable("daily_forecast_quantiles", {
   q95: decimal("q95", { precision: 10, scale: 2 }),
   forecastPoint: decimal("forecast_point", { precision: 10, scale: 2 }),
   fuelType: text("fuel_type").notNull().default("combined"),
+  // Columns written by the Python backend's predict_quantiles.py (kept here so
+  // Drizzle is the complete, authoritative definition of this table).
+  pi90Lower: decimal("pi_90_lower", { precision: 10, scale: 2 }),
+  pi90Upper: decimal("pi_90_upper", { precision: 10, scale: 2 }),
+  pi90Width: decimal("pi_90_width", { precision: 10, scale: 2 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+}, (t) => ({
+  // Enables the Python backend's `ON CONFLICT (forecast_date, fuel_type)` upsert.
+  // Live Neon previously had NO unique constraint here, so re-running a forecast
+  // for an existing date errored. This index fixes that.
+  unqForecastDateFuel: uniqueIndex("unq_daily_forecast_quantiles_date_fuel").on(
+    t.forecastDate,
+    t.fuelType,
+  ),
+}));
 
 /**
  * Daily financial summary — P&L projections per fuel type
@@ -106,6 +120,10 @@ export const dailyFinancialSummary = pgTable("daily_financial_summary", {
   cvar5: decimal("cvar5", { precision: 12, scale: 2 }),
   stockoutRiskScore: decimal("stockout_risk_score", { precision: 4, scale: 2 }),
   daysToMinStock: decimal("days_to_min_stock", { precision: 5, scale: 1 }),
+  // Columns written by the Python backend's inference_pipeline.py (kept here so
+  // Drizzle is the complete, authoritative definition of this table).
+  breakevenCash: decimal("breakeven_cash", { precision: 12, scale: 2 }),
+  breakevenBook: decimal("breakeven_book", { precision: 12, scale: 2 }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

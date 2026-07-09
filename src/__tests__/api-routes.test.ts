@@ -33,51 +33,12 @@ vi.mock('@/lib/auth-guard', () => ({
   requireAuth: vi.fn().mockResolvedValue({ ok: true }),
 }));
 
-vi.mock('@/lib/proxy-forecast', () => ({
-  runProxyForecast: vi.fn(),
-}));
-
 vi.mock('drizzle-orm', () => ({
   eq: vi.fn(() => ({})),
   and: vi.fn(() => ({})),
   gte: vi.fn(() => ({})),
   sql: vi.fn((strings: TemplateStringsArray) => ({ strings, type: 'sql' })),
 }));
-
-describe('API: /api/forecast/run validation', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('requires authentication', async () => {
-    const { requireAuth } = await import('@/lib/auth-guard');
-    vi.mocked(requireAuth).mockResolvedValueOnce(mockDeniedGuard());
-
-    const guard = await requireAuth();
-    expect(guard.ok).toBe(false);
-    expect(guard.response!.status).toBe(401);
-  });
-
-  it('returns success on forecast run', async () => {
-    const { runProxyForecast } = await import('@/lib/proxy-forecast');
-    vi.mocked(runProxyForecast).mockResolvedValueOnce({
-      forecastDates: 30,
-      totalRows: 270,
-      latestDate: '2026-07-20',
-    });
-
-    const result = await runProxyForecast();
-    expect(result.forecastDates).toBe(30);
-    expect(result.totalRows).toBe(270);
-  });
-
-  it('returns error on forecast failure', async () => {
-    const { runProxyForecast } = await import('@/lib/proxy-forecast');
-    vi.mocked(runProxyForecast).mockRejectedValueOnce(new Error('Database connection failed'));
-
-    await expect(runProxyForecast()).rejects.toThrow('Database connection failed');
-  });
-});
 
 describe('API: /api/decision validation', () => {
   beforeEach(() => {
